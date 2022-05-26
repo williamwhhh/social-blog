@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { createUseStyles } from "react-jss";
 
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Checkbox } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = createUseStyles({
   outerContainer: {
@@ -17,24 +18,24 @@ const useStyles = createUseStyles({
     borderRadius: "25px",
     backgroundColor: "#FFF",
     zIndex: "10",
-  },
-  textLeft: {
-    textAlign: "left",
-    justifyContent: "left",
-    marginTop: "2%",
+    position: "absolute",
+    top: "25%",
   },
 });
 
 const Login = (props) => {
   const classes = useStyles();
-
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleCreate = async () => {
     setLoading(true);
-    setTimeout(() => setLoading(false), 1000);
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/home");
+    }, 1000);
   };
 
   const onEmailChange = (e) => {
@@ -54,7 +55,6 @@ const Login = (props) => {
             wrapperCol={{ offset: 2, span: 20 }}
             name="register"
             onFinish={handleCreate}
-            className={classes.textLeft}
           >
             <Form.Item
               name="email"
@@ -88,14 +88,21 @@ const Login = (props) => {
               hasFeedback
             >
               <Input.Password
-                className={classes.inputSize}
                 placeholder="Password"
                 size="large"
                 onChange={onPWChange}
                 value={password}
               />
             </Form.Item>
+            <Form.Item>
+              <Form.Item name="remember" valuePropName="checked" noStyle>
+                <Checkbox>Remember me</Checkbox>
+              </Form.Item>
 
+              <a style={{ float: "right" }} href="">
+                Forgot password
+              </a>
+            </Form.Item>
             <Form.Item>
               <Button
                 type="primary"

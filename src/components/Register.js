@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createUseStyles } from "react-jss";
 
-import { Row, Col, Form, Input, AutoComplete, Button } from "antd";
+import { Row, Col, Form, Input, Button, DatePicker, Select } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 
 const useStyles = createUseStyles({
@@ -94,15 +94,13 @@ const Register = (props) => {
                     },
                   ]}
                 >
-                  <AutoComplete>
-                    <Input
-                      type="text"
-                      autoComplete="off"
-                      placeholder="First Name"
-                      onChange={onFNChange}
-                      value={firstName}
-                    />
-                  </AutoComplete>
+                  <Input
+                    type="text"
+                    autoComplete="off"
+                    placeholder="First Name"
+                    onChange={onFNChange}
+                    value={firstName}
+                  />
                 </Form.Item>
                 <Form.Item
                   name="email"
@@ -118,14 +116,15 @@ const Register = (props) => {
                     },
                   ]}
                 >
-                  <AutoComplete>
-                    <Input
-                      autoComplete="off"
-                      placeholder="Email Address"
-                      onChange={onEmailChange}
-                      value={email}
-                    />
-                  </AutoComplete>
+                  <Input
+                    autoComplete="off"
+                    placeholder="Email Address"
+                    onChange={onEmailChange}
+                    value={email}
+                  />
+                </Form.Item>
+                <Form.Item label="Date of Birth">
+                  <DatePicker style={{ width: "100%" }} />
                 </Form.Item>
               </Col>
               <Col span={9} offset={2}>
@@ -140,15 +139,13 @@ const Register = (props) => {
                     },
                   ]}
                 >
-                  <AutoComplete>
-                    <Input
-                      type="text"
-                      autoComplete="off"
-                      placeholder="Last Name"
-                      onChange={onLNChange}
-                      value={lastName}
-                    />
-                  </AutoComplete>
+                  <Input
+                    type="text"
+                    autoComplete="off"
+                    placeholder="Last Name"
+                    onChange={onLNChange}
+                    value={lastName}
+                  />
                 </Form.Item>
                 <Form.Item
                   name="password"
@@ -165,15 +162,19 @@ const Register = (props) => {
                   ]}
                   hasFeedback
                 >
-                  <AutoComplete>
-                    <Input.Password
-                      autoComplete="off"
-                      className={classes.inputSize}
-                      placeholder="Password"
-                      onChange={onPWChange}
-                      value={password}
-                    />
-                  </AutoComplete>
+                  <Input.Password
+                    autoComplete="off"
+                    className={classes.inputSize}
+                    placeholder="Password"
+                    onChange={onPWChange}
+                    value={password}
+                  />
+                </Form.Item>
+                <Form.Item name="gender" label="Gender">
+                  <Select placeholder="select your gender">
+                    <Select.Option value="male">Male</Select.Option>
+                    <Select.Option value="female">Female</Select.Option>
+                  </Select>
                 </Form.Item>
               </Col>
             </Row>
@@ -185,7 +186,7 @@ const Register = (props) => {
                 loading={loading}
                 style={{
                   display: "block",
-                  margin: "2% auto 0 auto",
+                  margin: "2% auto 2% auto",
                   width: "40%",
                   borderRadius: "6px",
                   backgroundColor: "RGB(65,173,56)",
