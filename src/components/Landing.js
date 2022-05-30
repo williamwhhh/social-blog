@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import { Row, Col } from "antd";
-import { createUseStyles } from "react-jss";
-import Login from "./Login";
-import Register from "./Register";
+import React, { useState } from 'react';
+import { Row, Col } from 'antd';
+import { createUseStyles } from 'react-jss';
+import Login from './Login';
+import Register from './Register';
 
 const useStyles = createUseStyles({
   backgroundContainer: {
-    width: "100%",
-    height: "100vh",
+    width: '100%',
+    height: '100vh',
   },
   heading: {
-    fontSize: "25pt",
-    textAlign: "center",
+    fontSize: '25pt',
+    textAlign: 'center',
   },
   body: {
-    marginTop: "3%",
-    color: "grey",
-    fontSize: "12pt",
+    marginTop: '3%',
+    color: 'grey',
+    fontSize: '12pt',
   },
 });
 
@@ -36,16 +36,16 @@ const Landing = () => {
         <Col span={12}>
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              marginTop: "35vh",
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              marginTop: '35vh',
             }}
           >
             <span className={styles.heading}>Welcome to Social Blog</span>
             <p
               className={styles.body}
-              style={{ width: "80%", textAlign: "center" }}
+              style={{ width: '80%', textAlign: 'center' }}
             >
               Social Blog helps you connect and share with the people in your
               life.

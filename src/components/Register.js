@@ -1,35 +1,35 @@
-import React, { useState } from "react";
-import { createUseStyles } from "react-jss";
+import React, { useState } from 'react';
+import { createUseStyles } from 'react-jss';
 
-import { Row, Col, Form, Input, Button, DatePicker, Select } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import { Row, Col, Form, Input, Button, DatePicker, Select } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
 
 const useStyles = createUseStyles({
   blurContainer: {
-    position: "absolute",
-    width: "100vw",
-    height: "100vh",
+    position: 'absolute',
+    width: '100vw',
+    height: '100vh',
   },
   outerContainer: {
-    width: "100vw",
-    height: "100vh",
-    display: "flex",
-    position: "absolute",
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    position: 'absolute',
   },
   container: {
-    margin: "auto",
-    width: "80%",
-    boxShadow: "2px 2px 5px lightgrey",
-    border: "1px solid lightgrey",
-    borderRadius: "25px",
-    backgroundColor: "#FFF",
-    zIndex: "15",
+    margin: 'auto',
+    width: '80%',
+    boxShadow: '2px 2px 5px lightgrey',
+    border: '1px solid lightgrey',
+    borderRadius: '25px',
+    backgroundColor: '#FFF',
+    zIndex: '15',
   },
   closeBtn: {
-    boxShadow: "2px 2px 5px lightgrey",
-    border: "2px solid lightgrey",
-    position: "absolute",
-    right: "12%",
+    boxShadow: '2px 2px 5px lightgrey',
+    border: '2px solid lightgrey',
+    position: 'absolute',
+    right: '12%',
   },
 });
 
@@ -37,10 +37,10 @@ const Register = (props) => {
   const classes = useStyles();
 
   const [loading, setLoading] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleCreate = async () => {
     setLoading(true);
@@ -80,7 +80,7 @@ const Register = (props) => {
               shape="circle"
               data-testid="register-modal-close-btn"
             />
-            <h1 style={{ textAlign: "center", marginTop: "2%" }}>Sign Up</h1>
+            <h1 style={{ textAlign: 'center', marginTop: '2%' }}>Sign Up</h1>
             <Row>
               <Col span={9} offset={2}>
                 <Form.Item
@@ -89,7 +89,7 @@ const Register = (props) => {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your first name!",
+                      message: 'Please input your first name!',
                       whitespace: true,
                     },
                   ]}
@@ -107,12 +107,12 @@ const Register = (props) => {
                   label="Email Address"
                   rules={[
                     {
-                      type: "email",
-                      message: "The input is not valid email address!",
+                      type: 'email',
+                      message: 'The input is not valid email address!',
                     },
                     {
                       required: true,
-                      message: "Please input your email address!",
+                      message: 'Please input your email address!',
                     },
                   ]}
                 >
@@ -124,7 +124,7 @@ const Register = (props) => {
                   />
                 </Form.Item>
                 <Form.Item label="Date of Birth">
-                  <DatePicker style={{ width: "100%" }} />
+                  <DatePicker style={{ width: '100%' }} />
                 </Form.Item>
               </Col>
               <Col span={9} offset={2}>
@@ -134,7 +134,7 @@ const Register = (props) => {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your full name!",
+                      message: 'Please input your full name!',
                       whitespace: true,
                     },
                   ]}
@@ -153,11 +153,11 @@ const Register = (props) => {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your password!",
+                      message: 'Please input your password!',
                     },
                     {
                       min: 6,
-                      message: "Password requires minimum 6 characters",
+                      message: 'Password requires minimum 6 characters',
                     },
                   ]}
                   hasFeedback
@@ -185,14 +185,14 @@ const Register = (props) => {
                 size="large"
                 loading={loading}
                 style={{
-                  display: "block",
-                  margin: "2% auto 2% auto",
-                  width: "40%",
-                  borderRadius: "6px",
-                  backgroundColor: "RGB(65,173,56)",
+                  display: 'block',
+                  margin: '2% auto 2% auto',
+                  width: '40%',
+                  borderRadius: '6px',
+                  backgroundColor: 'RGB(65,173,56)',
                 }}
               >
-                {!loading ? "Sign Up" : "Signing Up"}
+                {!loading ? 'Sign Up' : 'Signing Up'}
               </Button>
             </Form.Item>
           </Form>
