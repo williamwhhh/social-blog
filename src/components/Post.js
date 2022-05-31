@@ -20,16 +20,13 @@ const useStyles = createUseStyles({
     margin: '1vh 0 0 0',
   },
   commentButton: {
-    margin: '3vh 0 0 30%',
-    fontSize: '1.5em',
+    margin: '5% 0 0 30%',
   },
   repostButton: {
     margin: '0 0 0 10%',
-    fontSize: '1.5em',
   },
   likeButton: {
     margin: '0 0 0 10%',
-    fontSize: '1.5em',
   },
 });
 

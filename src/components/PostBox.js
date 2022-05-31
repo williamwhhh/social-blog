@@ -1,12 +1,17 @@
 import { createUseStyles } from 'react-jss';
-import { Avatar, Row, Col, Form, Input, Button } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Row, Col, Form, Input, Button, Space } from 'antd';
+import {
+  UserOutlined,
+  FileImageOutlined,
+  SmileOutlined,
+  EnvironmentOutlined,
+} from '@ant-design/icons';
 import { useState } from 'react';
 
 const useStyles = createUseStyles({
-  // avatar: {
-  //   margin: '2% 0 0 2%',
-  // },
+  avatar: {
+    margin: '2vh 0 0 40%',
+  },
   postInput: {
     margin: '3vh 0 0 0',
     width: '95%',
@@ -14,6 +19,15 @@ const useStyles = createUseStyles({
   postButton: {
     float: 'right',
     margin: '1vh 2vw 1vh 0',
+  },
+  imageButton: {
+    margin: '1.5vh 0 0 3%',
+  },
+  emojiButton: {
+    margin: '1.5vh 0 0 3%',
+  },
+  locationButton: {
+    margin: '1.5vh 0 0 3%',
   },
 });
 
@@ -35,7 +49,7 @@ const PostBox = () => {
       <Row>
         <Col span={4}>
           <Avatar
-            style={{ margin: '2vh 0 0 40%' }}
+            className={classes.avatar}
             size={50}
             icon={<UserOutlined />}
           />
@@ -59,7 +73,24 @@ const PostBox = () => {
                 }}
               ></hr>
             </Form.Item>
-
+            <Button
+              className={classes.imageButton}
+              type="primary"
+              shape="circle"
+              icon={<FileImageOutlined />}
+            ></Button>
+            <Button
+              className={classes.emojiButton}
+              type="primary"
+              shape="circle"
+              icon={<SmileOutlined />}
+            ></Button>
+            <Button
+              className={classes.locationButton}
+              type="primary"
+              shape="circle"
+              icon={<EnvironmentOutlined />}
+            ></Button>
             <Form.Item className={classes.postButton}>
               <Button
                 type="primary"
