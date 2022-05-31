@@ -20,7 +20,7 @@ const Sidebar = (props) => {
       <Button
         type="primary"
         onClick={props.toggleCollapsed}
-        style={{ marginBottom: 16 }}
+        style={{ position: 'fixed', top: '3%' }}
       >
         {props.collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
       </Button>
@@ -29,7 +29,23 @@ const Sidebar = (props) => {
         mode="inline"
         inlineCollapsed={props.collapsed}
         onClick={handleClick}
-        style={{ height: '90vh', fontSize: '1.2em' }}
+        style={
+          props.collapsed
+            ? {
+                height: '100%',
+                fontSize: '1.2em',
+                position: 'fixed',
+                top: '10%',
+                width: '80px',
+              }
+            : {
+                height: '100%',
+                fontSize: '1.2em',
+                position: 'fixed',
+                top: '10%',
+                width: '200px',
+              }
+        }
       >
         <Menu.Item
           key="home"

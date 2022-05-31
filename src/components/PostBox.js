@@ -12,9 +12,8 @@ const useStyles = createUseStyles({
     width: '95%',
   },
   postButton: {
-    position: 'absolute',
-    right: '5%',
-    margin: '1vh 0 0 0',
+    float: 'right',
+    margin: '1vh 2vw 1vh 0',
   },
 });
 
@@ -37,7 +36,7 @@ const PostBox = () => {
         <Col span={4}>
           <Avatar
             style={{ margin: '2vh 0 0 40%' }}
-            size={55}
+            size={50}
             icon={<UserOutlined />}
           />
         </Col>
