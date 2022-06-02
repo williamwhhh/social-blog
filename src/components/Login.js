@@ -120,7 +120,7 @@ const Login = (props) => {
                 {!loading ? 'Log In' : 'Logging In...'}
               </Button>
             </Form.Item>
-            <hr style={{ width: '90%' }}></hr>
+            <hr style={{ width: '90%', border: '1px solid lightgrey' }}></hr>
             <Form.Item>
               <Button
                 onClick={props.onToggleSignUp}

@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import { createUseStyles } from 'react-jss';
 import { Avatar, Row, Col, Form, Input, Button, Image } from 'antd';
 import {
-  CommentOutlined,
+  MessageOutlined,
   HeartOutlined,
   ShareAltOutlined,
   UserOutlined,
@@ -20,21 +20,31 @@ const useStyles = createUseStyles({
     margin: '1vh 0 0 0',
   },
   commentButton: {
-    margin: '5% 0 0 30%',
+    margin: 'auto',
+    marginTop: '3%',
   },
   repostButton: {
-    margin: '0 0 0 10%',
+    margin: 'auto',
+    marginTop: '3%',
   },
   likeButton: {
-    margin: '0 0 0 10%',
+    margin: 'auto',
+    marginTop: '3%',
+  },
+  container: {
+    cursor: 'pointer',
+    '&:hover': { backgroundColor: 'rgb(238,238,238)' },
   },
 });
 
 const Post = forwardRef(
   ({ displayName, username, text, image, avatar }, ref) => {
     const classes = useStyles();
+
+    const handleClick = () => {};
+
     return (
-      <div ref={ref}>
+      <div ref={ref} onClick={handleClick} className={classes.container}>
         <Row>
           <Col span={4}>
             <Avatar
@@ -61,21 +71,23 @@ const Post = forwardRef(
               />
             </Image.PreviewGroup>
             <br />
-            <Button
-              className={classes.commentButton}
-              shape="circle"
-              icon={<CommentOutlined />}
-            ></Button>
-            <Button
-              className={classes.repostButton}
-              shape="circle"
-              icon={<ShareAltOutlined />}
-            ></Button>
-            <Button
-              className={classes.likeButton}
-              shape="circle"
-              icon={<HeartOutlined />}
-            ></Button>
+            <Row>
+              <Button
+                className={classes.commentButton}
+                shape="circle"
+                icon={<MessageOutlined />}
+              ></Button>
+              <Button
+                className={classes.repostButton}
+                shape="circle"
+                icon={<ShareAltOutlined />}
+              ></Button>
+              <Button
+                className={classes.likeButton}
+                shape="circle"
+                icon={<HeartOutlined />}
+              ></Button>
+            </Row>
           </Col>
         </Row>
         <hr
