@@ -38,7 +38,7 @@ const useStyles = createUseStyles({
 });
 
 const Post = forwardRef(
-  ({ displayName, username, text, image, avatar }, ref) => {
+  ({ displayName, username, text, images, avatar }, ref) => {
     const classes = useStyles();
 
     const handleClick = () => {};
@@ -50,7 +50,8 @@ const Post = forwardRef(
             <Avatar
               className={classes.avatar}
               size={50}
-              src={require(`../images/${avatar}`)}
+              src={avatar !== '' ? require(`../images/${avatar}`) : ''}
+              icon={<UserOutlined />}
             />
           </Col>
           <Col span={20}>
@@ -60,7 +61,9 @@ const Post = forwardRef(
             </h3>
             <p>{text}</p>
             <Image.PreviewGroup>
-              <Image width={200} src={require(`../images/${image}`)} />
+              {images.map((image) => (
+                <Image width={200} src={require(`../images/${image}`)} />
+              ))}
               <Image
                 width={200}
                 src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"

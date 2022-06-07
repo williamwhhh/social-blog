@@ -31,14 +31,21 @@ const useStyles = createUseStyles({
   },
 });
 
-const PostBox = () => {
+const PostBox = (props) => {
   const classes = useStyles();
   const [posting, setPosting] = useState(false);
-  const [post, setPost] = useState(null);
+  const [post, setPost] = useState('');
 
   const handlePost = () => {
     // setPosting(true);
-    console.log(post);
+    // console.log(post);
+    props.addPost({
+      displayName: 'Australia',
+      username: 'Australia',
+      text: post,
+      images: ['kangaroo.jpeg', 'sharkBay.jpeg'],
+      avatar: 'kangaroo.jpeg',
+    });
   };
 
   return (
@@ -98,6 +105,7 @@ const PostBox = () => {
                 loading={posting}
                 size="large"
                 shape="round"
+                disabled={post === '' ? true : false}
               >
                 {!posting ? 'Post' : 'Posting...'}
               </Button>

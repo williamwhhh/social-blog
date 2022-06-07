@@ -19,33 +19,30 @@ const useStyles = createUseStyles({
 const Home = () => {
   const classes = useStyles();
   const [collapsed, setCollapsed] = useState(false);
+  const [posts, setPosts] = useState([
+    {
+      displayName: 'Australia',
+      username: 'Australia',
+      text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative). #seeaustralia #thisiswa #australiascoralcoast #holidayherethisyear",
+      images: ['sharkBay.jpeg'],
+      avatar: 'kangaroo.jpeg',
+    },
+    {
+      displayName: 'Australia',
+      username: 'Australia',
+      text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative).",
+      images: ['kangaroo.jpeg'],
+      avatar: 'kangaroo.jpeg',
+    },
+  ]);
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
 
-  const posts = [
-    {
-      displayName: 'Australia',
-      username: 'Australia',
-      text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative). #seeaustralia #thisiswa #australiascoralcoast #holidayherethisyear",
-      image: 'sharkBay.jpeg',
-      avatar: 'kangaroo.jpeg',
-    },
-    {
-      displayName: 'Australia',
-      username: 'Australia',
-      text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative). #seeaustralia #thisiswa #australiascoralcoast #holidayherethisyear",
-      image: 'sharkBay.jpeg',
-      avatar: 'kangaroo.jpeg',
-    },
-    {
-      displayName: 'Australia',
-      username: 'Australia',
-      text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative). #seeaustralia #thisiswa #australiascoralcoast #holidayherethisyear",
-      image: 'sharkBay.jpeg',
-      avatar: 'kangaroo.jpeg',
-    },
-  ];
+  const addPost = (post) => {
+    setPosts([post, ...posts]);
+  };
+
   const trending = [
     {
       title: '#Australia',
@@ -82,7 +79,7 @@ const Home = () => {
           <Sidebar collapsed={collapsed} toggleCollapsed={toggleCollapsed} />
         </Col>
         <Col span={13}>
-          <PostBox />
+          <PostBox addPost={addPost} />
           <hr
             style={{
               border: '1px solid RGB(238,238,238)',
@@ -97,7 +94,7 @@ const Home = () => {
                 verified={post.verified}
                 text={post.text}
                 avatar={post.avatar}
-                image={post.image}
+                images={post.images}
               />
             ))}
           </FlipMove>
