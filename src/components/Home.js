@@ -4,6 +4,7 @@ import { Row, Col, Input, Image } from 'antd';
 import Sidebar from './Sidebar';
 import PostBox from './PostBox';
 import Post from './Post';
+import TrendingPost from './TrendingPost';
 import FlipMove from 'react-flip-move';
 
 const useStyles = createUseStyles({
@@ -73,25 +74,6 @@ const Home = () => {
     },
   ];
   const onSearch = () => {};
-  const TrendingPost = forwardRef(({ title, text, image, numOfHit }, ref) => {
-    return (
-      <div style={{ margin: '3% 0 0 5%' }}>
-        <Row style={{ margin: '5% 0 5% 0' }}>
-          <Col span={12}>
-            <h4 style={{ margin: '1.5vh 0 0 0' }}>{title}</h4>
-          </Col>
-          <Col span={5}>
-            <div style={{ borderRadius: '30px' }}>
-              <Image width={50} src={require(`../images/${image}`)} />
-            </div>
-          </Col>
-          <Col span={3} offset={2}>
-            <h4 style={{ color: 'grey', margin: '1.5vh 0 0 0' }}>{numOfHit}</h4>
-          </Col>
-        </Row>
-      </div>
-    );
-  });
 
   return (
     <>
