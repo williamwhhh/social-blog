@@ -1,10 +1,11 @@
 import { createUseStyles } from 'react-jss';
-import { Avatar, Row, Col, Form, Input, Button, Space } from 'antd';
+import { Avatar, Row, Col, Form, Input, Button, Upload, Modal } from 'antd';
 import {
   UserOutlined,
   FileImageOutlined,
   SmileOutlined,
   EnvironmentOutlined,
+  PlusOutlined,
 } from '@ant-design/icons';
 import { useState } from 'react';
 
@@ -34,7 +35,19 @@ const useStyles = createUseStyles({
 const PostBox = (props) => {
   const classes = useStyles();
   const [posting, setPosting] = useState(false);
+  const [showUpload, setShowUpload] = useState(false);
   const [post, setPost] = useState('');
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
+  const [fileList, setFileList] = useState([
+    {
+      uid: '-1',
+      name: 'image.png',
+      status: 'done',
+      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+    },
+  ]);
 
   const handlePost = () => {
     // setPosting(true);
@@ -48,6 +61,40 @@ const PostBox = (props) => {
     });
   };
 
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </div>
+  );
+
+  const handleUpload = ({ fileList: newFileList }) => setFileList(newFileList);
+  const getBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onload = () => resolve(reader.result);
+
+      reader.onerror = (error) => reject(error);
+    });
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    setPreviewImage(file.url || file.preview);
+    setPreviewVisible(true);
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf('/') + 1)
+    );
+  };
   return (
     <>
       <Row>
@@ -80,11 +127,37 @@ const PostBox = (props) => {
                 }}
               ></hr>
             </Form.Item>
+            {showUpload && (
+              <Upload
+                action=""
+                listType="picture-card"
+                fileList={fileList}
+                onPreview={handlePreview}
+                onChange={handleUpload}
+              >
+                {uploadButton}
+              </Upload>
+            )}
+            <Modal
+              visible={previewVisible}
+              title={previewTitle}
+              footer={null}
+              onCancel={() => setPreviewVisible(false)}
+            >
+              <img
+                alt="example"
+                style={{
+                  width: '100%',
+                }}
+                src={previewImage}
+              />
+            </Modal>
             <Button
               className={classes.imageButton}
               type="primary"
               shape="circle"
               icon={<FileImageOutlined />}
+              onClick={() => setShowUpload(!showUpload)}
             ></Button>
             <Button
               className={classes.emojiButton}
