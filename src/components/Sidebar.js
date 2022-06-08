@@ -12,7 +12,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   // const options = ['home', 'content', 'journal', 'classroom'];
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ const Sidebar = () => {
           {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
         </Button>
         <Menu
-          defaultSelectedKeys={['home']}
+          defaultSelectedKeys={[window.location.pathname.slice(1)]}
           mode="inline"
           inlineCollapsed={collapsed}
           onClick={handleClick}
