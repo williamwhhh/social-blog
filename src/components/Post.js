@@ -1,9 +1,10 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { createUseStyles } from 'react-jss';
 import { Avatar, Row, Col, Form, Input, Button, Image } from 'antd';
 import {
   MessageOutlined,
   HeartOutlined,
+  HeartFilled,
   ShareAltOutlined,
   UserOutlined,
 } from '@ant-design/icons';
@@ -40,7 +41,7 @@ const useStyles = createUseStyles({
 const Post = forwardRef(
   ({ displayName, username, text, images, avatar }, ref) => {
     const classes = useStyles();
-
+    const [like, setLike] = useState(false);
     const handleClick = () => {};
 
     return (
@@ -88,7 +89,16 @@ const Post = forwardRef(
               <Button
                 className={classes.likeButton}
                 shape="circle"
-                icon={<HeartOutlined />}
+                icon={
+                  like ? (
+                    <HeartFilled style={{ color: 'red' }} />
+                  ) : (
+                    <HeartOutlined />
+                  )
+                }
+                onClick={() => {
+                  setLike(!like);
+                }}
               ></Button>
             </Row>
           </Col>
