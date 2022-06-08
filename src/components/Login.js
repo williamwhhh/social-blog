@@ -99,7 +99,7 @@ const Login = (props) => {
                 <Checkbox>Remember me</Checkbox>
               </Form.Item>
 
-              <a style={{ float: 'right' }} href="">
+              <a style={{ float: 'right' }} href="/">
                 Forgot password
               </a>
             </Form.Item>

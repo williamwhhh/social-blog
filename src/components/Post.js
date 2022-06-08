@@ -5,7 +5,7 @@ import {
   MessageOutlined,
   HeartOutlined,
   HeartFilled,
-  ShareAltOutlined,
+  RetweetOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 
@@ -84,7 +84,7 @@ const Post = forwardRef(
               <Button
                 className={classes.repostButton}
                 shape="circle"
-                icon={<ShareAltOutlined />}
+                icon={<RetweetOutlined />}
               ></Button>
               <Button
                 className={classes.likeButton}

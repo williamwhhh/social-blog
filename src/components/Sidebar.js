@@ -1,5 +1,7 @@
 // import { createUseStyles } from "react-jss";
-import { Button, Menu } from 'antd';
+import { useState } from 'react';
+import { Button, Menu, Row, Col } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -10,74 +12,81 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 
-const Sidebar = (props) => {
+const Sidebar = () => {
   // const options = ['home', 'content', 'journal', 'classroom'];
-
-  const handleClick = () => {};
-
+  const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
+  const handleClick = (e) => {
+    navigate(`/${e.key}`);
+  };
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed);
+  };
   return (
     <>
-      <Button
-        type="primary"
-        onClick={props.toggleCollapsed}
-        style={{ position: 'fixed', top: '3%' }}
-      >
-        {props.collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-      </Button>
-      <Menu
-        defaultSelectedKeys={['home']}
-        mode="inline"
-        inlineCollapsed={props.collapsed}
-        onClick={handleClick}
-        style={
-          props.collapsed
-            ? {
-                height: '100%',
-                fontSize: '1.2em',
-                position: 'fixed',
-                top: '10%',
-                width: '80px',
-              }
-            : {
-                height: '100%',
-                fontSize: '1.2em',
-                position: 'fixed',
-                top: '10%',
-                width: '200px',
-              }
-        }
-      >
-        <Menu.Item
-          key="home"
-          icon={<HomeOutlined style={{ fontSize: '1.2em' }} />}
+      <Col flex={collapsed ? '80px' : '200px'} style={{ margin: '0 0 0 5%' }}>
+        <Button
+          type="primary"
+          onClick={toggleCollapsed}
+          style={{ position: 'fixed', top: '3%' }}
         >
-          Home
-        </Menu.Item>
-        <Menu.Item
-          key="notification"
-          icon={<NotificationOutlined style={{ fontSize: '1.2em' }} />}
+          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        </Button>
+        <Menu
+          defaultSelectedKeys={['home']}
+          mode="inline"
+          inlineCollapsed={collapsed}
+          onClick={handleClick}
+          style={
+            collapsed
+              ? {
+                  height: '100%',
+                  fontSize: '1.2em',
+                  position: 'fixed',
+                  top: '10%',
+                  width: '80px',
+                }
+              : {
+                  height: '100%',
+                  fontSize: '1.2em',
+                  position: 'fixed',
+                  top: '10%',
+                  width: '200px',
+                }
+          }
         >
-          Notification
-        </Menu.Item>
-        <Menu.Item
-          key="messages"
-          icon={<MessageOutlined style={{ fontSize: '1.2em' }} />}
-        >
-          Messages
-        </Menu.Item>
-        <Menu.Item
-          key="bookmarks"
-          icon={<BookOutlined style={{ fontSize: '1.2em' }} />}
-        >
-          Bookmarks
-        </Menu.Item>
-        <Menu.Item
-          key="profile"
-          icon={<UserOutlined style={{ fontSize: '1.2em' }} />}
-        >
-          Profile
-        </Menu.Item>
-      </Menu>
+          <Menu.Item
+            key="home"
+            icon={<HomeOutlined style={{ fontSize: '1.2em' }} />}
+          >
+            Home
+          </Menu.Item>
+          <Menu.Item
+            key="notification"
+            icon={<NotificationOutlined style={{ fontSize: '1.2em' }} />}
+          >
+            Notification
+          </Menu.Item>
+          <Menu.Item
+            key="messages"
+            icon={<MessageOutlined style={{ fontSize: '1.2em' }} />}
+          >
+            Messages
+          </Menu.Item>
+          <Menu.Item
+            key="bookmarks"
+            icon={<BookOutlined style={{ fontSize: '1.2em' }} />}
+          >
+            Bookmarks
+          </Menu.Item>
+          <Menu.Item
+            key="profile"
+            icon={<UserOutlined style={{ fontSize: '1.2em' }} />}
+          >
+            Profile
+          </Menu.Item>
+        </Menu>
+      </Col>
     </>
   );
 };

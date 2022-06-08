@@ -18,7 +18,6 @@ const useStyles = createUseStyles({
 
 const Home = () => {
   const classes = useStyles();
-  const [collapsed, setCollapsed] = useState(false);
   const [posts, setPosts] = useState([
     {
       displayName: 'Australia',
@@ -35,9 +34,6 @@ const Home = () => {
       avatar: 'kangaroo.jpeg',
     },
   ]);
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
 
   const addPost = (post) => {
     setPosts([post, ...posts]);
@@ -73,82 +69,78 @@ const Home = () => {
   const onSearch = () => {};
 
   return (
-    <>
-      <Row>
-        <Col flex={collapsed ? '80px' : '200px'} style={{ margin: '0 0 0 5%' }}>
-          <Sidebar collapsed={collapsed} toggleCollapsed={toggleCollapsed} />
-        </Col>
-        <Col span={13}>
-          <PostBox addPost={addPost} />
-          <hr
-            style={{
-              border: '1px solid RGB(238,238,238)',
-            }}
-          ></hr>
-          <FlipMove>
-            {posts.map((post) => (
-              <Post
-                key={post.text}
-                displayName={post.displayName}
-                username={post.username}
-                verified={post.verified}
-                text={post.text}
-                avatar={post.avatar}
-                images={post.images}
-              />
-            ))}
-          </FlipMove>
-        </Col>
-        <Col flex="auto" style={{ borderLeft: 'solid RGB(238,238,238)' }}>
-          <Row>
-            <Input.Search
-              placeholder="input search text"
-              allowClear
-              onSearch={onSearch}
-              size="large"
-              style={{
-                width: '70%',
-                margin: '10% 0 0 10%',
-              }}
+    <Row>
+      <Sidebar />
+      <Col span={13}>
+        <PostBox addPost={addPost} />
+        <hr
+          style={{
+            border: '1px solid RGB(238,238,238)',
+          }}
+        ></hr>
+        <FlipMove>
+          {posts.map((post) => (
+            <Post
+              key={post.text}
+              displayName={post.displayName}
+              username={post.username}
+              verified={post.verified}
+              text={post.text}
+              avatar={post.avatar}
+              images={post.images}
             />
-          </Row>
-          <Row>
-            <div className={classes.topTrendingBox}>
-              <h3 style={{ margin: '3% 0 0 5%' }}>
-                <b>Top Trending</b>
-              </h3>
-              <FlipMove>
-                {trending.map((t) => (
-                  <TrendingPost
-                    key={t.text}
-                    title={t.title}
-                    image={t.image}
-                    numOfHit={t.numOfHit}
-                  />
-                ))}
-              </FlipMove>
-            </div>
-          </Row>
-          <Row>
-            <div className={classes.topTrendingBox}>
-              <h3 style={{ margin: '3% 0 0 5%' }}>
-                <b>Suggested For You</b>
-              </h3>
-              <FlipMove>
-                {trending.map((t) => (
-                  <TrendingPost
-                    key={t.text}
-                    title={t.title}
-                    image={t.image}
-                    numOfHit={t.numOfHit}
-                  />
-                ))}
-              </FlipMove>
-            </div>
-          </Row>
-        </Col>
-      </Row>
-    </>
+          ))}
+        </FlipMove>
+      </Col>
+      <Col flex="auto" style={{ borderLeft: 'solid RGB(238,238,238)' }}>
+        <Row>
+          <Input.Search
+            placeholder="input search text"
+            allowClear
+            onSearch={onSearch}
+            size="large"
+            style={{
+              width: '70%',
+              margin: '10% 0 0 10%',
+            }}
+          />
+        </Row>
+        <Row>
+          <div className={classes.topTrendingBox}>
+            <h3 style={{ margin: '3% 0 0 5%' }}>
+              <b>Top Trending</b>
+            </h3>
+            <FlipMove>
+              {trending.map((t) => (
+                <TrendingPost
+                  key={t.text}
+                  title={t.title}
+                  image={t.image}
+                  numOfHit={t.numOfHit}
+                />
+              ))}
+            </FlipMove>
+          </div>
+        </Row>
+        <Row>
+          <div className={classes.topTrendingBox}>
+            <h3 style={{ margin: '3% 0 0 5%' }}>
+              <b>Suggested For You</b>
+            </h3>
+            <FlipMove>
+              {trending.map((t) => (
+                <TrendingPost
+                  key={t.text}
+                  title={t.title}
+                  image={t.image}
+                  numOfHit={t.numOfHit}
+                />
+              ))}
+            </FlipMove>
+          </div>
+        </Row>
+      </Col>
+    </Row>
   );
 };
 
