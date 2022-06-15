@@ -1,5 +1,15 @@
 import { createUseStyles } from 'react-jss';
-import { Avatar, Row, Col, Form, Input, Button, Upload, Modal } from 'antd';
+import {
+  Avatar,
+  Row,
+  Col,
+  Form,
+  Input,
+  Button,
+  Upload,
+  Modal,
+  Tooltip,
+} from 'antd';
 import {
   UserOutlined,
   FileImageOutlined,
@@ -187,27 +197,33 @@ const PostBox = (props) => {
                 src={previewImage}
               />
             </Modal>
-            <Button
-              className={classes.imageButton}
-              type="primary"
-              shape="circle"
-              icon={<FileImageOutlined />}
-              onClick={() => setShowUpload(!showUpload)}
-            ></Button>
-            <Button
-              className={classes.emojiButton}
-              type="primary"
-              shape="circle"
-              icon={<SmileOutlined />}
-              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-            ></Button>
-            <Button
-              className={classes.locationButton}
-              type="primary"
-              shape="circle"
-              icon={<EnvironmentOutlined />}
-              onClick={handleLocation}
-            ></Button>
+            <Tooltip title="Image">
+              <Button
+                className={classes.imageButton}
+                type="primary"
+                shape="circle"
+                icon={<FileImageOutlined />}
+                onClick={() => setShowUpload(!showUpload)}
+              ></Button>
+            </Tooltip>
+            <Tooltip title="Emoji">
+              <Button
+                className={classes.emojiButton}
+                type="primary"
+                shape="circle"
+                icon={<SmileOutlined />}
+                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+              ></Button>
+            </Tooltip>
+            <Tooltip title="Location">
+              <Button
+                className={classes.locationButton}
+                type="primary"
+                shape="circle"
+                icon={<EnvironmentOutlined />}
+                onClick={handleLocation}
+              ></Button>
+            </Tooltip>
             <Form.Item className={classes.postButton}>
               <Button
                 type="primary"

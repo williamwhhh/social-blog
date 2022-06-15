@@ -1,6 +1,6 @@
 import React, { forwardRef, useState } from 'react';
 import { createUseStyles } from 'react-jss';
-import { Avatar, Row, Col, Form, Input, Button, Image } from 'antd';
+import { Avatar, Row, Col, Form, Input, Button, Image, Tooltip } from 'antd';
 import {
   MessageOutlined,
   HeartOutlined,
@@ -76,30 +76,36 @@ const Post = forwardRef(
             </Image.PreviewGroup>
             <br />
             <Row>
-              <Button
-                className={classes.commentButton}
-                shape="circle"
-                icon={<MessageOutlined />}
-              ></Button>
-              <Button
-                className={classes.repostButton}
-                shape="circle"
-                icon={<RetweetOutlined />}
-              ></Button>
-              <Button
-                className={classes.likeButton}
-                shape="circle"
-                icon={
-                  like ? (
-                    <HeartFilled style={{ color: 'red' }} />
-                  ) : (
-                    <HeartOutlined />
-                  )
-                }
-                onClick={() => {
-                  setLike(!like);
-                }}
-              ></Button>
+              <Tooltip title="Comment">
+                <Button
+                  className={classes.commentButton}
+                  shape="circle"
+                  icon={<MessageOutlined />}
+                ></Button>
+              </Tooltip>
+              <Tooltip title="Repost">
+                <Button
+                  className={classes.repostButton}
+                  shape="circle"
+                  icon={<RetweetOutlined />}
+                ></Button>
+              </Tooltip>
+              <Tooltip title="Like">
+                <Button
+                  className={classes.likeButton}
+                  shape="circle"
+                  icon={
+                    like ? (
+                      <HeartFilled style={{ color: 'red' }} />
+                    ) : (
+                      <HeartOutlined />
+                    )
+                  }
+                  onClick={() => {
+                    setLike(!like);
+                  }}
+                ></Button>
+              </Tooltip>
             </Row>
           </Col>
         </Row>
