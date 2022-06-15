@@ -56,6 +56,7 @@ const PostBox = (props) => {
     },
   ]);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [location, setLocation] = useState(null);
 
   const onEmojiClick = (event, emojiObject) => {
     setPost(post.concat(emojiObject.emoji));
@@ -110,6 +111,18 @@ const PostBox = (props) => {
     );
   };
 
+  const handleLocation = () => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      setLocation(
+        'Latitude: '.concat(
+          position.coords.latitude.toString(),
+          ', Longitude: ',
+          position.coords.longitude.toString()
+        )
+      );
+    });
+  };
+
   return (
     <>
       <Row>
@@ -143,6 +156,12 @@ const PostBox = (props) => {
                 }}
               ></hr>
             </Form.Item>
+            {location != null && (
+              <span style={{ color: 'gray' }}>
+                {location}
+                <br />
+              </span>
+            )}
             {showUpload && (
               <Upload
                 action=""
@@ -187,6 +206,7 @@ const PostBox = (props) => {
               type="primary"
               shape="circle"
               icon={<EnvironmentOutlined />}
+              onClick={handleLocation}
             ></Button>
             <Form.Item className={classes.postButton}>
               <Button
