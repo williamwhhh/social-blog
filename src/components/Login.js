@@ -5,21 +5,13 @@ import { Form, Input, Button, Checkbox } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 const useStyles = createUseStyles({
-  outerContainer: {
-    width: '100%',
-    height: '100vh',
-    display: 'flex',
-  },
   container: {
-    margin: 'auto',
-    width: '80%',
+    width: '400px',
+    margin: '0 auto',
     boxShadow: '2px 2px 5px lightgrey',
     border: '1px solid lightgrey',
     borderRadius: '25px',
     backgroundColor: '#FFF',
-    zIndex: '10',
-    position: 'absolute',
-    top: '25%',
   },
 });
 
@@ -48,11 +40,10 @@ const Login = (props) => {
 
   return (
     <>
-      <div className={classes.outerContainer}>
-        <div className={classes.container}>
+      <div className={classes.container}>
+        <div style={{ width: '90%', margin: 'auto' }}>
           <Form
-            labelCol={{ offset: 2, span: 24 }}
-            wrapperCol={{ offset: 2, span: 20 }}
+            wrapperCol={{ span: 24 }}
             name="register"
             onFinish={handleCreate}
           >
@@ -109,31 +100,28 @@ const Login = (props) => {
                 htmlType="submit"
                 loading={loading}
                 style={{
-                  position: 'absolute',
-                  right: '0',
-                  top: '0',
                   borderRadius: '6px',
                 }}
                 block
                 size="large"
               >
-                {!loading ? 'Log In' : 'Logging In...'}
+                {!loading ? <b>Log In</b> : <b>Logging In...</b>}
               </Button>
             </Form.Item>
             <hr style={{ width: '90%', border: '1px solid lightgrey' }}></hr>
-            <Form.Item>
+            <Form.Item style={{ textAlign: 'center' }}>
               <Button
                 onClick={props.onToggleSignUp}
                 type="primary"
                 style={{
-                  margin: '3% 0 0 0',
+                  marginTop: '3%',
                   borderRadius: '6px',
                   backgroundColor: 'RGB(65,173,56)',
+                  width: '60%',
                 }}
-                block
                 size="large"
               >
-                Sign up with email
+                <b>Sign up with email</b>
               </Button>
             </Form.Item>
           </Form>

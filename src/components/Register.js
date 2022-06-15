@@ -80,7 +80,9 @@ const Register = (props) => {
               shape="circle"
               data-testid="register-modal-close-btn"
             />
-            <h1 style={{ textAlign: 'center', marginTop: '2%' }}>Sign Up</h1>
+            <h1 style={{ textAlign: 'center', marginTop: '2%' }}>
+              <b>Sign Up</b>
+            </h1>
             <Row>
               <Col span={9} offset={2}>
                 <Form.Item
@@ -192,7 +194,7 @@ const Register = (props) => {
                   backgroundColor: 'RGB(65,173,56)',
                 }}
               >
-                {!loading ? 'Sign Up' : 'Signing Up'}
+                {!loading ? <b>Sign Up</b> : <b>Signing Up</b>}
               </Button>
             </Form.Item>
           </Form>

@@ -3,25 +3,48 @@ import { Row, Col } from 'antd';
 import { createUseStyles } from 'react-jss';
 import Login from './Login';
 import Register from './Register';
+import Footer from './Footer';
+import background from '../images/landingBackground.jpg';
 
 const useStyles = createUseStyles({
-  backgroundContainer: {
-    width: '100%',
-    height: '100vh',
-  },
   heading: {
-    fontSize: '25pt',
-    textAlign: 'center',
+    fontSize: '40px',
+    marginTop: '30vh',
   },
   body: {
     marginTop: '3%',
     color: 'grey',
-    fontSize: '12pt',
+    fontSize: '20px',
+  },
+  flexContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  flexItemLeft: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: '50%',
+    alignItems: 'center',
+    height: '100vh',
+    backgroundImage: `url(${background})`,
+  },
+  flexItemRight: {
+    flex: '50%',
+    margin: '25vh 0 0 0',
+  },
+  '@media (max-width: 800px)': {
+    flexContainer: {
+      flexDirection: 'column',
+    },
+    heading: { marginTop: '10vh' },
+    flexItemRight: {
+      margin: '3% auto',
+    },
   },
 });
 
 const Landing = () => {
-  const styles = useStyles();
+  const classes = useStyles();
 
   const [visibleSignUp, setVisibleSignUp] = useState(false);
 
@@ -32,31 +55,23 @@ const Landing = () => {
 
   return (
     <div>
-      <Row>
-        <Col span={12}>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              marginTop: '35vh',
-            }}
+      <Row className={classes.flexContainer}>
+        <div className={classes.flexItemLeft}>
+          <span className={classes.heading}>Welcome to Social Blog</span>
+          <p
+            className={classes.body}
+            style={{ width: '80%', textAlign: 'center' }}
           >
-            <span className={styles.heading}>Welcome to Social Blog</span>
-            <p
-              className={styles.body}
-              style={{ width: '80%', textAlign: 'center' }}
-            >
-              Social Blog helps you connect and share with the people in your
-              life.
-            </p>
-          </div>
-        </Col>
-        <Col span={12}>
+            Social Blog helps you connect and share with the people in your
+            life.
+          </p>
+        </div>
+        <div className={classes.flexItemRight}>
           <Login onToggleSignUp={toggleSignUp} />
-        </Col>
+        </div>
         {visibleSignUp && <Register onToggleSignUp={toggleSignUp} />}
       </Row>
+      <Footer></Footer>
     </div>
   );
 };
