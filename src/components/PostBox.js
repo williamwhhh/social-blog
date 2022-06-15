@@ -8,6 +8,7 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import { useState } from 'react';
+import Picker from 'emoji-picker-react';
 
 const useStyles = createUseStyles({
   avatar: {
@@ -30,6 +31,12 @@ const useStyles = createUseStyles({
   locationButton: {
     margin: '1.5vh 0 0 3%',
   },
+  emojiPicker: {
+    position: 'absolute',
+    left: '0',
+    top: '100%',
+    zIndex: '1',
+  },
 });
 
 const PostBox = (props) => {
@@ -48,6 +55,11 @@ const PostBox = (props) => {
       url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
     },
   ]);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+  const onEmojiClick = (event, emojiObject) => {
+    setPost(post.concat(emojiObject.emoji));
+  };
 
   const handlePost = () => {
     // setPosting(true);
@@ -75,6 +87,7 @@ const PostBox = (props) => {
   );
 
   const handleUpload = ({ fileList: newFileList }) => setFileList(newFileList);
+
   const getBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -84,6 +97,7 @@ const PostBox = (props) => {
 
       reader.onerror = (error) => reject(error);
     });
+
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
@@ -95,6 +109,7 @@ const PostBox = (props) => {
       file.name || file.url.substring(file.url.lastIndexOf('/') + 1)
     );
   };
+
   return (
     <>
       <Row>
@@ -119,6 +134,7 @@ const PostBox = (props) => {
                   maxRows: 5,
                 }}
                 size="large"
+                value={post}
                 onChange={(e) => setPost(e.target.value)}
               />
               <hr
@@ -164,6 +180,7 @@ const PostBox = (props) => {
               type="primary"
               shape="circle"
               icon={<SmileOutlined />}
+              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
             ></Button>
             <Button
               className={classes.locationButton}
@@ -184,6 +201,11 @@ const PostBox = (props) => {
               </Button>
             </Form.Item>
           </Form>
+          {showEmojiPicker && (
+            <div className={classes.emojiPicker}>
+              <Picker onEmojiClick={onEmojiClick} />
+            </div>
+          )}
         </Col>
       </Row>
     </>
