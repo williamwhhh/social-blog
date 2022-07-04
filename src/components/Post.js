@@ -60,7 +60,7 @@ const Post = forwardRef(
               {displayName}{' '}
               <span className={classes.username}>@{username}</span>
             </h3>
-            <p>{text}</p>
+            <p style={{ width: '95%' }}>{text}</p>
             <Image.PreviewGroup>
               {images.map((image) => (
                 <Image width={200} src={require(`../images/${image}`)} />

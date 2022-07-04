@@ -136,9 +136,6 @@ const PostBox = (props) => {
   return (
     <>
       <Row>
-        <h2 style={{ margin: '2% 0 0 5%' }}>Home</h2>
-      </Row>
-      <Row>
         <Col span={4}>
           <Avatar
             className={classes.avatar}

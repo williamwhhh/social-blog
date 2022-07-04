@@ -10,7 +10,7 @@ import FlipMove from 'react-flip-move';
 const useStyles = createUseStyles({
   topTrendingBox: {
     margin: '10% 0 0 10%',
-    width: '70%',
+    width: '80%',
     backgroundColor: 'RGB(247,249,249)',
     borderRadius: '15px',
   },
@@ -72,6 +72,9 @@ const Home = () => {
     <Row>
       <Sidebar />
       <Col span={13}>
+        <Row>
+          <h2 style={{ margin: '2% 0 0 5%' }}>Home</h2>
+        </Row>
         <PostBox addPost={addPost} />
         <hr
           style={{
@@ -100,7 +103,7 @@ const Home = () => {
             onSearch={onSearch}
             size="large"
             style={{
-              width: '70%',
+              width: '80%',
               margin: '10% 0 0 10%',
             }}
           />
