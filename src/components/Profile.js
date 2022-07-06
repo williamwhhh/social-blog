@@ -1,7 +1,19 @@
 import { createUseStyles } from 'react-jss';
 import { useState } from 'react';
-import { Row, Col, Avatar, Button, Tabs, Input } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import {
+  Row,
+  Col,
+  Avatar,
+  Button,
+  Tabs,
+  Input,
+  Modal,
+  Upload,
+  Form,
+  DatePicker,
+} from 'antd';
+import moment from 'moment';
+import { UserOutlined, UploadOutlined } from '@ant-design/icons';
 import Sidebar from './Sidebar';
 import TrendingPost from './TrendingPost';
 import Post from './Post';
@@ -59,28 +71,39 @@ const onSearch = () => {};
 
 const Profile = () => {
   const classes = useStyles();
-  const user = {
-    name: 'Name',
-    username: 'User Name',
+  const [user, setUser] = useState({
+    name: 'Australia',
+    username: 'Australia',
     following: [],
     followers: [],
+    avatar: 'kangaroo.jpeg',
+    dateOfBirth: '2022-07-06',
+    posts: [
+      {
+        displayName: 'Australia',
+        username: 'Australia',
+        text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative). #seeaustralia #thisiswa #australiascoralcoast #holidayherethisyear",
+        images: ['sharkBay.jpeg'],
+        avatar: 'kangaroo.jpeg',
+      },
+      {
+        displayName: 'Australia',
+        username: 'Australia',
+        text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative).",
+        images: ['kangaroo.jpeg'],
+        avatar: 'kangaroo.jpeg',
+      },
+    ],
+  });
+  const [editProfile, setEditProfile] = useState(false);
+
+  const handleOk = () => {
+    setEditProfile(false);
   };
-  const [posts, setPosts] = useState([
-    {
-      displayName: 'Australia',
-      username: 'Australia',
-      text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative). #seeaustralia #thisiswa #australiascoralcoast #holidayherethisyear",
-      images: ['sharkBay.jpeg'],
-      avatar: 'kangaroo.jpeg',
-    },
-    {
-      displayName: 'Australia',
-      username: 'Australia',
-      text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative).",
-      images: ['kangaroo.jpeg'],
-      avatar: 'kangaroo.jpeg',
-    },
-  ]);
+
+  const handleCancel = () => {
+    setEditProfile(false);
+  };
 
   return (
     <Row>
@@ -95,6 +118,7 @@ const Profile = () => {
           <Avatar
             className={classes.avatar}
             size={120}
+            src={require(`../images/${user.avatar}`)}
             icon={<UserOutlined />}
           />
         </Row>
@@ -109,9 +133,63 @@ const Profile = () => {
             style={{ position: 'relative', top: '3vh', left: '55%' }}
             type="primary"
             shape="round"
+            onClick={() => setEditProfile(!editProfile)}
           >
             Edit Profile
           </Button>
+          <Modal
+            title="Edit Profile"
+            visible={editProfile}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            style={{
+              top: '25%',
+            }}
+          >
+            <Upload showUploadList={false}>
+              <Avatar
+                size={100}
+                src={
+                  user.avatar !== '' ? require(`../images/${user.avatar}`) : ''
+                }
+                icon={<UploadOutlined />}
+              ></Avatar>
+            </Upload>
+            <Form
+              layout="vertical"
+              wrapperCol={{ span: 24 }}
+              name="editProfile"
+            >
+              <Form.Item
+                label="Name"
+                style={{ marginTop: '5%' }}
+                rules={[
+                  {
+                    required: true,
+                    message: "Name can't be blank",
+                  },
+                ]}
+              >
+                <Input
+                  placeholder="Enter your name"
+                  size="large"
+                  onChange={(e) => {
+                    setUser({ ...user, name: e.target.value });
+                  }}
+                  value={user.name}
+                />
+              </Form.Item>
+              <Form.Item label="Date of Birth">
+                <DatePicker
+                  style={{ width: '50%' }}
+                  defaultValue={moment(user.dateOfBirth)}
+                  onChange={(date, dateString) =>
+                    setUser({ ...user, dateOfBirth: dateString })
+                  }
+                />
+              </Form.Item>
+            </Form>
+          </Modal>
         </Row>
         <Row>
           <Button size="small" style={{ margin: '2% 0 0 4%' }} type="link">
@@ -131,7 +209,7 @@ const Profile = () => {
           >
             <TabPane tab={<b>Posts</b>} key="1">
               <FlipMove>
-                {posts.map((post) => (
+                {user.posts.map((post) => (
                   <Post
                     key={post.text}
                     displayName={post.displayName}
