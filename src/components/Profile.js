@@ -146,14 +146,15 @@ const Profile = () => {
               top: '25%',
             }}
           >
+            <Avatar
+              size={100}
+              src={
+                user.avatar !== '' ? require(`../images/${user.avatar}`) : ''
+              }
+              style={{ marginLeft: '20%' }}
+            ></Avatar>
             <Upload showUploadList={false}>
-              <Avatar
-                size={100}
-                src={
-                  user.avatar !== '' ? require(`../images/${user.avatar}`) : ''
-                }
-                icon={<UploadOutlined />}
-              ></Avatar>
+              <Button style={{ marginLeft: '20%' }}>Change Avatar</Button>
             </Upload>
             <Form
               layout="vertical"
@@ -162,7 +163,7 @@ const Profile = () => {
             >
               <Form.Item
                 label="Name"
-                style={{ marginTop: '5%' }}
+                style={{ marginTop: '5%', marginLeft: '10%', width: '80%' }}
                 rules={[
                   {
                     required: true,
@@ -179,7 +180,7 @@ const Profile = () => {
                   value={user.name}
                 />
               </Form.Item>
-              <Form.Item label="Date of Birth">
+              <Form.Item label="Date of Birth" style={{ marginLeft: '10%' }}>
                 <DatePicker
                   style={{ width: '50%' }}
                   defaultValue={moment(user.dateOfBirth)}
