@@ -4,7 +4,7 @@ import { Row, Col, Input, Image } from 'antd';
 import Sidebar from './Sidebar';
 import PostBox from './PostBox';
 import Post from './Post';
-import TrendingPost from './TrendingPost';
+import InfoBar from './InfoBar';
 import FlipMove from 'react-flip-move';
 
 const useStyles = createUseStyles({
@@ -39,41 +39,14 @@ const Home = () => {
     setPosts([post, ...posts]);
   };
 
-  const trending = [
-    {
-      title: '#Australia',
-      image: 'sharkBay.jpeg',
-      numOfHit: '2.3k',
-    },
-    {
-      title: '#Australia',
-      image: 'sharkBay.jpeg',
-      numOfHit: '2.3k',
-    },
-    {
-      title: '#Australia',
-      image: 'sharkBay.jpeg',
-      numOfHit: '2.3k',
-    },
-    {
-      title: '#Australia',
-      image: 'sharkBay.jpeg',
-      numOfHit: '2.3k',
-    },
-    {
-      title: '#Australia',
-      image: 'sharkBay.jpeg',
-      numOfHit: '2.3k',
-    },
-  ];
-  const onSearch = () => {};
-
   return (
     <Row>
       <Sidebar />
       <Col span={13}>
         <Row>
-          <h2 style={{ margin: '2% 0 0 5%' }}>Home</h2>
+          <h2 style={{ margin: '2% 0 0 5%' }}>
+            <b>Home</b>
+          </h2>
         </Row>
         <PostBox addPost={addPost} />
         <hr
@@ -96,52 +69,7 @@ const Home = () => {
         </FlipMove>
       </Col>
       <Col flex="auto" style={{ borderLeft: 'solid RGB(238,238,238)' }}>
-        <Row>
-          <Input.Search
-            placeholder="input search text"
-            allowClear
-            onSearch={onSearch}
-            size="large"
-            style={{
-              width: '80%',
-              margin: '10% 0 0 10%',
-            }}
-          />
-        </Row>
-        <Row>
-          <div className={classes.topTrendingBox}>
-            <h3 style={{ margin: '3% 0 0 5%' }}>
-              <b>Top Trending</b>
-            </h3>
-            <FlipMove>
-              {trending.map((t) => (
-                <TrendingPost
-                  key={t.text}
-                  title={t.title}
-                  image={t.image}
-                  numOfHit={t.numOfHit}
-                />
-              ))}
-            </FlipMove>
-          </div>
-        </Row>
-        <Row>
-          <div className={classes.topTrendingBox}>
-            <h3 style={{ margin: '3% 0 0 5%' }}>
-              <b>Suggested For You</b>
-            </h3>
-            <FlipMove>
-              {trending.map((t) => (
-                <TrendingPost
-                  key={t.text}
-                  title={t.title}
-                  image={t.image}
-                  numOfHit={t.numOfHit}
-                />
-              ))}
-            </FlipMove>
-          </div>
-        </Row>
+        <InfoBar />
       </Col>
     </Row>
   );
