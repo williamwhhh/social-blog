@@ -36,7 +36,19 @@ const useStyles = createUseStyles({
     flexContainer: {
       flexDirection: 'column',
     },
-    heading: { marginTop: '10vh' },
+    heading: { fontSize: '30px' },
+    flexItemRight: {
+      margin: '3% auto',
+    },
+  },
+  '@media (max-width: 576px)': {
+    flexContainer: {
+      flexDirection: 'column',
+    },
+    heading: { marginTop: '15vh' },
+    body: {
+      fontSize: '15px',
+    },
     flexItemRight: {
       margin: '3% auto',
     },

@@ -136,14 +136,14 @@ const PostBox = (props) => {
   return (
     <>
       <Row>
-        <Col span={4}>
+        <Col xs={6} sm={3}>
           <Avatar
             className={classes.avatar}
-            size={50}
+            size={55}
             icon={<UserOutlined />}
           />
         </Col>
-        <Col span={20}>
+        <Col xs={18} sm={{ span: 20, offset: 1 }}>
           <Form name="register" onFinish={handlePost}>
             <Form.Item name="post" className={classes.postInput}>
               <Input.TextArea

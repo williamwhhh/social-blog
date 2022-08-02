@@ -22,39 +22,42 @@ const Sidebar = (props) => {
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
+
   return (
     <>
-      <Col flex={collapsed ? '80px' : '200px'} style={{ margin: '0 0 0 5%' }}>
-        <Button
-          type="primary"
-          onClick={toggleCollapsed}
-          style={{ position: 'fixed', top: '3%' }}
-        >
-          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-        </Button>
+      <Col
+        xs={3}
+        sm={3}
+        md={2}
+        lg={2}
+        xl={{ span: collapsed ? 2 : 3, offset: 1 }}
+        // flex={collapsed ? '80px' : '200px'}
+      >
         <Menu
           defaultSelectedKeys={[window.location.pathname.slice(1)]}
           mode="inline"
           inlineCollapsed={collapsed}
           onClick={handleClick}
-          style={
-            collapsed
-              ? {
-                  height: '100%',
-                  fontSize: '1.2em',
-                  position: 'fixed',
-                  top: '10%',
-                  width: '80px',
-                }
-              : {
-                  height: '100%',
-                  fontSize: '1.2em',
-                  position: 'fixed',
-                  top: '10%',
-                  width: '200px',
-                }
-          }
+          style={{
+            height: '100%',
+            fontSize: '1.2em',
+            position: 'relative',
+            top: '2vh',
+            width: collapsed ? '100%' : '200px',
+            zIndex: '100',
+          }}
         >
+          <Button
+            type="primary"
+            onClick={toggleCollapsed}
+            style={{
+              position: 'relative',
+              zIndex: '100',
+              margin: '0 0 5% 0',
+            }}
+          >
+            {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          </Button>
           <Menu.Item
             key="home"
             icon={<HomeOutlined style={{ fontSize: '1.2em' }} />}

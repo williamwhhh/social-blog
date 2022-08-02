@@ -13,6 +13,9 @@ const useStyles = createUseStyles({
     borderRadius: '25px',
     backgroundColor: '#FFF',
   },
+  '@media (max-width: 576px)': {
+    container: { width: '300px' },
+  },
 });
 
 const Login = (props) => {

@@ -47,15 +47,15 @@ const Post = forwardRef(
     return (
       <div ref={ref} onClick={handleClick} className={classes.container}>
         <Row>
-          <Col span={4}>
+          <Col xs={6} sm={3}>
             <Avatar
               className={classes.avatar}
-              size={50}
+              size={55}
               src={avatar !== '' ? require(`../images/${avatar}`) : ''}
               icon={<UserOutlined />}
             />
           </Col>
-          <Col span={20}>
+          <Col xs={{ span: 17, offset: 1 }} sm={20}>
             <h3 className={classes.displayName}>
               {displayName}{' '}
               <span className={classes.username}>@{username}</span>

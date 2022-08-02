@@ -79,7 +79,7 @@ const Profile = () => {
   return (
     <Row>
       <Sidebar />
-      <Col span={13}>
+      <Col xs={20} sm={20} md={21} lg={15} xl={13}>
         <Row>
           <h2 className={classes.profileHeading}>
             <b>My Profile</b>
@@ -177,7 +177,7 @@ const Profile = () => {
             defaultActiveKey="1"
             centered
             size="large"
-            tabBarGutter={100}
+            tabBarGutter={70}
           >
             <TabPane tab={<b>Posts</b>} key="1">
               <FlipMove>
@@ -209,7 +209,13 @@ const Profile = () => {
           </Tabs>
         </Row>
       </Col>
-      <Col flex="auto" style={{ borderLeft: 'solid RGB(238,238,238)' }}>
+      <Col
+        xs={{ span: 20, offset: 3 }}
+        sm={{ span: 20, offset: 3 }}
+        md={{ span: 21, offset: 2 }}
+        lg={{ span: 7, offset: 0 }}
+        style={{ borderLeft: 'solid RGB(238,238,238)' }}
+      >
         <InfoBar />
       </Col>
     </Row>

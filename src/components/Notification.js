@@ -45,7 +45,7 @@ const Notification = () => {
   return (
     <Row>
       <Sidebar />
-      <Col span={13}>
+      <Col xs={20} sm={20} md={21} lg={15} xl={13}>
         <h2 className={classes.profileHeading}>
           <b>Notification</b>
         </h2>
@@ -71,7 +71,13 @@ const Notification = () => {
           </Tabs>
         </Row>
       </Col>
-      <Col flex="auto" style={{ borderLeft: 'solid RGB(238,238,238)' }}>
+      <Col
+        xs={{ span: 20, offset: 3 }}
+        sm={{ span: 20, offset: 3 }}
+        md={{ span: 21, offset: 2 }}
+        lg={{ span: 7, offset: 0 }}
+        style={{ borderLeft: 'solid RGB(238,238,238)' }}
+      >
         <InfoBar />
       </Col>
     </Row>

@@ -7,14 +7,7 @@ import Post from './Post';
 import InfoBar from './InfoBar';
 import FlipMove from 'react-flip-move';
 
-const useStyles = createUseStyles({
-  topTrendingBox: {
-    margin: '10% 0 0 10%',
-    width: '80%',
-    backgroundColor: 'RGB(247,249,249)',
-    borderRadius: '15px',
-  },
-});
+const useStyles = createUseStyles({});
 
 const Home = () => {
   const classes = useStyles();
@@ -42,7 +35,7 @@ const Home = () => {
   return (
     <Row>
       <Sidebar />
-      <Col span={13}>
+      <Col xs={20} sm={20} md={21} lg={15} xl={13}>
         <Row>
           <h2 style={{ margin: '2% 0 0 5%' }}>
             <b>Home</b>
@@ -68,7 +61,13 @@ const Home = () => {
           ))}
         </FlipMove>
       </Col>
-      <Col flex="auto" style={{ borderLeft: 'solid RGB(238,238,238)' }}>
+      <Col
+        xs={{ span: 20, offset: 3 }}
+        sm={{ span: 20, offset: 3 }}
+        md={{ span: 21, offset: 2 }}
+        lg={{ span: 7, offset: 0 }}
+        style={{ borderLeft: 'solid RGB(238,238,238)' }}
+      >
         <InfoBar />
       </Col>
     </Row>

@@ -45,19 +45,25 @@ const Bookmarks = () => {
   return (
     <Row>
       <Sidebar />
-      <Col span={13}>
+      <Col xs={20} sm={20} md={21} lg={15} xl={13}>
         <h2 className={classes.profileHeading}>
           <b>Bookmarks</b>
         </h2>
-        <h1 style={{ margin: '20% 0 0 0', textAlign: 'center' }}>
+        <h2 style={{ margin: '20% 0 0 0', textAlign: 'center' }}>
           <b>Save posts for later</b>
-        </h1>
+        </h2>
         <h3 style={{ margin: '5% 0 0 0', textAlign: 'center' }}>
           Don’t let the good ones fly away! Bookmark <br />
           posts to easily find them again in the future.
         </h3>
       </Col>
-      <Col flex="auto" style={{ borderLeft: 'solid RGB(238,238,238)' }}>
+      <Col
+        xs={{ span: 20, offset: 3 }}
+        sm={{ span: 20, offset: 3 }}
+        md={{ span: 21, offset: 2 }}
+        lg={{ span: 7, offset: 0 }}
+        style={{ borderLeft: 'solid RGB(238,238,238)' }}
+      >
         <InfoBar />
       </Col>
     </Row>
