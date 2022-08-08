@@ -1,6 +1,6 @@
 // import { createUseStyles } from "react-jss";
 import { useState } from 'react';
-import { Button, Menu, Row, Col } from 'antd';
+import { Button, Menu, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
   MenuUnfoldOutlined,
@@ -28,8 +28,6 @@ const Sidebar = (props) => {
       <Col
         xs={3}
         sm={3}
-        md={2}
-        lg={2}
         xl={{ span: collapsed ? 2 : 3, offset: 1 }}
         // flex={collapsed ? '80px' : '200px'}
       >
@@ -39,7 +37,7 @@ const Sidebar = (props) => {
           inlineCollapsed={collapsed}
           onClick={handleClick}
           style={{
-            height: '100%',
+            height: '98vh',
             fontSize: '1.2em',
             position: 'relative',
             top: '2vh',

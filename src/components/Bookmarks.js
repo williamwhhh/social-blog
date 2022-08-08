@@ -6,7 +6,7 @@ import InfoBar from './InfoBar';
 import FlipMove from 'react-flip-move';
 
 const useStyles = createUseStyles({
-  profileHeading: {
+  pageHeading: {
     margin: '2% 0 2% 5%',
   },
 });
@@ -46,7 +46,7 @@ const Bookmarks = () => {
     <Row>
       <Sidebar />
       <Col xs={20} sm={20} md={21} lg={15} xl={13}>
-        <h2 className={classes.profileHeading}>
+        <h2 className={classes.pageHeading}>
           <b>Bookmarks</b>
         </h2>
         <h2 style={{ margin: '20% 0 0 0', textAlign: 'center' }}>
