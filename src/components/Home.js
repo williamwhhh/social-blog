@@ -35,7 +35,7 @@ const Home = () => {
   return (
     <Row>
       <Sidebar />
-      <Col xs={20} sm={20} md={21} lg={13}>
+      <Col xs={20} sm={20} md={21} lg={14}>
         <Row>
           <h2 style={{ margin: '2% 0 0 5%' }}>
             <b>Home</b>

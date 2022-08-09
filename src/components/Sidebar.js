@@ -28,7 +28,7 @@ const Sidebar = (props) => {
       <Col
         xs={3}
         sm={3}
-        xl={{ span: collapsed ? 2 : 3, offset: 1 }}
+        xl={{ span: collapsed ? 2 : 3 }}
         // flex={collapsed ? '80px' : '200px'}
       >
         <Menu
@@ -41,7 +41,8 @@ const Sidebar = (props) => {
             fontSize: '1.2em',
             position: 'relative',
             top: '2vh',
-            width: collapsed ? '100%' : '200px',
+            minWidth: collapsed ? '100%' : '200px',
+            width: '100%',
             zIndex: '100',
           }}
         >

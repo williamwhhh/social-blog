@@ -56,7 +56,7 @@ const Contact = (props) => {
       className={classes.contactContainer}
       onClick={() => props.setCurrContact(props.contact)}
     >
-      <Col span={5}>
+      <Col span={4} offset={1}>
         <Avatar
           className={classes.avatar}
           size={50}
@@ -104,7 +104,7 @@ const ChatBox = (props) => {
                 icon={<UserOutlined />}
               />
             </Col>
-            <Col flex="auto">
+            <Col flex="auto" offset={1}>
               <h3 className={classes.chatBoxName}>
                 {props.contact.name}
                 <br />
@@ -164,10 +164,10 @@ const ChatBox = (props) => {
           onFinish={() => props.sendMessage(props.contact, message)}
         >
           <Row>
-            <Col span={1} offset={1}>
+            <Col span={2} offset={1}>
               <Tooltip title="Emoji">
                 <Button
-                  style={{ marginTop: '80%' }}
+                  style={{ marginTop: '40%' }}
                   type="primary"
                   shape="circle"
                   icon={<SmileOutlined />}
@@ -180,7 +180,7 @@ const ChatBox = (props) => {
                 </div>
               )}
             </Col>
-            <Col span={18} offset={1}>
+            <Col span={17} offset={1}>
               <TextArea
                 style={{ borderRadius: '25px', marginTop: '3%' }}
                 autoSize={{
@@ -193,11 +193,11 @@ const ChatBox = (props) => {
                 value={message}
               />
             </Col>
-            <Col span={1}>
+            <Col span={1} offset={1}>
               <Button
                 type="link"
                 icon={<SendOutlined />}
-                style={{ margin: '60% 0 0 50%' }}
+                style={{ margin: '60% 0 0 0' }}
                 size="large"
                 htmlType="submit"
                 disabled={
@@ -246,7 +246,7 @@ const Messages = () => {
   return (
     <Row>
       <Sidebar />
-      <Col span={7}>
+      <Col xs={20} sm={9}>
         <h2 className={classes.pageHeading}>
           <b>Messages</b>
         </h2>
@@ -255,7 +255,8 @@ const Messages = () => {
         ))}
       </Col>
       <Col
-        span={12}
+        xs={{ span: 20, offset: 3 }}
+        sm={{ span: 12, offset: 0 }}
         style={{
           height: '100vh',
           borderLeft: 'solid RGB(238,238,238)',

@@ -45,7 +45,7 @@ const Notification = () => {
   return (
     <Row>
       <Sidebar />
-      <Col xs={20} sm={20} md={21} lg={15} xl={13}>
+      <Col xs={20} sm={20} md={21} lg={14}>
         <h2 className={classes.pageHeading}>
           <b>Notification</b>
         </h2>
@@ -74,7 +74,7 @@ const Notification = () => {
       <Col
         xs={{ span: 20, offset: 3 }}
         sm={{ span: 20, offset: 3 }}
-        md={{ span: 21, offset: 2 }}
+        md={{ span: 21, offset: 3 }}
         lg={{ span: 7, offset: 0 }}
         style={{ borderLeft: 'solid RGB(238,238,238)' }}
       >
