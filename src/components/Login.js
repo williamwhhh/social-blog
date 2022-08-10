@@ -21,11 +21,11 @@ const useStyles = createUseStyles({
 const Login = (props) => {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleCreate = async () => {
+  const onFinish = async (values) => {
+    console.log(values);
+    console.log(values.email);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -33,23 +33,11 @@ const Login = (props) => {
     }, 1000);
   };
 
-  const onEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const onPWChange = (e) => {
-    setPassword(e.target.value);
-  };
-
   return (
     <>
       <div className={classes.container}>
         <div style={{ width: '90%', margin: 'auto' }}>
-          <Form
-            wrapperCol={{ span: 24 }}
-            name="register"
-            onFinish={handleCreate}
-          >
+          <Form wrapperCol={{ span: 24 }} name="register" onFinish={onFinish}>
             <Form.Item
               name="email"
               style={{ marginTop: '5%' }}
@@ -64,12 +52,7 @@ const Login = (props) => {
                 },
               ]}
             >
-              <Input
-                placeholder="Email Address"
-                size="large"
-                onChange={onEmailChange}
-                value={email}
-              />
+              <Input placeholder="Email Address" size="large" />
             </Form.Item>
             <Form.Item
               name="password"
@@ -81,12 +64,7 @@ const Login = (props) => {
               ]}
               hasFeedback
             >
-              <Input.Password
-                placeholder="Password"
-                size="large"
-                onChange={onPWChange}
-                value={password}
-              />
+              <Input.Password placeholder="Password" size="large" />
             </Form.Item>
             <Form.Item>
               <Form.Item name="remember" valuePropName="checked" noStyle>

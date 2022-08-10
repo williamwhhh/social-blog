@@ -35,31 +35,11 @@ const useStyles = createUseStyles({
 
 const Register = (props) => {
   const classes = useStyles();
-
   const [loading, setLoading] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
-  const handleCreate = async () => {
+  const onFinish = async (values) => {
+    console.log(values);
     setLoading(true);
-  };
-
-  const onFNChange = (e) => {
-    setFirstName(e.target.value);
-  };
-
-  const onLNChange = (e) => {
-    setLastName(e.target.value);
-  };
-
-  const onEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const onPWChange = (e) => {
-    setPassword(e.target.value);
   };
 
   return (
@@ -71,7 +51,7 @@ const Register = (props) => {
             labelCol={{ span: 24 }}
             wrapperCol={{ span: 24 }}
             name="register"
-            onFinish={handleCreate}
+            onFinish={onFinish}
           >
             <Button
               className={classes.closeBtn}
@@ -100,8 +80,6 @@ const Register = (props) => {
                     type="text"
                     autoComplete="off"
                     placeholder="First Name"
-                    onChange={onFNChange}
-                    value={firstName}
                   />
                 </Form.Item>
                 <Form.Item
@@ -118,14 +96,9 @@ const Register = (props) => {
                     },
                   ]}
                 >
-                  <Input
-                    autoComplete="off"
-                    placeholder="Email Address"
-                    onChange={onEmailChange}
-                    value={email}
-                  />
+                  <Input autoComplete="off" placeholder="Email Address" />
                 </Form.Item>
-                <Form.Item label="Date of Birth">
+                <Form.Item name="DOB" label="Date of Birth">
                   <DatePicker style={{ width: '100%' }} />
                 </Form.Item>
               </Col>
@@ -145,8 +118,6 @@ const Register = (props) => {
                     type="text"
                     autoComplete="off"
                     placeholder="Last Name"
-                    onChange={onLNChange}
-                    value={lastName}
                   />
                 </Form.Item>
                 <Form.Item
@@ -168,8 +139,6 @@ const Register = (props) => {
                     autoComplete="off"
                     className={classes.inputSize}
                     placeholder="Password"
-                    onChange={onPWChange}
-                    value={password}
                   />
                 </Form.Item>
                 <Form.Item name="gender" label="Gender">

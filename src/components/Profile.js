@@ -68,8 +68,10 @@ const Profile = () => {
 
   const [editProfile, setEditProfile] = useState(false);
 
-  const handleOk = () => {
+  const onFinish = (values) => {
     setEditProfile(false);
+    console.log(values);
+    setUser({ ...user, name: values.name, dateOfBirth: values.DOB });
   };
 
   const handleCancel = () => {
@@ -111,7 +113,12 @@ const Profile = () => {
           <Modal
             title="Edit Profile"
             visible={editProfile}
-            onOk={handleOk}
+            // onOk={handleOk}
+            okButtonProps={{
+              form: 'editProfile',
+              key: 'submit',
+              htmlType: 'submit',
+            }}
             onCancel={handleCancel}
             style={{
               top: '25%',
@@ -131,8 +138,11 @@ const Profile = () => {
               layout="vertical"
               wrapperCol={{ span: 24 }}
               name="editProfile"
+              id="editProfile"
+              onFinish={onFinish}
             >
               <Form.Item
+                name="name"
                 label="Name"
                 style={{ marginTop: '5%', marginLeft: '10%', width: '80%' }}
                 rules={[
@@ -141,24 +151,17 @@ const Profile = () => {
                     message: "Name can't be blank",
                   },
                 ]}
+                initialValue={user.name}
               >
-                <Input
-                  placeholder="Enter your name"
-                  size="large"
-                  onChange={(e) => {
-                    setUser({ ...user, name: e.target.value });
-                  }}
-                  value={user.name}
-                />
+                <Input placeholder="Enter your name" size="large" />
               </Form.Item>
-              <Form.Item label="Date of Birth" style={{ marginLeft: '10%' }}>
-                <DatePicker
-                  style={{ width: '50%' }}
-                  defaultValue={moment(user.dateOfBirth)}
-                  onChange={(date, dateString) =>
-                    setUser({ ...user, dateOfBirth: dateString })
-                  }
-                />
+              <Form.Item
+                name="DOB"
+                label="Date of Birth"
+                style={{ marginLeft: '10%' }}
+                initialValue={moment(user.dateOfBirth)}
+              >
+                <DatePicker style={{ width: '50%' }} />
               </Form.Item>
             </Form>
           </Modal>
