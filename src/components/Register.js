@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
-
 import { Row, Col, Form, Input, Button, DatePicker, Select } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
+import { signUp } from '../utils/APIs';
 
 const useStyles = createUseStyles({
   blurContainer: {
@@ -40,6 +40,15 @@ const Register = (props) => {
   const onFinish = async (values) => {
     console.log(values);
     setLoading(true);
+    signUp(values)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        alert(e.message);
+      });
+    setLoading(false);
+    props.onToggleSignUp();
   };
 
   return (
@@ -66,12 +75,12 @@ const Register = (props) => {
             <Row>
               <Col span={9} offset={2}>
                 <Form.Item
-                  name="firstName"
-                  label="First Name"
+                  name="username"
+                  label="Username"
                   rules={[
                     {
                       required: true,
-                      message: 'Please input your first name!',
+                      message: 'Please enter your username!',
                       whitespace: true,
                     },
                   ]}
@@ -79,7 +88,7 @@ const Register = (props) => {
                   <Input
                     type="text"
                     autoComplete="off"
-                    placeholder="First Name"
+                    placeholder="jaackk566"
                   />
                 </Form.Item>
                 <Form.Item
@@ -92,7 +101,7 @@ const Register = (props) => {
                     },
                     {
                       required: true,
-                      message: 'Please input your email address!',
+                      message: 'Please enter your email address!',
                     },
                   ]}
                 >
@@ -104,12 +113,12 @@ const Register = (props) => {
               </Col>
               <Col span={9} offset={2}>
                 <Form.Item
-                  name="lastName"
-                  label="Last Name"
+                  name="name"
+                  label="Name"
                   rules={[
                     {
                       required: true,
-                      message: 'Please input your full name!',
+                      message: 'Please enter your name!',
                       whitespace: true,
                     },
                   ]}
@@ -117,7 +126,7 @@ const Register = (props) => {
                   <Input
                     type="text"
                     autoComplete="off"
-                    placeholder="Last Name"
+                    placeholder="Jack Dawson"
                   />
                 </Form.Item>
                 <Form.Item
@@ -126,7 +135,7 @@ const Register = (props) => {
                   rules={[
                     {
                       required: true,
-                      message: 'Please input your password!',
+                      message: 'Please enter your password!',
                     },
                     {
                       min: 6,

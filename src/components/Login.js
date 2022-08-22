@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
-
 import { Form, Input, Button, Checkbox } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { login } from '../utils/APIs';
 
 const useStyles = createUseStyles({
   container: {
@@ -27,10 +27,23 @@ const Login = (props) => {
     console.log(values);
     console.log(values.email);
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      navigate('/home');
-    }, 1000);
+    login(values).then(
+      (res) => {
+        console.log(res);
+        if (res.email) {
+          setLoading(false);
+          localStorage.setItem('email', res.email);
+          navigate('/home');
+        } else {
+          setLoading(false);
+          alert('incorrect email address or password');
+        }
+      },
+      (err) => {
+        console.log(err.message);
+        setLoading(false);
+      }
+    );
   };
 
   return (
