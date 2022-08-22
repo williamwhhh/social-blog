@@ -13,14 +13,16 @@ const Home = () => {
   const classes = useStyles();
   const [posts, setPosts] = useState([
     {
-      displayName: 'Australia',
+      key: '0001',
+      name: 'Australia',
       username: 'Australia',
       text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative). #seeaustralia #thisiswa #australiascoralcoast #holidayherethisyear",
       images: ['sharkBay.jpeg'],
       avatar: 'kangaroo.jpeg',
     },
     {
-      displayName: 'Australia',
+      key: '0002',
+      name: 'Australia',
       username: 'Australia',
       text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative).",
       images: ['kangaroo.jpeg'],
@@ -50,12 +52,11 @@ const Home = () => {
         <FlipMove>
           {posts.map((post) => (
             <Post
-              key={post.text}
-              displayName={post.displayName}
+              key={post.key}
+              name={post.name}
               username={post.username}
-              verified={post.verified}
-              text={post.text}
               avatar={post.avatar}
+              text={post.text}
               images={post.images}
             />
           ))}

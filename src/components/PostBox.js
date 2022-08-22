@@ -76,7 +76,7 @@ const PostBox = (props) => {
     // setPosting(true);
     // console.log(post);
     props.addPost({
-      displayName: 'Australia',
+      name: 'Australia',
       username: 'Australia',
       text: post,
       images: ['kangaroo.jpeg', 'sharkBay.jpeg'],

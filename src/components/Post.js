@@ -38,86 +38,83 @@ const useStyles = createUseStyles({
   },
 });
 
-const Post = forwardRef(
-  ({ displayName, username, text, images, avatar }, ref) => {
-    const classes = useStyles();
-    const [like, setLike] = useState(false);
-    const handleClick = () => {};
+const Post = forwardRef(({ name, username, text, images, avatar }, ref) => {
+  const classes = useStyles();
+  const [like, setLike] = useState(false);
+  const handleClick = () => {};
 
-    return (
-      <div ref={ref} onClick={handleClick} className={classes.container}>
-        <Row>
-          <Col xs={6} sm={3}>
-            <Avatar
-              className={classes.avatar}
-              size={55}
-              src={avatar !== '' ? require(`../images/${avatar}`) : ''}
-              icon={<UserOutlined />}
+  return (
+    <div ref={ref} onClick={handleClick} className={classes.container}>
+      <Row>
+        <Col xs={6} sm={3}>
+          <Avatar
+            className={classes.avatar}
+            size={55}
+            src={avatar !== '' ? require(`../images/${avatar}`) : ''}
+            icon={<UserOutlined />}
+          />
+        </Col>
+        <Col xs={{ span: 17, offset: 1 }} sm={20}>
+          <h3 className={classes.displayName}>
+            {name} <span className={classes.username}>@{username}</span>
+          </h3>
+          <p style={{ width: '95%' }}>{text}</p>
+          <Image.PreviewGroup>
+            {images.map((image) => (
+              <Image width={200} src={require(`../images/${image}`)} />
+            ))}
+            <Image
+              width={200}
+              src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
             />
-          </Col>
-          <Col xs={{ span: 17, offset: 1 }} sm={20}>
-            <h3 className={classes.displayName}>
-              {displayName}{' '}
-              <span className={classes.username}>@{username}</span>
-            </h3>
-            <p style={{ width: '95%' }}>{text}</p>
-            <Image.PreviewGroup>
-              {images.map((image) => (
-                <Image width={200} src={require(`../images/${image}`)} />
-              ))}
-              <Image
-                width={200}
-                src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
-              />
-              <Image
-                width={200}
-                src="https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg"
-              />
-            </Image.PreviewGroup>
-            <br />
-            <Row>
-              <Tooltip title="Comment">
-                <Button
-                  className={classes.commentButton}
-                  shape="circle"
-                  icon={<MessageOutlined />}
-                ></Button>
-              </Tooltip>
-              <Tooltip title="Repost">
-                <Button
-                  className={classes.repostButton}
-                  shape="circle"
-                  icon={<RetweetOutlined />}
-                ></Button>
-              </Tooltip>
-              <Tooltip title="Like">
-                <Button
-                  className={classes.likeButton}
-                  shape="circle"
-                  icon={
-                    like ? (
-                      <HeartFilled style={{ color: 'red' }} />
-                    ) : (
-                      <HeartOutlined />
-                    )
-                  }
-                  onClick={() => {
-                    setLike(!like);
-                  }}
-                ></Button>
-              </Tooltip>
-            </Row>
-          </Col>
-        </Row>
-        <hr
-          style={{
-            margin: '2vh 0 0 0',
-            border: '1px solid RGB(238,238,238)',
-          }}
-        ></hr>
-      </div>
-    );
-  }
-);
+            <Image
+              width={200}
+              src="https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg"
+            />
+          </Image.PreviewGroup>
+          <br />
+          <Row>
+            <Tooltip title="Comment">
+              <Button
+                className={classes.commentButton}
+                shape="circle"
+                icon={<MessageOutlined />}
+              ></Button>
+            </Tooltip>
+            <Tooltip title="Repost">
+              <Button
+                className={classes.repostButton}
+                shape="circle"
+                icon={<RetweetOutlined />}
+              ></Button>
+            </Tooltip>
+            <Tooltip title="Like">
+              <Button
+                className={classes.likeButton}
+                shape="circle"
+                icon={
+                  like ? (
+                    <HeartFilled style={{ color: 'red' }} />
+                  ) : (
+                    <HeartOutlined />
+                  )
+                }
+                onClick={() => {
+                  setLike(!like);
+                }}
+              ></Button>
+            </Tooltip>
+          </Row>
+        </Col>
+      </Row>
+      <hr
+        style={{
+          margin: '2vh 0 0 0',
+          border: '1px solid RGB(238,238,238)',
+        }}
+      ></hr>
+    </div>
+  );
+});
 
 export default Post;

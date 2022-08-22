@@ -63,7 +63,6 @@ const Landing = () => {
   const toggleSignUp = () => {
     setVisibleSignUp(!visibleSignUp);
   };
-  console.log(visibleSignUp);
 
   return (
     <div>

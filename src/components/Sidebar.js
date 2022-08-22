@@ -30,6 +30,7 @@ const Sidebar = (props) => {
         sm={3}
         xl={{ span: collapsed ? 2 : 3 }}
         // flex={collapsed ? '80px' : '200px'}
+        style={{ zIndex: '100' }}
       >
         <Menu
           defaultSelectedKeys={[window.location.pathname.slice(1)]}
@@ -37,13 +38,12 @@ const Sidebar = (props) => {
           inlineCollapsed={collapsed}
           onClick={handleClick}
           style={{
-            height: '98vh',
+            height: '100vh',
             fontSize: '1.2em',
             position: 'relative',
             top: '2vh',
             minWidth: collapsed ? '100%' : '200px',
             width: '100%',
-            zIndex: '100',
           }}
         >
           <Button
@@ -51,7 +51,6 @@ const Sidebar = (props) => {
             onClick={toggleCollapsed}
             style={{
               position: 'relative',
-              zIndex: '100',
               margin: '0 0 5% 0',
             }}
           >
@@ -87,6 +86,23 @@ const Sidebar = (props) => {
           >
             Profile
           </Menu.Item>
+          {!collapsed && (
+            <Button
+              type="primary"
+              style={{
+                display: 'flex',
+                position: 'relative',
+                top: '50%',
+                margin: 'auto',
+              }}
+              onClick={() => {
+                localStorage.removeItem('email');
+                navigate('/');
+              }}
+            >
+              <span style={{ margin: '0 auto 0 auto' }}>Logout</span>
+            </Button>
+          )}
         </Menu>
       </Col>
     </>
