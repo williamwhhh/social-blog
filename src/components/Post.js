@@ -60,17 +60,22 @@ const Post = forwardRef(({ name, username, text, images, avatar }, ref) => {
           </h3>
           <p style={{ width: '95%' }}>{text}</p>
           <Image.PreviewGroup>
-            {images.map((image) => (
-              <Image width={200} src={require(`../images/${image}`)} />
-            ))}
-            <Image
+            {images.map((image) => {
+              return (
+                <Image
+                  width={200}
+                  src={`http://localhost:3001/images/${image}`}
+                />
+              );
+            })}
+            {/* <Image
               width={200}
               src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
             />
             <Image
               width={200}
               src="https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg"
-            />
+            /> */}
           </Image.PreviewGroup>
           <br />
           <Row>

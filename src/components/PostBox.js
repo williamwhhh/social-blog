@@ -19,6 +19,7 @@ import {
 } from '@ant-design/icons';
 import { useState } from 'react';
 import Picker from 'emoji-picker-react';
+import { addPost } from '../utils/APIs';
 
 const useStyles = createUseStyles({
   avatar: {
@@ -57,14 +58,7 @@ const PostBox = (props) => {
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState([
-    {
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-  ]);
+  const [fileList, setFileList] = useState([]);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [location, setLocation] = useState(null);
 
@@ -73,15 +67,35 @@ const PostBox = (props) => {
   };
 
   const handlePost = () => {
-    // setPosting(true);
-    // console.log(post);
-    props.addPost({
-      name: 'Australia',
-      username: 'Australia',
-      text: post,
-      images: ['kangaroo.jpeg', 'sharkBay.jpeg'],
-      avatar: 'kangaroo.jpeg',
-    });
+    let user = JSON.parse(localStorage.getItem('user'));
+    let formData = new FormData();
+    for (let i = 0; i < fileList.length; i++) {
+      formData.append('images[]', fileList[i].originFileObj);
+    }
+
+    formData.append('username', user.username);
+    formData.append('name', user.name);
+    formData.append('text', post);
+    formData.append('location', location);
+    console.log(formData);
+    addPost(formData).then(
+      (res) => {
+        console.log(res);
+        if (res.post) {
+          window.location.reload();
+        }
+      },
+      (err) => {
+        console.log(err.message);
+      }
+    );
+    // props.addPost({
+    //   name: 'Australia',
+    //   username: 'Australia',
+    //   text: post,
+    //   images: ['kangaroo.jpeg', 'sharkBay.jpeg'],
+    //   avatar: 'kangaroo.jpeg',
+    // });
   };
 
   const uploadButton = (
@@ -144,8 +158,8 @@ const PostBox = (props) => {
           />
         </Col>
         <Col xs={18} sm={{ span: 20, offset: 1 }}>
-          <Form name="register" onFinish={handlePost}>
-            <Form.Item name="post" className={classes.postInput}>
+          <Form name="post" onFinish={handlePost}>
+            <Form.Item name="text" className={classes.postInput}>
               <Input.TextArea
                 placeholder="What's happening?"
                 bordered={false}
@@ -171,11 +185,12 @@ const PostBox = (props) => {
             )}
             {showUpload && (
               <Upload
-                action=""
+                action="http://localhost:3001/posts/addPost"
                 listType="picture-card"
                 fileList={fileList}
                 onPreview={handlePreview}
                 onChange={handleUpload}
+                beforeUpload={() => false}
               >
                 {uploadButton}
               </Upload>

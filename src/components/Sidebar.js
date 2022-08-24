@@ -14,7 +14,7 @@ import {
 
 const Sidebar = (props) => {
   // const options = ['home', 'content', 'journal', 'classroom'];
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
   const handleClick = (e) => {
     navigate(`/${e.key}`);

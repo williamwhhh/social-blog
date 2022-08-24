@@ -1,38 +1,55 @@
 import { createUseStyles } from 'react-jss';
-import { useState, forwardRef } from 'react';
+import { useState, forwardRef, useEffect } from 'react';
 import { Row, Col, Input, Image } from 'antd';
 import Sidebar from './Sidebar';
 import PostBox from './PostBox';
 import Post from './Post';
 import InfoBar from './InfoBar';
 import FlipMove from 'react-flip-move';
+import { getAllPosts } from '../utils/APIs';
 
 const useStyles = createUseStyles({});
 
 const Home = () => {
   const classes = useStyles();
   const [posts, setPosts] = useState([
-    {
-      key: '0001',
-      name: 'Australia',
-      username: 'Australia',
-      text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative). #seeaustralia #thisiswa #australiascoralcoast #holidayherethisyear",
-      images: ['sharkBay.jpeg'],
-      avatar: 'kangaroo.jpeg',
-    },
-    {
-      key: '0002',
-      name: 'Australia',
-      username: 'Australia',
-      text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative).",
-      images: ['kangaroo.jpeg'],
-      avatar: 'kangaroo.jpeg',
-    },
+    // {
+    //   key: '0001',
+    //   name: 'Australia',
+    //   username: 'Australia',
+    //   text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative). #seeaustralia #thisiswa #australiascoralcoast #holidayherethisyear",
+    //   images: ['sharkBay.jpeg'],
+    //   avatar: 'kangaroo.jpeg',
+    // },
+    // {
+    //   key: '0002',
+    //   name: 'Australia',
+    //   username: 'Australia',
+    //   text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative).",
+    //   images: ['kangaroo.jpeg'],
+    //   avatar: 'kangaroo.jpeg',
+    // },
   ]);
 
-  const addPost = (post) => {
-    setPosts([post, ...posts]);
+  const refreshPosts = () => {
+    setPosts([...posts]);
   };
+
+  useEffect(() => {
+    getAllPosts().then(
+      (res) => {
+        if (res.posts) {
+          // console.log(res);
+          setPosts(res.posts.reverse());
+        } else {
+          console.log(res.messages);
+        }
+      },
+      (err) => {
+        console.log(err.messages);
+      }
+    );
+  }, []);
 
   return (
     <Row>
@@ -43,7 +60,7 @@ const Home = () => {
             <b>Home</b>
           </h2>
         </Row>
-        <PostBox addPost={addPost} />
+        <PostBox refreshPosts={refreshPosts} />
         <hr
           style={{
             border: '1px solid RGB(238,238,238)',
@@ -52,10 +69,10 @@ const Home = () => {
         <FlipMove>
           {posts.map((post) => (
             <Post
-              key={post.key}
+              key={post._id}
               name={post.name}
               username={post.username}
-              avatar={post.avatar}
+              avatar="kangaroo.jpeg"
               text={post.text}
               images={post.images}
             />

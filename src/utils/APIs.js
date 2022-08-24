@@ -15,3 +15,18 @@ export const login = (details) =>
     },
     body: JSON.stringify(details),
   }).then((res) => res.json());
+
+export const addPost = (details) =>
+  fetch('http://localhost:3001/posts/addPost', {
+    method: 'POST',
+    headers: {},
+    body: details,
+  }).then((res) => res.json());
+
+export const getAllPosts = () =>
+  fetch('http://localhost:3001/posts/getAllPosts', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then((res) => res.json());

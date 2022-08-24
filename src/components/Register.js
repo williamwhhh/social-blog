@@ -42,7 +42,7 @@ const Register = (props) => {
     setLoading(true);
     signUp(values)
       .then((res) => {
-        console.log(res);
+        alert('Signed up successfully!');
       })
       .catch((e) => {
         alert(e.message);

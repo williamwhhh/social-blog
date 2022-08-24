@@ -30,9 +30,9 @@ const Login = (props) => {
     login(values).then(
       (res) => {
         console.log(res);
-        if (res.email) {
+        if (res.user) {
           setLoading(false);
-          localStorage.setItem('email', res.email);
+          localStorage.setItem('user', JSON.stringify(res.user));
           navigate('/home');
         } else {
           setLoading(false);
