@@ -42,7 +42,6 @@ const Post = forwardRef(({ name, username, text, images, avatar }, ref) => {
   const classes = useStyles();
   const [like, setLike] = useState(false);
   const handleClick = () => {};
-
   return (
     <div ref={ref} onClick={handleClick} className={classes.container}>
       <Row>
@@ -50,8 +49,8 @@ const Post = forwardRef(({ name, username, text, images, avatar }, ref) => {
           <Avatar
             className={classes.avatar}
             size={55}
-            src={avatar !== '' ? require(`../images/${avatar}`) : ''}
             icon={<UserOutlined />}
+            src={avatar ? `http://localhost:3001/images/${avatar}` : null}
           />
         </Col>
         <Col xs={{ span: 17, offset: 1 }} sm={20}>
@@ -68,14 +67,6 @@ const Post = forwardRef(({ name, username, text, images, avatar }, ref) => {
                 />
               );
             })}
-            {/* <Image
-              width={200}
-              src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
-            />
-            <Image
-              width={200}
-              src="https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg"
-            /> */}
           </Image.PreviewGroup>
           <br />
           <Row>

@@ -30,3 +30,10 @@ export const getAllPosts = () =>
       'Content-Type': 'application/json',
     },
   }).then((res) => res.json());
+
+export const editAvatar = (details) =>
+  fetch('http://localhost:3001/users/editAvatar', {
+    method: 'POST',
+    headers: {},
+    body: details,
+  }).then((res) => res.json());

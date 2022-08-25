@@ -62,13 +62,12 @@ const PostBox = (props) => {
   const [fileList, setFileList] = useState([]);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [location, setLocation] = useState(null);
-
+  const user = JSON.parse(localStorage.getItem('user'));
   const onEmojiClick = (event, emojiObject) => {
     setPost(post.concat(emojiObject.emoji));
   };
 
   const handlePost = () => {
-    let user = JSON.parse(localStorage.getItem('user'));
     let formData = new FormData();
     for (let i = 0; i < fileList.length; i++) {
       formData.append('images[]', fileList[i].originFileObj);
@@ -159,6 +158,9 @@ const PostBox = (props) => {
             className={classes.avatar}
             size={55}
             icon={<UserOutlined />}
+            src={
+              user.avatar ? `http://localhost:3001/images/${user.avatar}` : null
+            }
           />
         </Col>
         <Col xs={18} sm={{ span: 20, offset: 1 }}>
@@ -189,7 +191,6 @@ const PostBox = (props) => {
             )}
             {showUpload && (
               <Upload
-                action="http://localhost:3001/posts/addPost"
                 listType="picture-card"
                 fileList={fileList}
                 onPreview={handlePreview}

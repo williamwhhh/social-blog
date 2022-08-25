@@ -51,7 +51,7 @@ const Home = () => {
               key={post._id}
               name={post.name}
               username={post.username}
-              avatar="kangaroo.jpeg"
+              avatar={post.avatar}
               text={post.text}
               images={post.images}
             />

@@ -1,5 +1,5 @@
 import { createUseStyles } from 'react-jss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Row,
   Col,
@@ -18,6 +18,7 @@ import Sidebar from './Sidebar';
 import InfoBar from './InfoBar';
 import Post from './Post';
 import FlipMove from 'react-flip-move';
+import { getAllPosts, editAvatar } from '../utils/APIs';
 
 const useStyles = createUseStyles({
   avatar: {
@@ -41,41 +42,52 @@ const { TabPane } = Tabs;
 
 const Profile = () => {
   const classes = useStyles();
-  const [user, setUser] = useState({
-    name: 'Australia',
-    username: 'Australia',
-    following: [],
-    followers: [],
-    avatar: 'kangaroo.jpeg',
-    dateOfBirth: '2022-07-06',
-    posts: [
-      {
-        name: 'Australia',
-        username: 'Australia',
-        text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative). #seeaustralia #thisiswa #australiascoralcoast #holidayherethisyear",
-        images: ['sharkBay.jpeg'],
-        avatar: 'kangaroo.jpeg',
-      },
-      {
-        name: 'Australia',
-        username: 'Australia',
-        text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative).",
-        images: ['kangaroo.jpeg'],
-        avatar: 'kangaroo.jpeg',
-      },
-    ],
-  });
-
+  const [posts, setPosts] = useState([]);
   const [editProfile, setEditProfile] = useState(false);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+
+  useEffect(() => {
+    getAllPosts().then(
+      (res) => {
+        if (res.posts) {
+          console.log(res);
+          setPosts(res.posts.reverse());
+        } else {
+          console.log(res.messages);
+        }
+      },
+      (err) => {
+        console.log(err.messages);
+      }
+    );
+  }, [user]);
 
   const onFinish = (values) => {
     setEditProfile(false);
     console.log(values);
-    setUser({ ...user, name: values.name, dateOfBirth: values.DOB });
+    // setUser({ ...user, name: values.name, dateOfBirth: values.DOB });
   };
 
   const handleCancel = () => {
     setEditProfile(false);
+  };
+
+  const handleUpload = (info) => {
+    let formData = new FormData();
+    formData.append('email', user.email);
+    formData.append('avatar', info.file);
+    editAvatar(formData).then(
+      (res) => {
+        localStorage.setItem(
+          'user',
+          JSON.stringify({ ...user, avatar: res.avatar })
+        );
+        setUser({ ...user, avatar: res.avatar });
+      },
+      (err) => {
+        console.log(err.message);
+      }
+    );
   };
 
   return (
@@ -91,7 +103,9 @@ const Profile = () => {
           <Avatar
             className={classes.avatar}
             size={120}
-            src={require(`../images/${user.avatar}`)}
+            src={
+              user.avatar ? `http://localhost:3001/images/${user.avatar}` : null
+            }
             icon={<UserOutlined />}
           />
         </Row>
@@ -126,12 +140,19 @@ const Profile = () => {
           >
             <Avatar
               size={100}
+              icon={<UserOutlined />}
               src={
-                user.avatar !== '' ? require(`../images/${user.avatar}`) : ''
+                user.avatar
+                  ? `http://localhost:3001/images/${user.avatar}`
+                  : null
               }
               style={{ marginLeft: '20%' }}
             ></Avatar>
-            <Upload showUploadList={false}>
+            <Upload
+              showUploadList={false}
+              beforeUpload={() => false}
+              onChange={handleUpload}
+            >
               <Button style={{ marginLeft: '20%' }}>Change Avatar</Button>
             </Upload>
             <Form
@@ -159,7 +180,7 @@ const Profile = () => {
                 name="DOB"
                 label="Date of Birth"
                 style={{ marginLeft: '10%' }}
-                initialValue={moment(user.dateOfBirth)}
+                initialValue={moment(user.DOB)}
               >
                 <DatePicker style={{ width: '50%' }} />
               </Form.Item>
@@ -168,10 +189,10 @@ const Profile = () => {
         </Row>
         <Row>
           <Button size="small" style={{ margin: '2% 0 0 4%' }} type="link">
-            {user.following.length} Following
+            {0} Following
           </Button>
           <Button size="small" style={{ margin: '2% 0 0 0' }} type="link">
-            {user.following.length} Followers
+            {0} Followers
           </Button>
         </Row>
         <Row>
@@ -184,12 +205,11 @@ const Profile = () => {
           >
             <TabPane tab={<b>Posts</b>} key="1">
               <FlipMove>
-                {user.posts.map((post) => (
+                {posts.map((post) => (
                   <Post
-                    key={post.text}
+                    key={post._id}
                     name={post.name}
                     username={post.username}
-                    verified={post.verified}
                     text={post.text}
                     avatar={post.avatar}
                     images={post.images}
