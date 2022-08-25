@@ -12,28 +12,7 @@ const useStyles = createUseStyles({});
 
 const Home = () => {
   const classes = useStyles();
-  const [posts, setPosts] = useState([
-    // {
-    //   key: '0001',
-    //   name: 'Australia',
-    //   username: 'Australia',
-    //   text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative). #seeaustralia #thisiswa #australiascoralcoast #holidayherethisyear",
-    //   images: ['sharkBay.jpeg'],
-    //   avatar: 'kangaroo.jpeg',
-    // },
-    // {
-    //   key: '0002',
-    //   name: 'Australia',
-    //   username: 'Australia',
-    //   text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative).",
-    //   images: ['kangaroo.jpeg'],
-    //   avatar: 'kangaroo.jpeg',
-    // },
-  ]);
-
-  const refreshPosts = () => {
-    setPosts([...posts]);
-  };
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     getAllPosts().then(
@@ -60,7 +39,7 @@ const Home = () => {
             <b>Home</b>
           </h2>
         </Row>
-        <PostBox refreshPosts={refreshPosts} />
+        <PostBox setPosts={setPosts} />
         <hr
           style={{
             border: '1px solid RGB(238,238,238)',

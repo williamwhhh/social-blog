@@ -20,6 +20,7 @@ import {
 import { useState } from 'react';
 import Picker from 'emoji-picker-react';
 import { addPost } from '../utils/APIs';
+import { getAllPosts } from '../utils/APIs';
 
 const useStyles = createUseStyles({
   avatar: {
@@ -77,25 +78,28 @@ const PostBox = (props) => {
     formData.append('name', user.name);
     formData.append('text', post);
     formData.append('location', location);
-    console.log(formData);
     addPost(formData).then(
       (res) => {
         console.log(res);
         if (res.post) {
-          window.location.reload();
+          getAllPosts().then(
+            (res) => {
+              if (res.posts) {
+                props.setPosts(res.posts.reverse());
+              } else {
+                console.log(res.messages);
+              }
+            },
+            (err) => {
+              console.log(err.messages);
+            }
+          );
         }
       },
       (err) => {
         console.log(err.message);
       }
     );
-    // props.addPost({
-    //   name: 'Australia',
-    //   username: 'Australia',
-    //   text: post,
-    //   images: ['kangaroo.jpeg', 'sharkBay.jpeg'],
-    //   avatar: 'kangaroo.jpeg',
-    // });
   };
 
   const uploadButton = (
