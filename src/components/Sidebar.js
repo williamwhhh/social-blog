@@ -38,10 +38,8 @@ const Sidebar = (props) => {
           inlineCollapsed={collapsed}
           onClick={handleClick}
           style={{
-            height: '100vh',
+            height: '100%',
             fontSize: '1.2em',
-            position: 'relative',
-            top: '2vh',
             minWidth: collapsed ? '100%' : '200px',
             width: '100%',
           }}
@@ -51,7 +49,7 @@ const Sidebar = (props) => {
             onClick={toggleCollapsed}
             style={{
               position: 'relative',
-              margin: '0 0 5% 0',
+              margin: '2vh 0 5% 0',
             }}
           >
             {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
