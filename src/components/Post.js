@@ -63,6 +63,7 @@ const Post = forwardRef(({ name, username, text, images, avatar }, ref) => {
               return (
                 <Image
                   width={200}
+                  style={{ borderRadius: '20px' }}
                   src={`http://localhost:3001/images/${image}`}
                 />
               );

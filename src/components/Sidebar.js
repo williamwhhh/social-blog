@@ -94,7 +94,7 @@ const Sidebar = (props) => {
                 margin: 'auto',
               }}
               onClick={() => {
-                localStorage.removeItem('email');
+                localStorage.removeItem('user');
                 navigate('/');
               }}
             >

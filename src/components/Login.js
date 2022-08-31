@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../utils/APIs';
 
@@ -33,10 +33,12 @@ const Login = (props) => {
         if (res.user) {
           setLoading(false);
           localStorage.setItem('user', JSON.stringify(res.user));
+          message.success('Logged in');
           navigate('/home');
         } else {
           setLoading(false);
-          alert('incorrect email address or password');
+          message.error('Incorrect email address or password');
+          // alert('incorrect email address or password');
         }
       },
       (err) => {
