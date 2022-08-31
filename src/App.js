@@ -1,6 +1,7 @@
 import './App.css';
 import 'antd/dist/antd.min.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Button, Result } from 'antd';
+import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import Landing from './components/Landing';
 import Home from './components/Home';
 import Notification from './components/Notification';
@@ -59,7 +60,21 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="*" element={<h1>Page not found</h1>} />
+        <Route
+          path="*"
+          element={
+            <Result
+              status="404"
+              title="404"
+              subTitle="Sorry, the page you visited does not exist."
+              extra={
+                <Link to="/">
+                  <Button type="primary">Back Home</Button>
+                </Link>
+              }
+            />
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
