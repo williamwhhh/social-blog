@@ -38,7 +38,7 @@ const Sidebar = (props) => {
           inlineCollapsed={collapsed}
           onClick={handleClick}
           style={{
-            height: '100%',
+            height: '100vh',
             fontSize: '1.2em',
             minWidth: collapsed ? '100%' : '200px',
             width: '100%',

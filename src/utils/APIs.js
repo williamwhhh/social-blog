@@ -31,6 +31,13 @@ export const getAllPosts = () =>
     },
   }).then((res) => res.json());
 
+export const bookmark = (details) =>
+  fetch('http://localhost:3001/posts/bookmark', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(details),
+  }).then((res) => res.json());
+
 export const editAvatar = (details) =>
   fetch('http://localhost:3001/users/editAvatar', {
     method: 'POST',

@@ -1,13 +1,27 @@
 import React, { forwardRef, useState } from 'react';
 import { createUseStyles } from 'react-jss';
-import { Avatar, Row, Col, Form, Input, Button, Image, Tooltip } from 'antd';
+import {
+  Avatar,
+  Row,
+  Col,
+  Button,
+  Image,
+  Tooltip,
+  Dropdown,
+  Menu,
+  message,
+} from 'antd';
 import {
   MessageOutlined,
   HeartOutlined,
   HeartFilled,
   RetweetOutlined,
   UserOutlined,
+  ShareAltOutlined,
+  BookOutlined,
+  LinkOutlined,
 } from '@ant-design/icons';
+import { bookmark } from '../utils/APIs';
 
 const useStyles = createUseStyles({
   avatar: {
@@ -38,9 +52,49 @@ const useStyles = createUseStyles({
   },
 });
 
-const Post = forwardRef(({ name, username, text, images, avatar }, ref) => {
+const Post = forwardRef(({ id, name, username, text, images, avatar }, ref) => {
   const classes = useStyles();
   const [like, setLike] = useState(false);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+  const handleMenuClick = (e) => {
+    if (e.key === '1') {
+      bookmark({ email: user.email, postId: id }).then(
+        (res) => {
+          setUser({ ...user, bookmarks: res.bookmarks });
+          localStorage.setItem(
+            'user',
+            JSON.stringify({ ...user, bookmarks: res.bookmarks })
+          );
+          message.success(res.message);
+        },
+        (err) => message.error(err.message)
+      );
+    }
+  };
+  const menu = (
+    <Menu
+      onClick={handleMenuClick}
+      items={[
+        {
+          label: user.bookmarks.includes(id)
+            ? 'Remove from Bookmarks'
+            : 'Bookmark',
+          key: '1',
+          icon: <BookOutlined />,
+        },
+        {
+          label: 'Copy link to this post',
+          key: '2',
+          icon: <LinkOutlined />,
+        },
+        {
+          label: 'Send via messaging',
+          key: '3',
+          icon: <MessageOutlined />,
+        },
+      ]}
+    />
+  );
   const handleClick = () => {};
   return (
     <div ref={ref} onClick={handleClick} className={classes.container}>
@@ -100,6 +154,16 @@ const Post = forwardRef(({ name, username, text, images, avatar }, ref) => {
                   setLike(!like);
                 }}
               ></Button>
+            </Tooltip>
+            <Tooltip title="Share">
+              <Dropdown overlay={menu} trigger={['click']}>
+                <Button
+                  className={classes.likeButton}
+                  shape="circle"
+                  icon={<ShareAltOutlined />}
+                  onClick={() => {}}
+                ></Button>
+              </Dropdown>
             </Tooltip>
           </Row>
         </Col>

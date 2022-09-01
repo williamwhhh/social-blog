@@ -18,7 +18,6 @@ const Home = () => {
     getAllPosts().then(
       (res) => {
         if (res.posts) {
-          // console.log(res);
           setPosts(res.posts.reverse());
         } else {
           console.log(res.messages);
@@ -49,6 +48,7 @@ const Home = () => {
           {posts.map((post) => (
             <Post
               key={post._id}
+              id={post._id}
               name={post.name}
               username={post.username}
               avatar={post.avatar}
