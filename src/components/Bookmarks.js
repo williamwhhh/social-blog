@@ -1,9 +1,11 @@
+import { useEffect, useState } from 'react';
 import { createUseStyles } from 'react-jss';
-import { useState } from 'react';
-import { Row, Col, Tabs } from 'antd';
+import { Row, Col, message } from 'antd';
 import Sidebar from './Sidebar';
 import InfoBar from './InfoBar';
 import FlipMove from 'react-flip-move';
+import Post from './Post';
+import { bookmark, getBookmarks } from '../utils/APIs';
 
 const useStyles = createUseStyles({
   pageHeading: {
@@ -11,37 +13,21 @@ const useStyles = createUseStyles({
   },
 });
 
-const { TabPane } = Tabs;
-
 const onSearch = () => {};
 
 const Bookmarks = () => {
   const classes = useStyles();
-  const [user, setUser] = useState({
-    name: 'Australia',
-    username: 'Australia',
-    following: [],
-    followers: [],
-    avatar: 'kangaroo.jpeg',
-    dateOfBirth: '2022-07-06',
-    posts: [
-      {
-        displayName: 'Australia',
-        username: 'Australia',
-        text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative). #seeaustralia #thisiswa #australiascoralcoast #holidayherethisyear",
-        images: ['sharkBay.jpeg'],
-        avatar: 'kangaroo.jpeg',
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+  const [bookmarks, setBookmarks] = useState([]);
+  useEffect(() => {
+    getBookmarks({ email: user.email }).then(
+      (res) => {
+        setBookmarks(res.bookmarks.reverse());
+        console.log(res);
       },
-      {
-        displayName: 'Australia',
-        username: 'Australia',
-        text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative).",
-        images: ['kangaroo.jpeg'],
-        avatar: 'kangaroo.jpeg',
-      },
-    ],
-  });
-
+      (err) => message.error(err.message)
+    );
+  }, []);
   return (
     <Row>
       <Sidebar />
@@ -49,6 +35,19 @@ const Bookmarks = () => {
         <h2 className={classes.pageHeading}>
           <b>Bookmarks</b>
         </h2>
+        <FlipMove>
+          {bookmarks.map((post) => (
+            <Post
+              key={post._id}
+              id={post._id}
+              name={post.name}
+              username={post.username}
+              avatar={post.avatar}
+              text={post.text}
+              images={post.images}
+            />
+          ))}
+        </FlipMove>
         <h2 style={{ margin: '20% 0 0 0', textAlign: 'center' }}>
           <b>Save posts for later</b>
         </h2>

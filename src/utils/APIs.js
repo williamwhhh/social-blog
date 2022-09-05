@@ -38,6 +38,15 @@ export const bookmark = (details) =>
     body: JSON.stringify(details),
   }).then((res) => res.json());
 
+export const getBookmarks = (details) =>
+  fetch('http://localhost:3001/posts/getBookmarks', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      email: details.email,
+    },
+  }).then((res) => res.json());
+
 export const editAvatar = (details) =>
   fetch('http://localhost:3001/users/editAvatar', {
     method: 'POST',

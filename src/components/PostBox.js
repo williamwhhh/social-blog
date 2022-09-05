@@ -72,11 +72,11 @@ const PostBox = (props) => {
     for (let i = 0; i < fileList.length; i++) {
       formData.append('images[]', fileList[i].originFileObj);
     }
-
     formData.append('username', user.username);
     formData.append('name', user.name);
     formData.append('text', post);
     formData.append('location', location);
+    formData.append('avatar', user.avatar);
     addPost(formData).then(
       (res) => {
         console.log(res);
