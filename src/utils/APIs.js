@@ -47,6 +47,15 @@ export const getBookmarks = (details) =>
     },
   }).then((res) => res.json());
 
+export const removeBookmark = (details) =>
+  fetch('http://localhost:3001/posts/removeBookmark', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(details),
+  }).then((res) => res.json());
+
 export const editAvatar = (details) =>
   fetch('http://localhost:3001/users/editAvatar', {
     method: 'POST',

@@ -5,7 +5,7 @@ import Sidebar from './Sidebar';
 import InfoBar from './InfoBar';
 import FlipMove from 'react-flip-move';
 import Post from './Post';
-import { bookmark, getBookmarks } from '../utils/APIs';
+import { getBookmarks } from '../utils/APIs';
 
 const useStyles = createUseStyles({
   pageHeading: {
@@ -17,13 +17,13 @@ const onSearch = () => {};
 
 const Bookmarks = () => {
   const classes = useStyles();
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
   const [bookmarks, setBookmarks] = useState([]);
   useEffect(() => {
-    getBookmarks({ email: user.email }).then(
+    getBookmarks({
+      email: JSON.parse(localStorage.getItem('user')).email,
+    }).then(
       (res) => {
         setBookmarks(res.bookmarks.reverse());
-        console.log(res);
       },
       (err) => message.error(err.message)
     );
@@ -45,6 +45,7 @@ const Bookmarks = () => {
               avatar={post.avatar}
               text={post.text}
               images={post.images}
+              setBookmarks={setBookmarks}
             />
           ))}
         </FlipMove>
