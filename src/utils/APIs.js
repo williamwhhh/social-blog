@@ -56,8 +56,8 @@ export const removeBookmark = (details) =>
     body: JSON.stringify(details),
   }).then((res) => res.json());
 
-export const editAvatar = (details) =>
-  fetch('http://localhost:3001/users/editAvatar', {
+export const editProfile = (details) =>
+  fetch('http://localhost:3001/users/editProfile', {
     method: 'POST',
     headers: {},
     body: details,

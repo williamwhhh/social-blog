@@ -11,6 +11,7 @@ import {
   Upload,
   Form,
   DatePicker,
+  message,
 } from 'antd';
 import moment from 'moment';
 import { UserOutlined } from '@ant-design/icons';
@@ -18,7 +19,7 @@ import Sidebar from './Sidebar';
 import InfoBar from './InfoBar';
 import Post from './Post';
 import FlipMove from 'react-flip-move';
-import { getAllPosts, editAvatar } from '../utils/APIs';
+import { getAllPosts, editProfile } from '../utils/APIs';
 
 const useStyles = createUseStyles({
   avatar: {
@@ -43,8 +44,9 @@ const { TabPane } = Tabs;
 const Profile = () => {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
-  const [editProfile, setEditProfile] = useState(false);
+  const [editingProfile, setEditingProfile] = useState(false);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+  const [avatarFile, setAvatarFile] = useState(null);
 
   useEffect(() => {
     getAllPosts().then(
@@ -62,31 +64,28 @@ const Profile = () => {
   }, [user]);
 
   const onFinish = (values) => {
-    setEditProfile(false);
+    setEditingProfile(false);
     console.log(values);
-    // setUser({ ...user, name: values.name, dateOfBirth: values.DOB });
+    let formData = new FormData();
+    formData.append('email', user.email);
+    formData.append('name', values.name);
+    formData.append('DOB', values.DOB);
+    if (avatarFile) {
+      formData.append('avatar', avatarFile);
+    }
+    editProfile(formData).then(
+      (res) => {
+        localStorage.setItem('user', JSON.stringify({ ...user, ...res }));
+        setUser({ ...user, ...res });
+      },
+      (err) => {
+        message.error(err.message);
+      }
+    );
   };
 
   const handleCancel = () => {
-    setEditProfile(false);
-  };
-
-  const handleUpload = (info) => {
-    let formData = new FormData();
-    formData.append('email', user.email);
-    formData.append('avatar', info.file);
-    editAvatar(formData).then(
-      (res) => {
-        localStorage.setItem(
-          'user',
-          JSON.stringify({ ...user, avatar: res.avatar })
-        );
-        setUser({ ...user, avatar: res.avatar });
-      },
-      (err) => {
-        console.log(err.message);
-      }
-    );
+    setEditingProfile(false);
   };
 
   return (
@@ -119,13 +118,13 @@ const Profile = () => {
             style={{ position: 'relative', top: '3vh', left: '55%' }}
             type="primary"
             shape="round"
-            onClick={() => setEditProfile(!editProfile)}
+            onClick={() => setEditingProfile(!editingProfile)}
           >
             Edit Profile
           </Button>
           <Modal
             title="Edit Profile"
-            visible={editProfile}
+            visible={editingProfile}
             // onOk={handleOk}
             okButtonProps={{
               form: 'editProfile',
@@ -141,16 +140,16 @@ const Profile = () => {
               size={100}
               icon={<UserOutlined />}
               src={
-                user.avatar
-                  ? `http://localhost:3001/images/${user.avatar}`
-                  : null
+                avatarFile
+                  ? URL.createObjectURL(avatarFile)
+                  : `http://localhost:3001/images/${user.avatar}`
               }
               style={{ marginLeft: '20%' }}
             ></Avatar>
             <Upload
               showUploadList={false}
               beforeUpload={() => false}
-              onChange={handleUpload}
+              onChange={(info) => setAvatarFile(info.file)}
             >
               <Button style={{ marginLeft: '20%' }}>Change Avatar</Button>
             </Upload>

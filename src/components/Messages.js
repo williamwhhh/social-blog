@@ -51,10 +51,6 @@ const Contact = (props) => {
     message.success('Deleted');
   };
 
-  const cancel = (e) => {
-    console.log(e);
-    message.error('Cancelled');
-  };
   return (
     <Row
       className={classes.contactContainer}
@@ -89,7 +85,7 @@ const Contact = (props) => {
           <Popconfirm
             title="Are you sure to delete this?"
             onConfirm={confirm}
-            onCancel={cancel}
+            onCancel={null}
             okText="Yes"
             cancelText="No"
           >
