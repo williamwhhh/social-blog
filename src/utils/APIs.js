@@ -23,6 +23,13 @@ export const addPost = (details) =>
     body: details,
   }).then((res) => res.json());
 
+export const removePost = (details) =>
+  fetch('http://localhost:3001/posts/removePost', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(details),
+  }).then((res) => res.json());
+
 export const getAllPosts = () =>
   fetch('http://localhost:3001/posts/getAllPosts', {
     method: 'GET',

@@ -20,8 +20,16 @@ import {
   ShareAltOutlined,
   BookOutlined,
   LinkOutlined,
+  EllipsisOutlined,
+  FrownOutlined,
+  DeleteOutlined,
 } from '@ant-design/icons';
-import { bookmark, removeBookmark, getBookmarks } from '../utils/APIs';
+import {
+  bookmark,
+  removeBookmark,
+  getBookmarks,
+  removePost,
+} from '../utils/APIs';
 
 const useStyles = createUseStyles({
   avatar: {
@@ -57,6 +65,7 @@ const Post = forwardRef(
     const classes = useStyles();
     const [like, setLike] = useState(false);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+
     const handleMenuClick = (e) => {
       if (e.key === '1') {
         if (user.bookmarks.includes(id)) {
@@ -93,6 +102,20 @@ const Post = forwardRef(
         }
       }
     };
+
+    const handleDotMenuClick = (e) => {
+      if (e.key === '1' && user.username === username) {
+        removePost({ id: id, images: images }).then(
+          (res) => {
+            message.success(res.message);
+          },
+          (err) => {
+            message.error(err.message);
+          }
+        );
+      }
+    };
+
     const menu = (
       <Menu
         onClick={handleMenuClick}
@@ -117,7 +140,30 @@ const Post = forwardRef(
         ]}
       />
     );
+
+    const dotMenu = (
+      <Menu
+        onClick={handleDotMenuClick}
+        items={[
+          {
+            label:
+              user.username === username
+                ? 'Delete this post'
+                : 'Not interested in this post',
+            key: '1',
+            icon:
+              user.username === username ? (
+                <DeleteOutlined />
+              ) : (
+                <FrownOutlined />
+              ),
+          },
+        ]}
+      />
+    );
+
     const handleClick = () => {};
+
     return (
       <div ref={ref} onClick={handleClick} className={classes.container}>
         <Row>
@@ -130,6 +176,20 @@ const Post = forwardRef(
             />
           </Col>
           <Col xs={{ span: 17, offset: 1 }} sm={20}>
+            <Dropdown overlay={dotMenu} trigger={['click']}>
+              <Button
+                type="link"
+                shape="circle"
+                size="large"
+                icon={
+                  <EllipsisOutlined
+                    style={{ fontSize: '25px', color: 'black' }}
+                  />
+                }
+                onClick={() => {}}
+                style={{ float: 'right', marginRight: '5%' }}
+              ></Button>
+            </Dropdown>
             <h3 className={classes.displayName}>
               {name} <span className={classes.username}>@{username}</span>
             </h3>
@@ -192,7 +252,7 @@ const Post = forwardRef(
         </Row>
         <hr
           style={{
-            margin: '2vh 0 0 0',
+            margin: '2vh 0 1vh 0',
             border: '1px solid RGB(238,238,238)',
           }}
         ></hr>

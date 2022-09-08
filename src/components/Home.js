@@ -42,6 +42,7 @@ const Home = () => {
         <hr
           style={{
             border: '1px solid RGB(238,238,238)',
+            margin: '1vh 0 1vh 0',
           }}
         ></hr>
         <FlipMove>

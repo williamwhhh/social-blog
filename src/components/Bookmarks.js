@@ -52,7 +52,7 @@ const Bookmarks = () => {
         <h2 style={{ margin: '20% 0 0 0', textAlign: 'center' }}>
           <b>Save posts for later</b>
         </h2>
-        <h3 style={{ margin: '5% 0 0 0', textAlign: 'center' }}>
+        <h3 style={{ margin: '5% 0 20% 0', textAlign: 'center' }}>
           Don’t let the good ones fly away! Bookmark <br />
           posts to easily find them again in the future.
         </h3>
