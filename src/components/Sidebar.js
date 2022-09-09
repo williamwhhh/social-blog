@@ -90,9 +90,7 @@ const Sidebar = (props) => {
               type="primary"
               style={{
                 display: 'flex',
-                position: 'relative',
-                top: '50%',
-                margin: 'auto',
+                margin: '50vh auto 0 auto',
               }}
               onClick={() => {
                 localStorage.removeItem('user');

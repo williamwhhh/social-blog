@@ -67,7 +67,7 @@ const Profile = () => {
     setEditingProfile(false);
     console.log(values);
     let formData = new FormData();
-    formData.append('email', user.email);
+    formData.append('username', user.username);
     formData.append('name', values.name);
     formData.append('DOB', values.DOB);
     if (avatarFile) {
@@ -77,6 +77,8 @@ const Profile = () => {
       (res) => {
         localStorage.setItem('user', JSON.stringify({ ...user, ...res }));
         setUser({ ...user, ...res });
+        setAvatarFile(null);
+        message.success(res.message);
       },
       (err) => {
         message.error(err.message);
@@ -115,13 +117,14 @@ const Profile = () => {
             </span>
           </h2>
           <Button
-            style={{ position: 'relative', top: '3vh', left: '55%' }}
+            style={{ position: 'absolute', right: '10%', marginTop: '2%' }}
             type="primary"
             shape="round"
             onClick={() => setEditingProfile(!editingProfile)}
           >
             Edit Profile
           </Button>
+
           <Modal
             title="Edit Profile"
             visible={editingProfile}

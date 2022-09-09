@@ -38,7 +38,6 @@ const Login = (props) => {
         } else {
           setLoading(false);
           message.error('Incorrect email address or password');
-          // alert('incorrect email address or password');
         }
       },
       (err) => {

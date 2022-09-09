@@ -61,8 +61,8 @@ const Contact = (props) => {
       onClick={() => {
         props.selectContact(props.contact);
       }}
-      onMouseEnter={() => setShowDelBtn(true)}
-      onMouseLeave={() => setShowDelBtn(false)}
+      onMouseEnter={() => (props.contactsModal ? null : setShowDelBtn(true))}
+      onMouseLeave={() => (props.contactsModal ? null : setShowDelBtn(false))}
     >
       <Col span={4} offset={1}>
         <Avatar
@@ -322,6 +322,7 @@ const Messages = () => {
                 contact={c}
                 selectedContact={newContact}
                 selectContact={setNewContact}
+                contactsModal={contactsModal}
               />
             ))}
           </div>

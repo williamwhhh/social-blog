@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
-import { Row, Col, Form, Input, Button, DatePicker, Select } from 'antd';
+import {
+  Row,
+  Col,
+  Form,
+  Input,
+  Button,
+  DatePicker,
+  Select,
+  message,
+} from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import { signUp } from '../utils/APIs';
 
@@ -40,13 +49,18 @@ const Register = (props) => {
   const onFinish = async (values) => {
     console.log(values);
     setLoading(true);
-    signUp(values)
-      .then((res) => {
-        alert('Signed up successfully!');
-      })
-      .catch((e) => {
-        alert(e.message);
-      });
+    signUp(values).then(
+      (res) => {
+        if (res.error) {
+          message.error(res.error);
+        } else {
+          message.success(res.message);
+        }
+      },
+      (err) => {
+        message.error(err.message);
+      }
+    );
     setLoading(false);
     props.onToggleSignUp();
   };
