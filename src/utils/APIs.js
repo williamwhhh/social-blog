@@ -69,3 +69,11 @@ export const editProfile = (details) =>
     headers: {},
     body: details,
   }).then((res) => res.json());
+
+export const getAllUsers = () =>
+  fetch('http://localhost:3001/users/getAllUsers', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then((res) => res.json());

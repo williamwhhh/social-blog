@@ -21,6 +21,7 @@ import {
 } from '@ant-design/icons';
 import Sidebar from './Sidebar';
 import Picker from 'emoji-picker-react';
+import { getAllUsers } from '../utils/APIs';
 
 const { TextArea, Search } = Input;
 
@@ -68,7 +69,11 @@ const Contact = (props) => {
         <Avatar
           style={{ margin: '15% 0 15% 20%' }}
           size={50}
-          src={require(`../images/${props.contact.avatar}`)}
+          src={
+            props.contact.avatar
+              ? `http://localhost:3001/images/${props.contact.avatar}`
+              : null
+          }
           icon={<UserOutlined />}
         />
       </Col>
@@ -109,10 +114,9 @@ const ChatBox = (props) => {
   const onEmojiClick = (event, emojiObject) => {
     setMessage(message.concat(emojiObject.emoji));
   };
-
   return (
     <>
-      {props.contact != null && (
+      {props.contact && (
         <>
           <Row
             style={{ height: '10%', borderBottom: 'solid RGB(238,238,238)' }}
@@ -122,11 +126,9 @@ const ChatBox = (props) => {
                 style={{ margin: '30% 0 15% 60%' }}
                 size={40}
                 src={
-                  props.contact.avatar !== '' ? (
-                    require(`../images/${props.contact.avatar}`)
-                  ) : (
-                    <UserOutlined />
-                  )
+                  props.contact.avatar
+                    ? `http://localhost:3001/images/${props.contact.avatar}`
+                    : null
                 }
                 icon={<UserOutlined />}
               />
@@ -249,22 +251,26 @@ const Messages = () => {
   const [contacts, setContacts] = useState([]);
 
   useEffect(() => {
-    let dummyContacts = [];
-    for (let i = 1; i <= 20; i++) {
-      dummyContacts.push({
-        username: `user${i}`,
-        name: `User ${i}`,
-        avatar: 'kangaroo.jpeg',
-        messages: [],
-      });
-    }
-    setContacts(dummyContacts);
+    // let dummyContacts = [];
+    // for (let i = 1; i <= 20; i++) {
+    //   dummyContacts.push({
+    //     username: `user${i}`,
+    //     name: `User ${i}`,
+    //     avatar: 'kangaroo.jpeg',
+    //     messages: [],
+    //   });
+    // }
+    // setContacts(dummyContacts);
+    getAllUsers().then((res) => {
+      setContacts(res.contacts);
+    });
   }, []);
 
   const [contactsModal, setContactsModal] = useState(false);
   const [newContact, setNewContact] = useState(null);
 
   const sendMessage = (contact, message) => {
+    // directly changed state variable
     contact.messages.push([0, message]);
     contact.messages.push([1, message]);
     setContacts([...contacts]);
@@ -275,7 +281,7 @@ const Messages = () => {
   return (
     <Row>
       <Sidebar />
-      <Col xs={20} sm={20} lg={9}>
+      <Col xs={20} sm={9} xl={7}>
         <h2 style={{ margin: '2vh 0 5% 5%' }}>
           <b>Messages</b>
           <Button
@@ -330,8 +336,7 @@ const Messages = () => {
       </Col>
       <Col
         xs={{ span: 20, offset: 3 }}
-        sm={{ span: 20, offset: 3 }}
-        lg={{ span: 12, offset: 0 }}
+        sm={{ span: 12, offset: 0 }}
         style={{
           height: '100vh',
           borderLeft: 'solid RGB(238,238,238)',
