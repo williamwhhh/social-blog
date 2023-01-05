@@ -9,6 +9,7 @@ import {
   Upload,
   Modal,
   Tooltip,
+  message,
 } from 'antd';
 import {
   UserOutlined,
@@ -20,7 +21,6 @@ import {
 import { useState } from 'react';
 import Picker from 'emoji-picker-react';
 import { addPost } from '../utils/APIs';
-import { getAllPosts } from '../utils/APIs';
 
 const useStyles = createUseStyles({
   avatar: {
@@ -79,20 +79,9 @@ const PostBox = (props) => {
     formData.append('avatar', user.avatar);
     addPost(formData).then(
       (res) => {
-        console.log(res);
         if (res.post) {
-          getAllPosts().then(
-            (res) => {
-              if (res.posts) {
-                props.setPosts(res.posts.reverse());
-              } else {
-                console.log(res.messages);
-              }
-            },
-            (err) => {
-              console.log(err.messages);
-            }
-          );
+          props.updatePosts();
+          message.success(res.message);
         }
       },
       (err) => {

@@ -14,7 +14,7 @@ const Home = () => {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
+  const updatePosts = () => {
     getAllPosts().then(
       (res) => {
         if (res.posts) {
@@ -27,7 +27,9 @@ const Home = () => {
         console.log(err.messages);
       }
     );
-  }, []);
+  };
+
+  useEffect(() => updatePosts, []);
 
   return (
     <Row>
@@ -38,7 +40,7 @@ const Home = () => {
             <b>Home</b>
           </h2>
         </Row>
-        <PostBox setPosts={setPosts} />
+        <PostBox updatePosts={updatePosts} />
         <hr
           style={{
             border: '1px solid RGB(238,238,238)',
@@ -55,6 +57,7 @@ const Home = () => {
               avatar={post.avatar}
               text={post.text}
               images={post.images}
+              updatePosts={updatePosts}
             />
           ))}
         </FlipMove>

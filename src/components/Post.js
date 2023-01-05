@@ -108,6 +108,8 @@ const Post = forwardRef(
         removePost({ id: id, images: images }).then(
           (res) => {
             message.success(res.message);
+            // window.location.reload(false);
+            props.updatePosts();
           },
           (err) => {
             message.error(err.message);
