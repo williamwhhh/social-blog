@@ -1,34 +1,55 @@
-import { createUseStyles } from 'react-jss';
-import { useState, forwardRef, useEffect } from 'react';
-import { Row, Col, Input, Image } from 'antd';
+import { useState, useEffect } from 'react';
+import { Row, Col, message } from 'antd';
 import Sidebar from './Sidebar';
 import PostBox from './PostBox';
 import Post from './Post';
 import InfoBar from './InfoBar';
 import FlipMove from 'react-flip-move';
-import { getAllPosts } from '../utils/APIs';
-
-const useStyles = createUseStyles({});
+import { getAllPosts, getLikedPosts } from '../utils/APIs';
 
 const Home = () => {
-  const classes = useStyles();
   const [posts, setPosts] = useState([]);
+  const [likedPosts, setLikedPosts] = useState([]);
 
   const updatePosts = () => {
-    getAllPosts().then(
-      (res) => {
-        if (res.posts) {
-          setPosts(res.posts.reverse());
-        } else {
-          console.log(res.messages);
+    getAllPosts()
+      .then(
+        (res) => {
+          if (res.posts) {
+            return res;
+          } else {
+            console.log(res.messages);
+          }
+        },
+        (err) => {
+          console.log(err.messages);
         }
-      },
-      (err) => {
-        console.log(err.messages);
-      }
-    );
+      )
+      .then((res) => {
+        getLikedPosts({
+          email: JSON.parse(localStorage.getItem('user')).email,
+        }).then(
+          (res2) => {
+            setPosts(res.posts.reverse());
+            setLikedPosts(res2.likedPosts.reverse());
+          },
+          (err) => message.error(err.message)
+        );
+      });
   };
 
+  const checkIsLiked = (id) => {
+    console.log(likedPosts);
+    for (let i in likedPosts) {
+      if (likedPosts[i]._id === id) {
+        console.log(likedPosts[i]._id, id);
+        return true;
+      }
+    }
+    return false;
+  };
+
+  // eslint-disable-next-line
   useEffect(() => updatePosts, []);
 
   return (
@@ -58,6 +79,7 @@ const Home = () => {
               text={post.text}
               images={post.images}
               updatePosts={updatePosts}
+              like={checkIsLiked(post._id)}
             />
           ))}
         </FlipMove>

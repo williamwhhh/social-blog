@@ -71,6 +71,34 @@ export const removeBookmark = (details) =>
     body: JSON.stringify(details),
   }).then((res) => res.json());
 
+export const likePost = (details) =>
+  fetch('http://localhost:3001/posts/likePost', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(details),
+  }).then((res) => res.json());
+
+export const getLikedPosts = (details) =>
+  fetch('http://localhost:3001/posts/getLikedPosts', {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      email: details.email,
+    },
+  }).then((res) => res.json());
+
+export const unlikePost = (details) =>
+  fetch('http://localhost:3001/posts/unlikePost', {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(details),
+  }).then((res) => res.json());
+
 export const editProfile = (details) =>
   fetch('http://localhost:3001/users/editProfile', {
     method: 'POST',

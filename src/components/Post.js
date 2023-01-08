@@ -29,6 +29,9 @@ import {
   removeBookmark,
   getBookmarks,
   removePost,
+  likePost,
+  unlikePost,
+  getAllPosts,
 } from '../utils/APIs';
 
 const useStyles = createUseStyles({
@@ -63,7 +66,7 @@ const useStyles = createUseStyles({
 const Post = forwardRef(
   ({ id, name, username, text, images, avatar, ...props }, ref) => {
     const classes = useStyles();
-    const [like, setLike] = useState(false);
+    const [like, setLike] = useState(props.like ? true : false);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
     const handleMenuClick = (e) => {
@@ -76,14 +79,8 @@ const Post = forwardRef(
                 'user',
                 JSON.stringify({ ...user, bookmarks: res.bookmarks })
               );
-              getBookmarks({
-                email: user.email,
-              }).then(
-                (res) => {
-                  props.setBookmarks(res.bookmarks.reverse());
-                },
-                (err) => message.error(err.message)
-              );
+              props.updateBookmarks();
+              message.success(res.message);
             },
             (err) => message.error(err.message)
           );
@@ -114,6 +111,35 @@ const Post = forwardRef(
           (err) => {
             message.error(err.message);
           }
+        );
+      }
+    };
+
+    const handleLikeBtn = () => {
+      if (!like) {
+        likePost({ email: user.email, postId: id }).then(
+          (res) => {
+            setUser({ ...user, likedPosts: res.likedPosts });
+            localStorage.setItem(
+              'user',
+              JSON.stringify({ ...user, likedPosts: res.likedPosts })
+            );
+            message.success(res.message);
+          },
+          (err) => message.error(err.message)
+        );
+      } else {
+        unlikePost({ email: user.email, postId: id }).then(
+          (res) => {
+            setUser({ ...user, likedPosts: res.likedPosts });
+            localStorage.setItem(
+              'user',
+              JSON.stringify({ ...user, likedPosts: res.likedPosts })
+            );
+            props.updateLikedPosts();
+            message.success(res.message);
+          },
+          (err) => message.error(err.message)
         );
       }
     };
@@ -235,6 +261,7 @@ const Post = forwardRef(
                     )
                   }
                   onClick={() => {
+                    handleLikeBtn();
                     setLike(!like);
                   }}
                 ></Button>

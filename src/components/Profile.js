@@ -19,7 +19,7 @@ import Sidebar from './Sidebar';
 import InfoBar from './InfoBar';
 import Post from './Post';
 import FlipMove from 'react-flip-move';
-import { getAllPosts, editProfile } from '../utils/APIs';
+import { getAllPosts, editProfile, getLikedPosts } from '../utils/APIs';
 
 const useStyles = createUseStyles({
   avatar: {
@@ -47,21 +47,34 @@ const Profile = () => {
   const [editingProfile, setEditingProfile] = useState(false);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
   const [avatarFile, setAvatarFile] = useState(null);
+  const [likedPosts, setLikedPosts] = useState([]);
 
   useEffect(() => {
-    getAllPosts().then(
-      (res) => {
-        if (res.posts) {
-          setPosts(res.posts.reverse());
-        } else {
-          console.log(res.messages);
+    getAllPosts()
+      .then(
+        (res) => {
+          if (res.posts) {
+            return res;
+          } else {
+            console.log(res.messages);
+          }
+        },
+        (err) => {
+          console.log(err.messages);
         }
-      },
-      (err) => {
-        console.log(err.messages);
-      }
-    );
-  }, [user]);
+      )
+      .then((res) => {
+        getLikedPosts({
+          email: JSON.parse(localStorage.getItem('user')).email,
+        }).then(
+          (res2) => {
+            setPosts(res.posts.reverse());
+            setLikedPosts(res2.likedPosts.reverse());
+          },
+          (err) => message.error(err.message)
+        );
+      });
+  }, []);
 
   const onFinish = (values) => {
     setEditingProfile(false);
@@ -84,6 +97,26 @@ const Profile = () => {
         message.error(err.message);
       }
     );
+  };
+
+  const updateLikedPosts = () => {
+    getLikedPosts({
+      email: JSON.parse(localStorage.getItem('user')).email,
+    }).then(
+      (res) => {
+        setLikedPosts(res.likedPosts.reverse());
+      },
+      (err) => message.error(err.message)
+    );
+  };
+
+  const checkIsLiked = (id) => {
+    for (let i in likedPosts) {
+      if (likedPosts[i]._id === id) {
+        return true;
+      }
+    }
+    return false;
   };
 
   const handleCancel = () => {
@@ -203,6 +236,11 @@ const Profile = () => {
             centered
             size="large"
             tabBarGutter={70}
+            onChange={(key) => {
+              if (key === '1' || key === '3') {
+                updateLikedPosts();
+              }
+            }}
           >
             <TabPane tab={<b>Posts</b>} key="1">
               <FlipMove>
@@ -215,6 +253,7 @@ const Profile = () => {
                     text={post.text}
                     avatar={post.avatar}
                     images={post.images}
+                    like={checkIsLiked(post._id)}
                   />
                 ))}
               </FlipMove>
@@ -226,6 +265,19 @@ const Profile = () => {
               </h3>
             </TabPane>
             <TabPane tab={<b>Likes</b>} key="3">
+              {likedPosts.map((post) => (
+                <Post
+                  key={post._id}
+                  id={post._id}
+                  name={post.name}
+                  username={post.username}
+                  text={post.text}
+                  avatar={post.avatar}
+                  images={post.images}
+                  like={true}
+                  updateLikedPosts={updateLikedPosts}
+                />
+              ))}
               <h3 style={{ margin: '10% 0 0 0', textAlign: 'center' }}>
                 Tap the heart on any post to show it some love. <br />
                 When you do, it’ll show up here.

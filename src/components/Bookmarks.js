@@ -5,7 +5,7 @@ import Sidebar from './Sidebar';
 import InfoBar from './InfoBar';
 import FlipMove from 'react-flip-move';
 import Post from './Post';
-import { getBookmarks } from '../utils/APIs';
+import { getBookmarks, getLikedPosts } from '../utils/APIs';
 
 const useStyles = createUseStyles({
   pageHeading: {
@@ -13,12 +13,35 @@ const useStyles = createUseStyles({
   },
 });
 
-const onSearch = () => {};
-
 const Bookmarks = () => {
   const classes = useStyles();
   const [bookmarks, setBookmarks] = useState([]);
+  const [likedPosts, setLikedPosts] = useState([]);
+
   useEffect(() => {
+    getBookmarks({
+      email: JSON.parse(localStorage.getItem('user')).email,
+    })
+      .then(
+        (res) => {
+          return res;
+        },
+        (err) => message.error(err.message)
+      )
+      .then((res) => {
+        getLikedPosts({
+          email: JSON.parse(localStorage.getItem('user')).email,
+        }).then(
+          (res2) => {
+            setBookmarks(res.bookmarks.reverse());
+            setLikedPosts(res2.likedPosts.reverse());
+          },
+          (err) => message.error(err.message)
+        );
+      });
+  }, []);
+
+  const updateBookmarks = () => {
     getBookmarks({
       email: JSON.parse(localStorage.getItem('user')).email,
     }).then(
@@ -27,7 +50,19 @@ const Bookmarks = () => {
       },
       (err) => message.error(err.message)
     );
-  }, []);
+  };
+
+  const checkIsLiked = (id) => {
+    console.log(likedPosts);
+    for (let i in likedPosts) {
+      if (likedPosts[i]._id === id) {
+        console.log(likedPosts[i]._id, id);
+        return true;
+      }
+    }
+    return false;
+  };
+
   return (
     <Row>
       <Sidebar />
@@ -45,7 +80,8 @@ const Bookmarks = () => {
               avatar={post.avatar}
               text={post.text}
               images={post.images}
-              setBookmarks={setBookmarks}
+              updateBookmarks={updateBookmarks}
+              like={checkIsLiked(post._id)}
             />
           ))}
         </FlipMove>

@@ -88,6 +88,7 @@ const PostBox = (props) => {
         console.log(err.message);
       }
     );
+    setPost('');
   };
 
   const uploadButton = (
