@@ -262,7 +262,11 @@ const Messages = () => {
     // }
     // setContacts(dummyContacts);
     getAllUsers().then((res) => {
-      setContacts(res.contacts);
+      if (res.contacts) {
+        setContacts(res.contacts);
+      } else {
+        message.error(res.message);
+      }
     });
   }, []);
 

@@ -56,11 +56,11 @@ const Profile = () => {
           if (res.posts) {
             return res;
           } else {
-            console.log(res.messages);
+            message.error(res.message);
           }
         },
         (err) => {
-          console.log(err.messages);
+          message.error(err.message);
         }
       )
       .then((res) => {

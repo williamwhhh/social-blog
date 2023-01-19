@@ -24,7 +24,11 @@ const Bookmarks = () => {
     })
       .then(
         (res) => {
-          return res;
+          if (res.bookmarks) {
+            return res;
+          } else {
+            message.error(res.message);
+          }
         },
         (err) => message.error(err.message)
       )
@@ -53,10 +57,8 @@ const Bookmarks = () => {
   };
 
   const checkIsLiked = (id) => {
-    console.log(likedPosts);
     for (let i in likedPosts) {
       if (likedPosts[i]._id === id) {
-        console.log(likedPosts[i]._id, id);
         return true;
       }
     }

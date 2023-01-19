@@ -18,12 +18,10 @@ const Home = () => {
           if (res.posts) {
             return res;
           } else {
-            console.log(res.messages);
+            message.error(res.message);
           }
         },
-        (err) => {
-          console.log(err.messages);
-        }
+        (err) => message.error(err.message)
       )
       .then((res) => {
         getLikedPosts({
@@ -39,7 +37,6 @@ const Home = () => {
   };
 
   const checkIsLiked = (id) => {
-    console.log(likedPosts);
     for (let i in likedPosts) {
       if (likedPosts[i]._id === id) {
         console.log(likedPosts[i]._id, id);
