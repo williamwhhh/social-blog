@@ -1,5 +1,6 @@
 import { createUseStyles } from 'react-jss';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -249,7 +250,7 @@ const Messages = () => {
   const classes = useStyles();
   const [currContact, setCurrContact] = useState(null);
   const [contacts, setContacts] = useState([]);
-
+  let navigate = useNavigate();
   useEffect(() => {
     // let dummyContacts = [];
     // for (let i = 1; i <= 20; i++) {
@@ -266,6 +267,9 @@ const Messages = () => {
         setContacts(res.contacts);
       } else {
         message.error(res.message);
+        if (res.message === 'user session expired') {
+          navigate('/');
+        }
       }
     });
   }, []);

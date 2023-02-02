@@ -9,6 +9,7 @@ import Messages from './components/Messages';
 import Bookmarks from './components/Bookmarks';
 import Profile from './components/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
+import EnlargedPost from './components/EnlargedPost';
 
 function App() {
   return (
@@ -57,6 +58,15 @@ function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/post/:postId"
+          exact
+          element={
+            <ProtectedRoute>
+              <EnlargedPost />
             </ProtectedRoute>
           }
         />

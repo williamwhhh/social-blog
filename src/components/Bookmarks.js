@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { createUseStyles } from 'react-jss';
 import { Row, Col, message } from 'antd';
 import Sidebar from './Sidebar';
@@ -17,7 +18,7 @@ const Bookmarks = () => {
   const classes = useStyles();
   const [bookmarks, setBookmarks] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
-
+  let navigate = useNavigate();
   useEffect(() => {
     getBookmarks({
       email: JSON.parse(localStorage.getItem('user')).email,
@@ -28,6 +29,9 @@ const Bookmarks = () => {
             return res;
           } else {
             message.error(res.message);
+            if (res.message === 'user session expired') {
+              navigate('/');
+            }
           }
         },
         (err) => message.error(err.message)

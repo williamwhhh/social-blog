@@ -43,6 +43,24 @@ export const getAllPosts = () =>
     },
   }).then((res) => res.json());
 
+export const getPost = (id) =>
+  fetch('http://localhost:3001/posts/getPost', {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      id: id,
+    },
+  }).then((res) => res.json());
+
+export const addComment = (details) =>
+  fetch('http://localhost:3001/posts/addComment', {
+    method: 'POST',
+    credentials: 'include',
+    headers: {},
+    body: details,
+  }).then((res) => res.json());
+
 export const bookmark = (details) =>
   fetch('http://localhost:3001/posts/bookmark', {
     method: 'POST',

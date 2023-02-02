@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Row, Col, message } from 'antd';
 import Sidebar from './Sidebar';
 import PostBox from './PostBox';
@@ -10,7 +11,7 @@ import { getAllPosts, getLikedPosts } from '../utils/APIs';
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
-
+  let navigate = useNavigate();
   const updatePosts = () => {
     getAllPosts()
       .then(
@@ -19,6 +20,9 @@ const Home = () => {
             return res;
           } else {
             message.error(res.message);
+            if (res.message === 'user session expired') {
+              navigate('/');
+            }
           }
         },
         (err) => message.error(err.message)

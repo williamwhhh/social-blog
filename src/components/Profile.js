@@ -1,5 +1,6 @@
 import { createUseStyles } from 'react-jss';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -48,6 +49,7 @@ const Profile = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
   const [avatarFile, setAvatarFile] = useState(null);
   const [likedPosts, setLikedPosts] = useState([]);
+  let navigate = useNavigate();
 
   useEffect(() => {
     getAllPosts()
@@ -57,6 +59,9 @@ const Profile = () => {
             return res;
           } else {
             message.error(res.message);
+            if (res.message === 'user session expired') {
+              navigate('/');
+            }
           }
         },
         (err) => {

@@ -1,4 +1,3 @@
-import { createUseStyles } from 'react-jss';
 import {
   Avatar,
   Row,
@@ -20,39 +19,9 @@ import {
 } from '@ant-design/icons';
 import { useState } from 'react';
 import Picker from 'emoji-picker-react';
-import { addPost } from '../utils/APIs';
+import { addComment } from '../utils/APIs';
 
-const useStyles = createUseStyles({
-  avatar: {
-    margin: '2vh 0 0 40%',
-  },
-  postInput: {
-    margin: '3vh 0 0 0',
-    width: '95%',
-  },
-  postButton: {
-    float: 'right',
-    margin: '1vh 2vw 1vh 0',
-  },
-  imageButton: {
-    margin: '1.5vh 0 0 3%',
-  },
-  emojiButton: {
-    margin: '1.5vh 0 0 3%',
-  },
-  locationButton: {
-    margin: '1.5vh 0 0 3%',
-  },
-  emojiPicker: {
-    position: 'absolute',
-    left: '0',
-    top: '100%',
-    zIndex: '1',
-  },
-});
-
-const PostBox = (props) => {
-  const classes = useStyles();
+const ReplyBox = (props) => {
   const [posting, setPosting] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
   const [post, setPost] = useState('');
@@ -73,15 +42,17 @@ const PostBox = (props) => {
     for (let i = 0; i < fileList.length; i++) {
       formData.append('images[]', fileList[i].originFileObj);
     }
+    formData.append('postId', props.postId);
     formData.append('username', user.username);
     formData.append('name', user.name);
     formData.append('text', post);
     formData.append('location', location);
     formData.append('avatar', user.avatar);
-    addPost(formData).then(
+    addComment(formData).then(
       (res) => {
-        if (res.post) {
-          props.updatePosts();
+        if (res.comments) {
+          res.comments.reverse();
+          props.updateComments(res.comments);
           message.success(res.message);
         }
       },
@@ -147,7 +118,7 @@ const PostBox = (props) => {
       <Row>
         <Col xs={6} sm={3}>
           <Avatar
-            className={classes.avatar}
+            style={{ margin: '2vh 0 0 40%' }}
             size={55}
             icon={<UserOutlined />}
             src={
@@ -157,9 +128,12 @@ const PostBox = (props) => {
         </Col>
         <Col xs={18} sm={{ span: 20, offset: 1 }}>
           <Form name="post" onFinish={handlePost}>
-            <Form.Item name="text" className={classes.postInput}>
+            <Form.Item
+              name="text"
+              style={{ margin: '3vh 0 0 0', width: '95%' }}
+            >
               <Input.TextArea
-                placeholder="What's happening?"
+                placeholder="Enter your reply"
                 bordered={false}
                 autoSize={{
                   minRows: 3,
@@ -208,7 +182,7 @@ const PostBox = (props) => {
             </Modal>
             <Tooltip title="Image">
               <Button
-                className={classes.imageButton}
+                style={{ margin: '1.5vh 0 0 3%' }}
                 type="primary"
                 shape="circle"
                 icon={<FileImageOutlined />}
@@ -217,7 +191,7 @@ const PostBox = (props) => {
             </Tooltip>
             <Tooltip title="Emoji">
               <Button
-                className={classes.emojiButton}
+                style={{ margin: '1.5vh 0 0 3%' }}
                 type="primary"
                 shape="circle"
                 icon={<SmileOutlined />}
@@ -226,14 +200,14 @@ const PostBox = (props) => {
             </Tooltip>
             <Tooltip title="Location">
               <Button
-                className={classes.locationButton}
+                style={{ margin: '1.5vh 0 0 3%' }}
                 type="primary"
                 shape="circle"
                 icon={<EnvironmentOutlined />}
                 onClick={handleLocation}
               ></Button>
             </Tooltip>
-            <Form.Item className={classes.postButton}>
+            <Form.Item style={{ float: 'right', margin: '1vh 2vw 1vh 0' }}>
               <Button
                 type="primary"
                 htmlType="submit"
@@ -242,12 +216,12 @@ const PostBox = (props) => {
                 shape="round"
                 disabled={post === '' ? true : false}
               >
-                {!posting ? 'Post' : 'Posting...'}
+                {!posting ? 'Reply' : 'Replying...'}
               </Button>
             </Form.Item>
           </Form>
           {showEmojiPicker && (
-            <div className={classes.emojiPicker}>
+            <div style={{ position: 'absolute', margin: '1%', zIndex: '1' }}>
               <Picker onEmojiClick={onEmojiClick} />
             </div>
           )}
@@ -256,4 +230,4 @@ const PostBox = (props) => {
     </>
   );
 };
-export default PostBox;
+export default ReplyBox;

@@ -1,5 +1,6 @@
 import React, { forwardRef, useState } from 'react';
 import { createUseStyles } from 'react-jss';
+import { useNavigate } from 'react-router-dom';
 import {
   Avatar,
   Row,
@@ -27,11 +28,9 @@ import {
 import {
   bookmark,
   removeBookmark,
-  getBookmarks,
   removePost,
   likePost,
   unlikePost,
-  getAllPosts,
 } from '../utils/APIs';
 
 const useStyles = createUseStyles({
@@ -68,8 +67,9 @@ const Post = forwardRef(
     const classes = useStyles();
     const [like, setLike] = useState(props.like ? true : false);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
-
+    const navigate = useNavigate();
     const handleMenuClick = (e) => {
+      e.domEvent.stopPropagation();
       if (e.key === '1') {
         if (user.bookmarks.includes(id)) {
           removeBookmark({ email: user.email, postId: id }).then(
@@ -101,6 +101,7 @@ const Post = forwardRef(
     };
 
     const handleDotMenuClick = (e) => {
+      e.domEvent.stopPropagation();
       if (e.key === '1' && user.username === username) {
         removePost({ id: id, images: images }).then(
           (res) => {
@@ -190,7 +191,9 @@ const Post = forwardRef(
       />
     );
 
-    const handleClick = () => {};
+    const handleClick = () => {
+      navigate(`/post/${id}`);
+    };
 
     return (
       <div ref={ref} onClick={handleClick} className={classes.container}>
@@ -209,12 +212,12 @@ const Post = forwardRef(
                 type="link"
                 shape="circle"
                 size="large"
+                onClick={(event) => event.stopPropagation()}
                 icon={
                   <EllipsisOutlined
-                    style={{ fontSize: '25px', color: 'black' }}
+                    style={{ fontSize: '25px', color: 'black', zIndex: '100' }}
                   />
                 }
-                onClick={() => {}}
                 style={{ float: 'right', marginRight: '5%' }}
               ></Button>
             </Dropdown>
@@ -240,6 +243,7 @@ const Post = forwardRef(
                   className={classes.commentButton}
                   shape="circle"
                   icon={<MessageOutlined />}
+                  onClick={(event) => event.stopPropagation()}
                 ></Button>
               </Tooltip>
               <Tooltip title="Repost">
@@ -247,6 +251,7 @@ const Post = forwardRef(
                   className={classes.repostButton}
                   shape="circle"
                   icon={<RetweetOutlined />}
+                  onClick={(event) => event.stopPropagation()}
                 ></Button>
               </Tooltip>
               <Tooltip title="Like">
@@ -260,9 +265,10 @@ const Post = forwardRef(
                       <HeartOutlined />
                     )
                   }
-                  onClick={() => {
+                  onClick={(event) => {
                     handleLikeBtn();
                     setLike(!like);
+                    event.stopPropagation();
                   }}
                 ></Button>
               </Tooltip>
@@ -272,7 +278,7 @@ const Post = forwardRef(
                     className={classes.likeButton}
                     shape="circle"
                     icon={<ShareAltOutlined />}
-                    onClick={() => {}}
+                    onClick={(event) => event.stopPropagation()}
                   ></Button>
                 </Dropdown>
               </Tooltip>
