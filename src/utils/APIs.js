@@ -61,6 +61,14 @@ export const addComment = (details) =>
     body: details,
   }).then((res) => res.json());
 
+export const removeComment = (details) =>
+  fetch('http://localhost:3001/posts/removeComment', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(details),
+  }).then((res) => res.json());
+
 export const bookmark = (details) =>
   fetch('http://localhost:3001/posts/bookmark', {
     method: 'POST',

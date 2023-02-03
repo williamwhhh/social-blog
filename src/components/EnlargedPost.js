@@ -66,7 +66,6 @@ const EnlargedPost = (props) => {
   }, []);
 
   const updateComments = (comments) => {
-    console.log(comments);
     setPost({ ...post, comments: comments });
   };
 
@@ -321,13 +320,14 @@ const EnlargedPost = (props) => {
         <FlipMove>
           {post.comments.map((comment) => (
             <Comment
-              key={comment._id}
-              id={comment._id}
+              key={comment.username.concat(comment.text)}
+              postId={post._id}
               name={comment.name}
               username={comment.username}
               avatar={comment.avatar}
               text={comment.text}
               images={comment.images}
+              updateComments={updateComments}
             />
           ))}
         </FlipMove>

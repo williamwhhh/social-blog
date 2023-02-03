@@ -1,21 +1,43 @@
 import React, { forwardRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Avatar, Row, Col, Button, Image, Dropdown, Menu } from 'antd';
+import { Avatar, Row, Col, Button, Image, Dropdown, Menu, message } from 'antd';
 import {
   UserOutlined,
   EllipsisOutlined,
   DeleteOutlined,
   FrownOutlined,
 } from '@ant-design/icons';
-import {} from '../utils/APIs';
+import { removeComment } from '../utils/APIs';
 
 const Comment = forwardRef(
-  ({ id, name, username, text, images, avatar, ...props }, ref) => {
+  ({ postId, name, username, text, images, avatar, ...props }, ref) => {
     const navigate = useNavigate();
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+
+    const handleDotMenuClick = (e) => {
+      console.log(username, text);
+      if (e.key === '1' && user.username === username) {
+        removeComment({
+          postId: postId,
+          username: username,
+          text: text,
+          images: images,
+        }).then(
+          (res) => {
+            message.success(res.message);
+            res.comments.reverse();
+            props.updateComments(res.comments);
+          },
+          (err) => {
+            message.error(err.message);
+          }
+        );
+      }
+    };
+
     const dotMenu = (
       <Menu
-        onClick={''}
+        onClick={handleDotMenuClick}
         items={[
           {
             label: 'Delete this comment',
