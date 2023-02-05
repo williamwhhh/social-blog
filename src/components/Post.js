@@ -224,6 +224,7 @@ const Post = forwardRef(
             <h3 className={classes.displayName}>
               {name} <span className={classes.username}>@{username}</span>
             </h3>
+
             <p style={{ width: '95%' }}>{text}</p>
             <Image.PreviewGroup>
               {images.map((image) => {

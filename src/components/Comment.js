@@ -10,10 +10,12 @@ import {
 import { removeComment } from '../utils/APIs';
 
 const Comment = forwardRef(
-  ({ postId, name, username, text, images, avatar, ...props }, ref) => {
+  (
+    { postId, name, username, text, images, avatar, dateTime, ...props },
+    ref
+  ) => {
     const navigate = useNavigate();
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
-
     const handleDotMenuClick = (e) => {
       console.log(username, text);
       if (e.key === '1' && user.username === username) {
@@ -80,6 +82,15 @@ const Comment = forwardRef(
               {name}{' '}
               <span style={{ margin: '1vh 0 0 1vw', color: 'grey' }}>
                 @{username}
+              </span>
+              <span
+                style={{
+                  fontSize: '13px',
+                  margin: '1vh 0 0 3vw',
+                  color: 'grey',
+                }}
+              >
+                {dateTime}
               </span>
             </h3>
             <p style={{ width: '95%' }}>{text}</p>

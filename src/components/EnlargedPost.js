@@ -259,6 +259,9 @@ const EnlargedPost = (props) => {
               })}
             </Image.PreviewGroup>
             <br />
+            <br />
+            <span style={{ color: 'grey' }}>{post.dateTime}</span>
+
             <Row>
               <Tooltip title="Comment">
                 <Button
@@ -327,6 +330,7 @@ const EnlargedPost = (props) => {
               avatar={comment.avatar}
               text={comment.text}
               images={comment.images}
+              dateTime={comment.dateTime}
               updateComments={updateComments}
             />
           ))}
