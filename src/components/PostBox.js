@@ -133,11 +133,10 @@ const PostBox = (props) => {
   const handleLocation = () => {
     navigator.geolocation.getCurrentPosition(function (position) {
       setLocation(
-        'Latitude: '.concat(
-          position.coords.latitude.toString(),
-          ', Longitude: ',
+        'Location: ' +
+          position.coords.latitude.toString() +
+          ', ' +
           position.coords.longitude.toString()
-        )
       );
     });
   };

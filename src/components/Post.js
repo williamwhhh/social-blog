@@ -125,6 +125,7 @@ const Post = forwardRef(
               'user',
               JSON.stringify({ ...user, likedPosts: res.likedPosts })
             );
+            props.updateLikedPosts();
             message.success(res.message);
           },
           (err) => message.error(err.message)

@@ -24,12 +24,9 @@ const Login = (props) => {
   const navigate = useNavigate();
 
   const onFinish = async (values) => {
-    console.log(values);
-    console.log(values.email);
     setLoading(true);
     login(values).then(
       (res) => {
-        console.log(res);
         if (res.user) {
           setLoading(false);
           localStorage.setItem('user', JSON.stringify(res.user));
@@ -41,7 +38,6 @@ const Login = (props) => {
         }
       },
       (err) => {
-        console.log(err.message);
         setLoading(false);
       }
     );

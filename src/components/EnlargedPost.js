@@ -32,6 +32,7 @@ import {
   likePost,
   unlikePost,
   getPost,
+  getLikedPosts,
 } from '../utils/APIs';
 import { createUseStyles } from 'react-jss';
 import FlipMove from 'react-flip-move';
@@ -59,10 +60,22 @@ const EnlargedPost = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getPost(postId).then((res) => {
-      res.post.comments.reverse();
-      setPost(res.post);
-    });
+    getPost(postId)
+      .then((res) => {
+        res.post.comments.reverse();
+        setPost(res.post);
+      })
+      .then(
+        getLikedPosts({
+          email: JSON.parse(localStorage.getItem('user')).email,
+        }).then((res2) => {
+          for (let i in res2.likedPosts) {
+            if (res2.likedPosts[i]._id === postId) {
+              setLike(true);
+            }
+          }
+        })
+      );
   }, []);
 
   const updateComments = (comments) => {
@@ -195,7 +208,7 @@ const EnlargedPost = (props) => {
         <Row>
           <Button
             type="link"
-            href="/home"
+            onClick={() => navigate(-1)}
             style={{ margin: '2% 0 0 2%' }}
             icon={
               <ArrowLeftOutlined
@@ -261,6 +274,12 @@ const EnlargedPost = (props) => {
             <br />
             <br />
             <span style={{ color: 'grey' }}>{post.dateTime}</span>
+            {post.location !== 'null' && (
+              <>
+                <br />
+                <span style={{ color: 'grey' }}>{post.location}</span>
+              </>
+            )}
 
             <Row>
               <Tooltip title="Comment">
@@ -331,6 +350,7 @@ const EnlargedPost = (props) => {
               text={comment.text}
               images={comment.images}
               dateTime={comment.dateTime}
+              location={comment.location}
               updateComments={updateComments}
             />
           ))}

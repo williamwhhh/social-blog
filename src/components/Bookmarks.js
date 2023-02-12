@@ -44,7 +44,9 @@ const Bookmarks = () => {
             setBookmarks(res.bookmarks.reverse());
             setLikedPosts(res2.likedPosts.reverse());
           },
-          (err) => message.error(err.message)
+          (err) => {
+            console.log(err.message);
+          }
         );
       });
   }, []);

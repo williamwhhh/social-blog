@@ -11,7 +11,17 @@ import { removeComment } from '../utils/APIs';
 
 const Comment = forwardRef(
   (
-    { postId, name, username, text, images, avatar, dateTime, ...props },
+    {
+      postId,
+      name,
+      username,
+      text,
+      images,
+      avatar,
+      dateTime,
+      location,
+      ...props
+    },
     ref
   ) => {
     const navigate = useNavigate();
@@ -83,15 +93,6 @@ const Comment = forwardRef(
               <span style={{ margin: '1vh 0 0 1vw', color: 'grey' }}>
                 @{username}
               </span>
-              <span
-                style={{
-                  fontSize: '13px',
-                  margin: '1vh 0 0 3vw',
-                  color: 'grey',
-                }}
-              >
-                {dateTime}
-              </span>
             </h3>
             <p style={{ width: '95%' }}>{text}</p>
             <Image.PreviewGroup>
@@ -106,6 +107,14 @@ const Comment = forwardRef(
               })}
             </Image.PreviewGroup>
             <br />
+            <br />
+            <span style={{ color: 'grey' }}>{dateTime}</span>
+            {location !== 'null' && (
+              <>
+                <br />
+                <span style={{ color: 'grey' }}>{location}</span>
+              </>
+            )}
           </Col>
         </Row>
         <hr

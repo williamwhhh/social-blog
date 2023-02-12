@@ -35,7 +35,9 @@ const Home = () => {
             setPosts(res.posts.reverse());
             setLikedPosts(res2.likedPosts.reverse());
           },
-          (err) => message.error(err.message)
+          (err) => {
+            console.log(err.message);
+          }
         );
       });
   };
@@ -51,7 +53,7 @@ const Home = () => {
   };
 
   // eslint-disable-next-line
-  useEffect(() => updatePosts, []);
+  useEffect(() => updatePosts(), []);
 
   return (
     <Row>

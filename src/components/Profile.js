@@ -40,8 +40,6 @@ const useStyles = createUseStyles({
   },
 });
 
-const { TabPane } = Tabs;
-
 const Profile = () => {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
@@ -49,6 +47,7 @@ const Profile = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
   const [avatarFile, setAvatarFile] = useState(null);
   const [likedPosts, setLikedPosts] = useState([]);
+  const [tabKey, setTabKey] = useState('1');
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -76,7 +75,7 @@ const Profile = () => {
             setPosts(res.posts.reverse());
             setLikedPosts(res2.likedPosts.reverse());
           },
-          (err) => message.error(err.message)
+          (err) => console.log(err.message)
         );
       });
   }, []);
@@ -96,7 +95,8 @@ const Profile = () => {
         localStorage.setItem('user', JSON.stringify({ ...user, ...res }));
         setUser({ ...user, ...res });
         setAvatarFile(null);
-        message.success(res.message);
+        message.success('Profile updated');
+        window.location.reload(false);
       },
       (err) => {
         message.error(err.message);
@@ -125,8 +125,56 @@ const Profile = () => {
   };
 
   const handleCancel = () => {
+    setAvatarFile(null);
     setEditingProfile(false);
   };
+
+  const tabItems = [
+    {
+      key: '1',
+      label: <b>Posts</b>,
+      children: posts.map((post) => (
+        <Post
+          key={post._id}
+          id={post._id}
+          name={post.name}
+          username={post.username}
+          text={post.text}
+          avatar={post.avatar}
+          images={post.images}
+          like={checkIsLiked(post._id)}
+          updateLikedPosts={updateLikedPosts}
+        />
+      )),
+    },
+    {
+      key: '2',
+      label: <b>Media</b>,
+      children: (
+        <h3 style={{ margin: '10% 0 0 0', textAlign: 'center' }}>
+          When you send posts with photos or videos in them, <br />
+          it will show up here.
+        </h3>
+      ),
+    },
+    {
+      key: '3',
+      label: <b>Likes</b>,
+      children: likedPosts.map((post) => (
+        <Post
+          key={post._id}
+          id={post._id}
+          name={post.name}
+          username={post.username}
+          text={post.text}
+          avatar={post.avatar}
+          images={post.images}
+          like={true}
+          updateLikedPosts={updateLikedPosts}
+        />
+      )),
+    },
+  ];
 
   return (
     <Row>
@@ -166,7 +214,6 @@ const Profile = () => {
           <Modal
             title="Edit Profile"
             visible={editingProfile}
-            // onOk={handleOk}
             okButtonProps={{
               form: 'editProfile',
               key: 'submit',
@@ -238,57 +285,27 @@ const Profile = () => {
           <Tabs
             style={{ width: '100%', marginTop: '2%' }}
             defaultActiveKey="1"
-            centered
+            centered={true}
             size="large"
             tabBarGutter={70}
+            items={tabItems}
             onChange={(key) => {
-              if (key === '1' || key === '3') {
-                updateLikedPosts();
+              if (key !== '1') {
+                setPosts([]);
+              } else {
+                getAllPosts().then(
+                  (res) => {
+                    if (res.posts) {
+                      setPosts(res.posts.reverse());
+                    }
+                  },
+                  (err) => {
+                    message.error(err.message);
+                  }
+                );
               }
             }}
-          >
-            <TabPane tab={<b>Posts</b>} key="1">
-              <FlipMove>
-                {posts.map((post) => (
-                  <Post
-                    key={post._id}
-                    id={post._id}
-                    name={post.name}
-                    username={post.username}
-                    text={post.text}
-                    avatar={post.avatar}
-                    images={post.images}
-                    like={checkIsLiked(post._id)}
-                  />
-                ))}
-              </FlipMove>
-            </TabPane>
-            <TabPane tab={<b>Media</b>} key="2">
-              <h3 style={{ margin: '10% 0 0 0', textAlign: 'center' }}>
-                When you send posts with photos or videos in them, <br />
-                it will show up here.
-              </h3>
-            </TabPane>
-            <TabPane tab={<b>Likes</b>} key="3">
-              {likedPosts.map((post) => (
-                <Post
-                  key={post._id}
-                  id={post._id}
-                  name={post.name}
-                  username={post.username}
-                  text={post.text}
-                  avatar={post.avatar}
-                  images={post.images}
-                  like={true}
-                  updateLikedPosts={updateLikedPosts}
-                />
-              ))}
-              <h3 style={{ margin: '10% 0 0 0', textAlign: 'center' }}>
-                Tap the heart on any post to show it some love. <br />
-                When you do, it’ll show up here.
-              </h3>
-            </TabPane>
-          </Tabs>
+          />
         </Row>
       </Col>
       <Col
