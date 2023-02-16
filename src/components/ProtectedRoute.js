@@ -1,6 +1,5 @@
 import { Button, Result } from 'antd';
 import { Link } from 'react-router-dom';
-//import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = (props) => {
   if (localStorage.getItem('user')) {

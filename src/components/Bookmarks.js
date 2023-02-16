@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createUseStyles } from 'react-jss';
 import { Row, Col, message } from 'antd';
 import Sidebar from './Sidebar';
 import InfoBar from './InfoBar';
@@ -8,14 +7,7 @@ import FlipMove from 'react-flip-move';
 import Post from './Post';
 import { getBookmarks, getLikedPosts } from '../utils/APIs';
 
-const useStyles = createUseStyles({
-  pageHeading: {
-    margin: '2% 0 2% 5%',
-  },
-});
-
 const Bookmarks = () => {
-  const classes = useStyles();
   const [bookmarks, setBookmarks] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
   let navigate = useNavigate();
@@ -75,19 +67,14 @@ const Bookmarks = () => {
     <Row>
       <Sidebar />
       <Col xs={20} sm={20} md={21} lg={14}>
-        <h2 className={classes.pageHeading}>
+        <h2 style={{ margin: '2% 0 2% 5%' }}>
           <b>Bookmarks</b>
         </h2>
         <FlipMove>
           {bookmarks.map((post) => (
             <Post
               key={post._id}
-              id={post._id}
-              name={post.name}
-              username={post.username}
-              avatar={post.avatar}
-              text={post.text}
-              images={post.images}
+              post={post}
               updateBookmarks={updateBookmarks}
               like={checkIsLiked(post._id)}
             />

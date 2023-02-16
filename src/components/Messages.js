@@ -278,7 +278,6 @@ const Messages = () => {
   const [newContact, setNewContact] = useState(null);
 
   const sendMessage = (contact, message) => {
-    // directly changed state variable
     contact.messages.push([0, message]);
     contact.messages.push([1, message]);
     setContacts([...contacts]);
@@ -314,7 +313,7 @@ const Messages = () => {
         </div>
         <Modal
           title="Select a contact"
-          visible={contactsModal}
+          open={contactsModal}
           onOk={() => {
             setCurrContact(newContact);
             setContactsModal(false);

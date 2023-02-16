@@ -23,26 +23,6 @@ import Picker from 'emoji-picker-react';
 import { addPost } from '../utils/APIs';
 
 const useStyles = createUseStyles({
-  avatar: {
-    margin: '2vh 0 0 40%',
-  },
-  postInput: {
-    margin: '3vh 0 0 0',
-    width: '95%',
-  },
-  postButton: {
-    float: 'right',
-    margin: '1vh 2vw 1vh 0',
-  },
-  imageButton: {
-    margin: '1.5vh 0 0 3%',
-  },
-  emojiButton: {
-    margin: '1.5vh 0 0 3%',
-  },
-  locationButton: {
-    margin: '1.5vh 0 0 3%',
-  },
   emojiPicker: {
     position: 'absolute',
     left: '0',
@@ -146,7 +126,7 @@ const PostBox = (props) => {
       <Row>
         <Col xs={6} sm={3}>
           <Avatar
-            className={classes.avatar}
+            style={{ margin: '2vh 0 0 40%' }}
             size={55}
             icon={<UserOutlined />}
             src={
@@ -156,7 +136,10 @@ const PostBox = (props) => {
         </Col>
         <Col xs={18} sm={{ span: 20, offset: 1 }}>
           <Form name="post" onFinish={handlePost}>
-            <Form.Item name="text" className={classes.postInput}>
+            <Form.Item
+              name="text"
+              style={{ margin: '3vh 0 0 0', width: '95%' }}
+            >
               <Input.TextArea
                 placeholder="What's happening?"
                 bordered={false}
@@ -192,7 +175,7 @@ const PostBox = (props) => {
               </Upload>
             )}
             <Modal
-              visible={previewVisible}
+              open={previewVisible}
               title={previewTitle}
               footer={null}
               onCancel={() => setPreviewVisible(false)}
@@ -207,7 +190,7 @@ const PostBox = (props) => {
             </Modal>
             <Tooltip title="Image">
               <Button
-                className={classes.imageButton}
+                style={{ margin: '1.5vh 0 0 3%' }}
                 type="primary"
                 shape="circle"
                 icon={<FileImageOutlined />}
@@ -216,7 +199,7 @@ const PostBox = (props) => {
             </Tooltip>
             <Tooltip title="Emoji">
               <Button
-                className={classes.emojiButton}
+                style={{ margin: '1.5vh 0 0 3%' }}
                 type="primary"
                 shape="circle"
                 icon={<SmileOutlined />}
@@ -225,14 +208,14 @@ const PostBox = (props) => {
             </Tooltip>
             <Tooltip title="Location">
               <Button
-                className={classes.locationButton}
+                style={{ margin: '1.5vh 0 0 3%' }}
                 type="primary"
                 shape="circle"
                 icon={<EnvironmentOutlined />}
                 onClick={handleLocation}
               ></Button>
             </Tooltip>
-            <Form.Item className={classes.postButton}>
+            <Form.Item style={{ float: 'right', margin: '1vh 2vw 1vh 0' }}>
               <Button
                 type="primary"
                 htmlType="submit"

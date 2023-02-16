@@ -1,4 +1,3 @@
-// import { createUseStyles } from "react-jss";
 import { useState } from 'react';
 import { Button, Menu, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +12,6 @@ import {
 } from '@ant-design/icons';
 
 const Sidebar = (props) => {
-  // const options = ['home', 'content', 'journal', 'classroom'];
   const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
   const handleClick = (e) => {
@@ -23,6 +21,39 @@ const Sidebar = (props) => {
     setCollapsed(!collapsed);
   };
 
+  function getItem(label, key, icon, children, type) {
+    return {
+      key,
+      icon,
+      children,
+      label,
+      type,
+    };
+  }
+
+  const items = [
+    getItem('Home', 'home', <HomeOutlined style={{ fontSize: '1.2em' }} />),
+    getItem(
+      'Notification',
+      'notification',
+      <NotificationOutlined style={{ fontSize: '1.2em' }} />
+    ),
+    getItem(
+      'Messages',
+      'messages',
+      <MessageOutlined style={{ fontSize: '1.2em' }} />
+    ),
+    getItem(
+      'Bookmarks',
+      'bookmarks',
+      <BookOutlined style={{ fontSize: '1.2em' }} />
+    ),
+    getItem(
+      'Profile',
+      'profile',
+      <UserOutlined style={{ fontSize: '1.2em' }} />
+    ),
+  ];
   return (
     <>
       <Col
@@ -32,11 +63,22 @@ const Sidebar = (props) => {
         // flex={collapsed ? '80px' : '200px'}
         style={{ zIndex: '100' }}
       >
+        <Button
+          type="primary"
+          onClick={toggleCollapsed}
+          style={{
+            position: 'relative',
+            margin: '2vh 0 5% 0',
+          }}
+        >
+          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        </Button>
         <Menu
           defaultSelectedKeys={[window.location.pathname.slice(1)]}
           mode="inline"
           inlineCollapsed={collapsed}
           onClick={handleClick}
+          items={items}
           style={{
             height: '100%',
             minHeight: '100vh',
@@ -45,46 +87,6 @@ const Sidebar = (props) => {
             width: '100%',
           }}
         >
-          <Button
-            type="primary"
-            onClick={toggleCollapsed}
-            style={{
-              position: 'relative',
-              margin: '2vh 0 5% 0',
-            }}
-          >
-            {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-          </Button>
-          <Menu.Item
-            key="home"
-            icon={<HomeOutlined style={{ fontSize: '1.2em' }} />}
-          >
-            Home
-          </Menu.Item>
-          <Menu.Item
-            key="notification"
-            icon={<NotificationOutlined style={{ fontSize: '1.2em' }} />}
-          >
-            Notification
-          </Menu.Item>
-          <Menu.Item
-            key="messages"
-            icon={<MessageOutlined style={{ fontSize: '1.2em' }} />}
-          >
-            Messages
-          </Menu.Item>
-          <Menu.Item
-            key="bookmarks"
-            icon={<BookOutlined style={{ fontSize: '1.2em' }} />}
-          >
-            Bookmarks
-          </Menu.Item>
-          <Menu.Item
-            key="profile"
-            icon={<UserOutlined style={{ fontSize: '1.2em' }} />}
-          >
-            Profile
-          </Menu.Item>
           {!collapsed && (
             <Button
               type="primary"

@@ -45,7 +45,6 @@ const Home = () => {
   const checkIsLiked = (id) => {
     for (let i in likedPosts) {
       if (likedPosts[i]._id === id) {
-        console.log(likedPosts[i]._id, id);
         return true;
       }
     }
@@ -75,12 +74,7 @@ const Home = () => {
           {posts.map((post) => (
             <Post
               key={post._id}
-              id={post._id}
-              name={post.name}
-              username={post.username}
-              avatar={post.avatar}
-              text={post.text}
-              images={post.images}
+              post={post}
               updatePosts={updatePosts}
               like={checkIsLiked(post._id)}
             />

@@ -1,9 +1,7 @@
 import { createUseStyles } from 'react-jss';
-import { useState } from 'react';
 import { Row, Col, Tabs } from 'antd';
 import Sidebar from './Sidebar';
 import InfoBar from './InfoBar';
-import FlipMove from 'react-flip-move';
 
 const useStyles = createUseStyles({
   pageHeading: {
@@ -17,30 +15,6 @@ const onSearch = () => {};
 
 const Notification = () => {
   const classes = useStyles();
-  const [user, setUser] = useState({
-    name: 'Australia',
-    username: 'Australia',
-    following: [],
-    followers: [],
-    avatar: 'kangaroo.jpeg',
-    dateOfBirth: '2022-07-06',
-    posts: [
-      {
-        displayName: 'Australia',
-        username: 'Australia',
-        text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative). #seeaustralia #thisiswa #australiascoralcoast #holidayherethisyear",
-        images: ['sharkBay.jpeg'],
-        avatar: 'kangaroo.jpeg',
-      },
-      {
-        displayName: 'Australia',
-        username: 'Australia',
-        text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative).",
-        images: ['kangaroo.jpeg'],
-        avatar: 'kangaroo.jpeg',
-      },
-    ],
-  });
 
   return (
     <Row>

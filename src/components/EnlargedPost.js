@@ -34,17 +34,13 @@ import {
   getPost,
   getLikedPosts,
 } from '../utils/APIs';
-import { createUseStyles } from 'react-jss';
 import FlipMove from 'react-flip-move';
 import Sidebar from './Sidebar';
 import InfoBar from './InfoBar';
 import ReplyBox from './ReplyBox';
 import Comment from './Comment';
 
-const useStyles = createUseStyles({});
-
-const EnlargedPost = (props) => {
-  const classes = useStyles();
+const EnlargedPost = () => {
   const [like, setLike] = useState(false);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
   const [post, setPost] = useState({
@@ -118,7 +114,6 @@ const EnlargedPost = (props) => {
         (res) => {
           message.success(res.message);
           navigate(-1);
-          // window.location.reload(false);
         },
         (err) => {
           message.error(err.message);
@@ -154,52 +149,6 @@ const EnlargedPost = (props) => {
       );
     }
   };
-
-  const menu = (
-    <Menu
-      onClick={handleMenuClick}
-      items={[
-        {
-          label: user.bookmarks.includes(post._id)
-            ? 'Remove from Bookmarks'
-            : 'Bookmark',
-          key: '1',
-          icon: <BookOutlined />,
-        },
-        {
-          label: 'Copy link to this post',
-          key: '2',
-          icon: <LinkOutlined />,
-        },
-        {
-          label: 'Send via messaging',
-          key: '3',
-          icon: <MessageOutlined />,
-        },
-      ]}
-    />
-  );
-
-  const dotMenu = (
-    <Menu
-      onClick={handleDotMenuClick}
-      items={[
-        {
-          label:
-            user.username === post.username
-              ? 'Delete this post'
-              : 'Not interested in this post',
-          key: '1',
-          icon:
-            user.username === post.username ? (
-              <DeleteOutlined />
-            ) : (
-              <FrownOutlined />
-            ),
-        },
-      ]}
-    />
-  );
 
   return (
     <Row>
@@ -243,7 +192,27 @@ const EnlargedPost = (props) => {
             />
           </Col>
           <Col xs={{ span: 17, offset: 1 }} sm={20}>
-            <Dropdown overlay={dotMenu} trigger={['click']}>
+            <Dropdown
+              menu={{
+                onClick: handleDotMenuClick,
+                items: [
+                  {
+                    label:
+                      user.username === post.username
+                        ? 'Delete this post'
+                        : 'Not interested in this post',
+                    key: '1',
+                    icon:
+                      user.username === post.username ? (
+                        <DeleteOutlined />
+                      ) : (
+                        <FrownOutlined />
+                      ),
+                  },
+                ],
+              }}
+              trigger={['click']}
+            >
               <Button
                 type="link"
                 shape="circle"
@@ -314,7 +283,31 @@ const EnlargedPost = (props) => {
                 ></Button>
               </Tooltip>
               <Tooltip title="Share">
-                <Dropdown overlay={menu} trigger={['click']}>
+                <Dropdown
+                  menu={{
+                    onClick: handleMenuClick,
+                    items: [
+                      {
+                        label: user.bookmarks.includes(post._id)
+                          ? 'Remove from Bookmarks'
+                          : 'Bookmark',
+                        key: '1',
+                        icon: <BookOutlined />,
+                      },
+                      {
+                        label: 'Copy link to this post',
+                        key: '2',
+                        icon: <LinkOutlined />,
+                      },
+                      {
+                        label: 'Send via messaging',
+                        key: '3',
+                        icon: <MessageOutlined />,
+                      },
+                    ],
+                  }}
+                  trigger={['click']}
+                >
                   <Button
                     style={{ margin: 'auto', marginTop: '3%' }}
                     shape="circle"
@@ -342,15 +335,9 @@ const EnlargedPost = (props) => {
         <FlipMove>
           {post.comments.map((comment) => (
             <Comment
-              key={comment.username.concat(comment.text)}
+              key={comment.username + comment.text}
               postId={post._id}
-              name={comment.name}
-              username={comment.username}
-              avatar={comment.avatar}
-              text={comment.text}
-              images={comment.images}
-              dateTime={comment.dateTime}
-              location={comment.location}
+              comment={comment}
               updateComments={updateComments}
             />
           ))}

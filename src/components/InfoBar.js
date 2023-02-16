@@ -44,32 +44,6 @@ const InfoBar = (props) => {
       numOfHit: '2.3k',
     },
   ]);
-  // const [user, setUser] = useState({
-  //   name: 'Australia',
-  //   username: 'Australia',
-  //   following: [],
-  //   followers: [],
-  //   avatar: 'kangaroo.jpeg',
-  //   dateOfBirth: '2022-07-06',
-  //   posts: [
-  //     {
-  //       key: '0001',
-  //       displayName: 'Australia',
-  //       username: 'Australia',
-  //       text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative). #seeaustralia #thisiswa #australiascoralcoast #holidayherethisyear",
-  //       images: ['sharkBay.jpeg'],
-  //       avatar: 'kangaroo.jpeg',
-  //     },
-  //     {
-  //       key: '0002',
-  //       displayName: 'Australia',
-  //       username: 'Australia',
-  //       text: "The vibrant colours of Gutharraguda (#SharkBay) are enough to brighten up any day 🧡💙 You'll find the Shark Bay World Heritage Area in the @thecoralcoast region of @WestAustralia (📷: IG/ospreycreative).",
-  //       images: ['kangaroo.jpeg'],
-  //       avatar: 'kangaroo.jpeg',
-  //     },
-  //   ],
-  // });
 
   return (
     <>

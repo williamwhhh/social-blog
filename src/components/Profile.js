@@ -1,4 +1,3 @@
-import { createUseStyles } from 'react-jss';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -19,35 +18,14 @@ import { UserOutlined } from '@ant-design/icons';
 import Sidebar from './Sidebar';
 import InfoBar from './InfoBar';
 import Post from './Post';
-import FlipMove from 'react-flip-move';
 import { getAllPosts, editProfile, getLikedPosts } from '../utils/APIs';
 
-const useStyles = createUseStyles({
-  avatar: {
-    margin: '10% 0 0 5%',
-  },
-  pageHeading: {
-    margin: '2% 0 2% 5%',
-  },
-  profileDetails: {
-    margin: '2% 0 0 5%',
-  },
-  topTrendingBox: {
-    margin: '10% 0 0 10%',
-    width: '80%',
-    backgroundColor: 'RGB(247,249,249)',
-    borderRadius: '15px',
-  },
-});
-
 const Profile = () => {
-  const classes = useStyles();
   const [posts, setPosts] = useState([]);
   const [editingProfile, setEditingProfile] = useState(false);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
   const [avatarFile, setAvatarFile] = useState(null);
   const [likedPosts, setLikedPosts] = useState([]);
-  const [tabKey, setTabKey] = useState('1');
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -82,7 +60,6 @@ const Profile = () => {
 
   const onFinish = (values) => {
     setEditingProfile(false);
-    console.log(values);
     let formData = new FormData();
     formData.append('username', user.username);
     formData.append('name', values.name);
@@ -92,6 +69,7 @@ const Profile = () => {
     }
     editProfile(formData).then(
       (res) => {
+        console.log(res);
         localStorage.setItem('user', JSON.stringify({ ...user, ...res }));
         setUser({ ...user, ...res });
         setAvatarFile(null);
@@ -99,6 +77,7 @@ const Profile = () => {
         window.location.reload(false);
       },
       (err) => {
+        console.log(err);
         message.error(err.message);
       }
     );
@@ -136,12 +115,7 @@ const Profile = () => {
       children: posts.map((post) => (
         <Post
           key={post._id}
-          id={post._id}
-          name={post.name}
-          username={post.username}
-          text={post.text}
-          avatar={post.avatar}
-          images={post.images}
+          post={post}
           like={checkIsLiked(post._id)}
           updateLikedPosts={updateLikedPosts}
         />
@@ -163,12 +137,7 @@ const Profile = () => {
       children: likedPosts.map((post) => (
         <Post
           key={post._id}
-          id={post._id}
-          name={post.name}
-          username={post.username}
-          text={post.text}
-          avatar={post.avatar}
-          images={post.images}
+          post={post}
           like={true}
           updateLikedPosts={updateLikedPosts}
         />
@@ -181,13 +150,13 @@ const Profile = () => {
       <Sidebar />
       <Col xs={20} sm={20} md={21} lg={14}>
         <Row>
-          <h2 className={classes.pageHeading}>
+          <h2 style={{ margin: '2% 0 2% 5%' }}>
             <b>My Profile</b>
           </h2>
         </Row>
         <Row>
           <Avatar
-            className={classes.avatar}
+            style={{ margin: '10% 0 0 5%' }}
             size={120}
             src={
               user.avatar ? `http://localhost:3001/images/${user.avatar}` : null
@@ -196,7 +165,7 @@ const Profile = () => {
           />
         </Row>
         <Row>
-          <h2 className={classes.profileDetails}>
+          <h2 style={{ margin: '2% 0 0 5%' }}>
             {user.name} <br />
             <span style={{ fontSize: '14px', color: 'grey' }}>
               @{user.username}
@@ -213,7 +182,7 @@ const Profile = () => {
 
           <Modal
             title="Edit Profile"
-            visible={editingProfile}
+            open={editingProfile}
             okButtonProps={{
               form: 'editProfile',
               key: 'submit',
@@ -289,22 +258,6 @@ const Profile = () => {
             size="large"
             tabBarGutter={70}
             items={tabItems}
-            onChange={(key) => {
-              if (key !== '1') {
-                setPosts([]);
-              } else {
-                getAllPosts().then(
-                  (res) => {
-                    if (res.posts) {
-                      setPosts(res.posts.reverse());
-                    }
-                  },
-                  (err) => {
-                    message.error(err.message);
-                  }
-                );
-              }
-            }}
           />
         </Row>
       </Col>

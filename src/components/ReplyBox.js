@@ -32,6 +32,7 @@ const ReplyBox = (props) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [location, setLocation] = useState(null);
   const user = JSON.parse(localStorage.getItem('user'));
+
   const onEmojiClick = (event, emojiObject) => {
     setPost(post.concat(emojiObject.emoji));
   };
@@ -166,7 +167,7 @@ const ReplyBox = (props) => {
               </Upload>
             )}
             <Modal
-              visible={previewVisible}
+              open={previewVisible}
               title={previewTitle}
               footer={null}
               onCancel={() => setPreviewVisible(false)}
