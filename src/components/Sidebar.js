@@ -86,13 +86,21 @@ const Sidebar = (props) => {
             minWidth: collapsed ? '100%' : '200px',
             width: '100%',
           }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '30%',
+            minWidth: collapsed ? '100%' : '200px',
+          }}
         >
           {!collapsed && (
             <Button
               type="primary"
               style={{
                 display: 'flex',
-                margin: '50vh auto 0 auto',
+                bottom: '30%',
+                margin: '0 auto 0 auto',
               }}
               onClick={() => {
                 localStorage.removeItem('user');
@@ -102,7 +110,7 @@ const Sidebar = (props) => {
               <span style={{ margin: '0 auto 0 auto' }}>Logout</span>
             </Button>
           )}
-        </Menu>
+        </div>
       </Col>
     </>
   );
