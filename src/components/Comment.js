@@ -97,7 +97,9 @@ const Comment = forwardRef(({ ...props }, ref) => {
           {props.comment.location !== 'null' && (
             <>
               <br />
-              <span style={{ color: 'grey' }}>{props.comment.location}</span>
+              <span style={{ color: 'grey', fontSize: '11px' }}>
+                {props.comment.location}
+              </span>
             </>
           )}
         </Col>

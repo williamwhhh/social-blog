@@ -18,7 +18,7 @@ import { UserOutlined } from '@ant-design/icons';
 import Sidebar from './Sidebar';
 import InfoBar from './InfoBar';
 import Post from './Post';
-import { getAllPosts, editProfile, getLikedPosts } from '../utils/APIs';
+import { getMyPosts, editProfile, getLikedPosts } from '../utils/APIs';
 
 const Profile = () => {
   const [posts, setPosts] = useState([]);
@@ -29,7 +29,8 @@ const Profile = () => {
   let navigate = useNavigate();
 
   useEffect(() => {
-    getAllPosts()
+    console.log(JSON.parse(localStorage.getItem('user')).username);
+    getMyPosts({ username: JSON.parse(localStorage.getItem('user')).username })
       .then(
         (res) => {
           if (res.posts) {
@@ -134,14 +135,22 @@ const Profile = () => {
     {
       key: '3',
       label: <b>Likes</b>,
-      children: likedPosts.map((post) => (
-        <Post
-          key={post._id}
-          post={post}
-          like={true}
-          updateLikedPosts={updateLikedPosts}
-        />
-      )),
+      children:
+        likedPosts.length !== 0 ? (
+          likedPosts.map((post) => (
+            <Post
+              key={post._id}
+              post={post}
+              like={true}
+              updateLikedPosts={updateLikedPosts}
+            />
+          ))
+        ) : (
+          <h3 style={{ margin: '10% 0 0 0', textAlign: 'center' }}>
+            When you like a post, <br />
+            it will show up here.
+          </h3>
+        ),
     },
   ];
 

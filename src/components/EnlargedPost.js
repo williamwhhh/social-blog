@@ -246,7 +246,9 @@ const EnlargedPost = () => {
             {post.location !== 'null' && (
               <>
                 <br />
-                <span style={{ color: 'grey' }}>{post.location}</span>
+                <span style={{ color: 'grey', fontSize: '11px' }}>
+                  {post.location}
+                </span>
               </>
             )}
 

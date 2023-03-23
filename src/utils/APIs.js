@@ -43,6 +43,16 @@ export const getAllPosts = () =>
     },
   }).then((res) => res.json());
 
+export const getMyPosts = (details) =>
+  fetch('http://localhost:3001/posts/getMyPosts', {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      username: details.username,
+    },
+  }).then((res) => res.json());
+
 export const getPost = (id) =>
   fetch('http://localhost:3001/posts/getPost', {
     method: 'GET',
@@ -139,5 +149,47 @@ export const getAllUsers = () =>
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
+    },
+  }).then((res) => res.json());
+
+export const getRoomDetails = (details) =>
+  fetch('http://localhost:3001/messages/getRoomDetails', {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      user1: details.user1,
+      user2: details.user2,
+    },
+  }).then((res) => res.json());
+
+export const sendMessage = (details) =>
+  fetch('http://localhost:3001/messages/sendMessage', {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(details),
+  }).then((res) => res.json());
+
+export const getContacts = (details) =>
+  fetch('http://localhost:3001/messages/getContacts', {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      username: details.username,
+    },
+  }).then((res) => res.json());
+
+export const deleteRoom = (details) =>
+  fetch('http://localhost:3001/messages/deleteRoom', {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      user1: details.user1,
+      user2: details.user2,
     },
   }).then((res) => res.json());

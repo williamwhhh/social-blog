@@ -22,8 +22,16 @@ import {
 } from '@ant-design/icons';
 import Sidebar from './Sidebar';
 import Picker from 'emoji-picker-react';
-import { getAllUsers } from '../utils/APIs';
+import {
+  deleteRoom,
+  getAllUsers,
+  getContacts,
+  getRoomDetails,
+  sendMessage,
+} from '../utils/APIs';
+import io from 'socket.io-client';
 
+var socket;
 const { TextArea, Search } = Input;
 
 const useStyles = createUseStyles({
@@ -48,9 +56,14 @@ const useStyles = createUseStyles({
 const Contact = (props) => {
   const classes = useStyles();
   const [showDelBtn, setShowDelBtn] = useState(false);
-  const confirm = (e) => {
-    console.log(e);
-    message.success('Deleted');
+  const confirm = () => {
+    deleteRoom({
+      user1: JSON.parse(localStorage.getItem('user')).username,
+      user2: props.contact.username,
+    }).then((res) => {
+      window.location.reload(false);
+      message.success('Deleted');
+    });
   };
 
   return (
@@ -111,6 +124,59 @@ const ChatBox = (props) => {
   const classes = useStyles();
   const [message, setMessage] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [roomDetails, setRoomDetails] = useState({ messages: [] });
+  var user = JSON.parse(localStorage.getItem('user'));
+  // socket.on('connect', () => socket.emit('room', 'room1'));
+  // socket.emit('sendMessage', 'hello');
+
+  socket.on('message', (data) => {
+    setRoomDetails({
+      ...roomDetails,
+      messages: [...roomDetails.messages, data],
+    });
+  });
+
+  useEffect(() => {
+    if (props.contact) {
+      getRoomDetails({
+        user1: user.username,
+        user2: props.contact.username,
+      }).then((res) => {
+        socket.emit('room', res.roomId);
+        setRoomDetails(res);
+      });
+    }
+  }, [props.contact]);
+
+  const onFinish = () => {
+    sendMessage({
+      roomId: roomDetails.roomId,
+      sender: user.username,
+      receiver: props.contact.username,
+      message: message,
+    }).then((res) => {
+      socket.emit('sendMessage', {
+        roomId: roomDetails.roomId,
+        sender: user.username,
+        receiver: props.contact.username,
+        message: message,
+      });
+      setRoomDetails({
+        ...roomDetails,
+        messages: [
+          ...roomDetails.messages,
+          {
+            roomId: roomDetails.roomId,
+            sender: user.username,
+            receiver: props.contact.username,
+            message: message,
+          },
+        ],
+      });
+    });
+
+    setMessage('');
+  };
 
   const onEmojiClick = (event, emojiObject) => {
     setMessage(message.concat(emojiObject.emoji));
@@ -155,27 +221,30 @@ const ChatBox = (props) => {
               width: '100%',
             }}
           >
-            {props.contact.messages
+            {roomDetails.messages
               .slice()
               .reverse()
               .map((m) => (
                 <div
                   style={{
-                    alignSelf: m[0] === 0 ? 'flex-end' : 'flex-start',
+                    alignSelf:
+                      m.sender === user.username ? 'flex-end' : 'flex-start',
                     margin: '0 2% 2% 2%',
                     border: '0 solid',
                     borderRadius: '15px',
                     backgroundColor:
-                      m[0] === 0 ? 'rgb(36,144,232)' : 'rgb(228,232,237)',
+                      m.sender === user.username
+                        ? 'rgb(36,144,232)'
+                        : 'rgb(228,232,237)',
                     padding: '10px',
-                    color: m[0] === 0 ? 'white' : 'black',
+                    color: m.sender === user.username ? 'white' : 'black',
                     fontWeight: '600',
                     maxWidth: '70%',
                     overflowWrap: 'break-word',
                     whiteSpace: 'pre-wrap',
                   }}
                 >
-                  {m[1]}
+                  {m.message}
                 </div>
               ))}
           </div>
@@ -190,13 +259,7 @@ const ChatBox = (props) => {
           borderTop: 'solid RGB(238,238,238)',
         }}
       >
-        <Form
-          style={{ width: '100%' }}
-          onFinish={() => {
-            props.sendMessage(props.contact, message);
-            setMessage('');
-          }}
-        >
+        <Form style={{ width: '100%' }} onFinish={onFinish}>
           <Row>
             <Col span={2} offset={1}>
               <Tooltip title="Emoji">
@@ -250,19 +313,17 @@ const Messages = () => {
   const classes = useStyles();
   const [currContact, setCurrContact] = useState(null);
   const [contacts, setContacts] = useState([]);
+  const [contactsModal, setContactsModal] = useState(false);
+  const [newContact, setNewContact] = useState(null);
+  const [allUsers, setAllUsers] = useState([]);
   let navigate = useNavigate();
+  socket = io.connect('http://localhost:8080', {
+    withCredentials: true,
+  });
   useEffect(() => {
-    // let dummyContacts = [];
-    // for (let i = 1; i <= 20; i++) {
-    //   dummyContacts.push({
-    //     username: `user${i}`,
-    //     name: `User ${i}`,
-    //     avatar: 'kangaroo.jpeg',
-    //     messages: [],
-    //   });
-    // }
-    // setContacts(dummyContacts);
-    getAllUsers().then((res) => {
+    getContacts({
+      username: JSON.parse(localStorage.getItem('user')).username,
+    }).then((res) => {
       if (res.contacts) {
         setContacts(res.contacts);
       } else {
@@ -274,15 +335,6 @@ const Messages = () => {
     });
   }, []);
 
-  const [contactsModal, setContactsModal] = useState(false);
-  const [newContact, setNewContact] = useState(null);
-
-  const sendMessage = (contact, message) => {
-    contact.messages.push([0, message]);
-    contact.messages.push([1, message]);
-    setContacts([...contacts]);
-    console.log(contacts);
-  };
   const onSearch = (value) => console.log(value);
 
   return (
@@ -299,6 +351,7 @@ const Messages = () => {
             onClick={() => {
               setContactsModal(true);
               setNewContact(null);
+              getAllUsers().then((res) => setAllUsers(res.contacts));
             }}
           ></Button>
         </h2>
@@ -317,6 +370,7 @@ const Messages = () => {
           onOk={() => {
             setCurrContact(newContact);
             setContactsModal(false);
+            setContacts([...contacts, newContact]);
           }}
           onCancel={() => setContactsModal(false)}
         >
@@ -330,7 +384,7 @@ const Messages = () => {
             }}
           />
           <div style={{ overflow: 'auto', maxHeight: '50vh' }}>
-            {contacts.map((c) => (
+            {allUsers.map((c) => (
               <Contact
                 contact={c}
                 selectedContact={newContact}
@@ -350,7 +404,7 @@ const Messages = () => {
           borderRight: 'solid RGB(238,238,238)',
         }}
       >
-        <ChatBox contact={currContact} sendMessage={sendMessage} />
+        <ChatBox contact={currContact} />
       </Col>
     </Row>
   );

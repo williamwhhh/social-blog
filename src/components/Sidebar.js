@@ -80,8 +80,8 @@ const Sidebar = (props) => {
           onClick={handleClick}
           items={items}
           style={{
-            height: '100%',
-            minHeight: '100vh',
+            height: '93%',
+            minHeight: '93vh',
             fontSize: '1.2em',
             minWidth: collapsed ? '100%' : '200px',
             width: '100%',
