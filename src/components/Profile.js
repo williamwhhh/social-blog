@@ -29,7 +29,6 @@ const Profile = () => {
   let navigate = useNavigate();
 
   useEffect(() => {
-    console.log(JSON.parse(localStorage.getItem('user')).username);
     getMyPosts({ username: JSON.parse(localStorage.getItem('user')).username })
       .then(
         (res) => {
